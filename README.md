@@ -28,7 +28,6 @@ As mentioned below, this mod has support for `intllib`! If you know English and 
 The following mods have optional support for `factions`:
 
 - `areas`: Protect faction territory using areas
-- `beerchat`: Create private faction channels
 
 Additionally, `factions` can optionally depend on the following mods:
 
