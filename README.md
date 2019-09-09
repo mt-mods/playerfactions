@@ -31,7 +31,6 @@ The following mods have optional support for `factions`:
 
 Additionally, `factions` can optionally depend on the following mods:
 
-- `protector_redo`: Protect faction territory using protection blocks
 - `intllib`: Provide localizations for different languages
 
 ### Using `factions` in your own mod
