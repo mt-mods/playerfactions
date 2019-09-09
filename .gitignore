@@ -1,4 +1,5 @@
 *
 !*.lua
+!*.md
 !mod.conf
 !.gitignore

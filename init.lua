@@ -212,15 +212,15 @@ local function handle_command(name, param)
 end
 
 minetest.register_chatcommand("factions", {
-	params = "create <faction>: "..S("Found a new faction").."\n"
+	params = "create <faction> <password>: "..S("Create a new faction").."\n"
 	.."list: "..S("List available factions").."\n"
 	.."info <faction>: "..S("See information on a faction").."\n"
-	.."join <faction>: "..S("Join an existing faction").."\n"
+	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave: "..S("Leave your faction").."\n"
 	.."kick <player>: "..S("Kick someone from your faction").."\n"
 	.."disband: "..S("Disband your faction").."\n"
 	.."passwd <password>: "..S("Change your faction's password").."\n"
-	.."chown <player>:"..S("Transfer ownership to someone else").."\n",
+	.."chown <player>:"..S("Transfer ownership of your faction").."\n",
 	
 	description = "",
 	privs = {},
