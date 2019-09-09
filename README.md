@@ -1,4 +1,4 @@
-# Factions
+# playerfactions
 
 A simple mod which allows player created factions. Not very useful on its own, it becomes very powerful when combined with other mods.
 
@@ -25,15 +25,15 @@ As mentioned below, this mod has support for `intllib`! If you know English and 
 
 ## Mod integration
 
-The following mods have optional support for `factions`:
+The following mods have optional support for `playerfactions`:
 
 - `areas`: Protect faction territory using areas
 
-Additionally, `factions` can optionally depend on the following mods:
+Additionally, `playerfactions` can optionally depend on the following mods:
 
 - `intllib`: Provide localizations for different languages
 
-### Using `factions` in your own mod
+### Using `playerfactions` in your own mod
 
 I strongly recommend reading through the `init.lua` file; the functions at the top give you a pretty good idea of how to use it, but just in case you're short on time I'll list the most important functions below.
 
