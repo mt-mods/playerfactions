@@ -26,7 +26,13 @@ function factions.get_player_faction(name)
 		if faction == "" then
 			return nil
 		else
-			return faction
+			-- Check that faction still exists
+			if facts[faction] == nil then
+				factions.leave_faction(name)
+				return nil
+			else
+				return faction
+			end
 		end
 	end
 end
@@ -39,6 +45,10 @@ function factions.get_owner(name)
 	end
 end
 
+function factions.chown(name, owner)
+	facts[name].owner = owner
+end
+
 function factions.register_faction(fname, founder, pw)
 	facts[fname] = {
 		name = fname,
@@ -46,6 +56,7 @@ function factions.register_faction(fname, founder, pw)
 		password = pw
 	}
 	save_factions()
+	factions.join_faction(fname, founder)
 end
 
 function factions.disband_faction(name)
@@ -71,7 +82,6 @@ end
 
 -- Chat commands
 local function handle_command(name, param)
-	--local params = {string.match(param, "^([^ ]+)%s?(.*)")}
 	local params = {}
 	for p in string.gmatch(param, "[^%s]+") do
 		table.insert(params, p)
@@ -95,7 +105,7 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("Registered @1", faction_name))
 			return true
 		end
-	elseif action == "factions.disband" then
+	elseif action == "disband" then
 		local faction_name = factions.get_player_faction(name)
 		local password = params[2]
 		if faction_name == nil then
@@ -105,6 +115,7 @@ local function handle_command(name, param)
 		elseif password == nil then
 			minetest.chat_send_player(name, S("WARNING! This cannot be reversed! Run again with the password if you're absolutely certain"))
 		elseif password ~= factions.get_password(faction_name) then
+			print("wrong password")
 			minetest.chat_send_player(name, S("Permission denied"))
 		else
 			factions.disband_faction(faction_name, name, name)
@@ -196,8 +207,10 @@ local function handle_command(name, param)
 		local password = params[3]
 		if faction_name == nil then
 			minetest.chat_send_player(name, S("You are not in a faction"))
-		elseif factions.get_player_faction(name) ~= faction_name then
-			minetest.chat_send_player(name, S("@1 isn't in your faction", name))
+		elseif target == nil then
+			minetest.chat_send_player(name, S("Missing player name"))
+		elseif factions.get_player_faction(target) ~= faction_name then
+			minetest.chat_send_player(name, S("@1 isn't in your faction", target))
 		elseif factions.get_owner(faction_name) ~= name then
 			minetest.chat_send_player(name, S("Permission denied"))
 		elseif password == nil then
@@ -205,7 +218,8 @@ local function handle_command(name, param)
 		elseif password ~= factions.get_password(faction_name) then
 			minetest.chat_send_player(name, S("Permission denied"))
 		else
-			minetest.chat_send_player(name, S("Ownership has been transferred to @1", name))
+			factions.chown(faction_name, target)
+			minetest.chat_send_player(name, S("Ownership has been transferred to @1", target))
 			return true
 		end
 	end
