@@ -8,7 +8,7 @@ factions = {}
 local facts = {}
 local storage = minetest.get_mod_storage()
 
-if storage:get_string("facts") ~= nil then
+if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
 
@@ -62,11 +62,11 @@ function factions.set_password(name, password)
 end
 
 function factions.join_faction(name, player)
-	factions.get_player_by_name(player):get_meta():set_string("faction", name)
+	minetest.get_player_by_name(player):get_meta():set_string("faction", name)
 end
 
 function factions.leave_faction(name)
-	factions.get_player_by_name(name):get_meta():set_string("faction", "")
+	minetest.get_player_by_name(name):get_meta():set_string("faction", "")
 end
 
 -- Chat commands
@@ -152,7 +152,7 @@ local function handle_command(name, param)
 	elseif action == "leave" then
 		local faction_name = factions.get_player_faction(name)
 		if faction_name == nil then
-			minetest.chat.send_player(name, S("You are not in a faction"))
+			minetest.chat_send_player(name, S("You are not in a faction"))
 		elseif factions.get_owner(faction_name) == name then
 			minetest.chat_send_player(name, S("You cannot leave your own faction"))
 		else
