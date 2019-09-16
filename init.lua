@@ -233,7 +233,7 @@ minetest.register_chatcommand("factions", {
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave: "..S("Leave your faction").."\n"
 	.."kick <player>: "..S("Kick someone from your faction").."\n"
-	.."factions.disband: "..S("Disband your faction").."\n"
+	.."disband: "..S("Disband your faction").."\n"
 	.."passwd <password>: "..S("Change your faction's password").."\n"
 	.."chown <player>:"..S("Transfer ownership of your faction").."\n",
 	
