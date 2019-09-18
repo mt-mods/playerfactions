@@ -87,8 +87,7 @@ local function handle_command(name, param)
 		table.insert(params, p)
 	end
 	if params == nil then
-		minetest.chat_send_player(name, S("Unknown subcommand"))
-		return false
+		minetest.chat_send_player(name, S("Unknown subcommand. Run '/help factions' for help"))
 	end
 	local action = params[1]
 	if action == "create" then
@@ -222,6 +221,8 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("Ownership has been transferred to @1", target))
 			return true
 		end
+	else
+		minetest.chat_send_player(name, S("Unknown subcommand. Run '/help factions' for help"))
 	end
 	return false
 end
