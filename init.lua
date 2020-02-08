@@ -12,6 +12,13 @@ if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
 
+-- Fix factions
+for fname, fact in pairs(facts) do
+	if fact.members == nil then
+		fact.members = {}
+	end
+end
+
 local function save_factions()
 	storage:set_string("facts", minetest.serialize(facts))
 end
@@ -19,8 +26,18 @@ end
 -- Data manipulation
 function factions.get_player_faction(name)
 	local player = minetest.get_player_by_name(name)
+	
+	-- Look in faction objects if we can't do the shortcut
 	if player == nil then
+		for fname, fact in pairs(facts) do
+			if fact.members[name] then
+				return fname
+			end
+		end
 		return nil
+	
+	-- Player is online, we can take a shortcut using the player object
+	-- In the future, we can always do this; see https://github.com/minetest/minetest/issues/6193
 	else
 		local faction = player:get_meta():get_string("faction")
 		if faction == "" then
@@ -31,6 +48,11 @@ function factions.get_player_faction(name)
 				factions.leave_faction(name)
 				return nil
 			else
+				local found = false
+				if facts[faction].members[name] == nil then
+					facts[faction].members[name] = true
+					save_factions()
+				end
 				return faction
 			end
 		end
@@ -53,7 +75,8 @@ function factions.register_faction(fname, founder, pw)
 	facts[fname] = {
 		name = fname,
 		owner = founder,
-		password = pw
+		password = pw,
+		members = {}
 	}
 	save_factions()
 	factions.join_faction(fname, founder)
@@ -74,10 +97,14 @@ end
 
 function factions.join_faction(name, player)
 	minetest.get_player_by_name(player):get_meta():set_string("faction", name)
+	facts[name].members[player] = true
 end
 
 function factions.leave_faction(name)
 	minetest.get_player_by_name(name):get_meta():set_string("faction", "")
+	if facts[name] ~= nil then
+		facts[name].members[player] = nil
+	end
 end
 
 -- Chat commands
