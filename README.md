@@ -27,7 +27,8 @@ As mentioned below, this mod has support for `intllib`! If you know English and 
 
 The following mods have optional support for `playerfactions`:
 
-- `areas`: Protect faction territory using areas
+- `areas`: Protect faction territory using areas. [link](https://github.com/minetest-mods/areas)
+- `protector`: Allow faction to be added as a member to protection blocks. [link](https://notabug.org/TenPlus1/protector)
 
 Additionally, `playerfactions` can optionally depend on the following mods:
 
