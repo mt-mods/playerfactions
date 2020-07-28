@@ -260,6 +260,28 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("Ownership has been transferred to @1", target))
 			return true
 		end
+	elseif action == "invite" then
+		if not minetest.get_player_privs(name).playerfactions_admin then
+			minetest.chat_send_player(name, "Permission denied: You can't use this command, playerfactions_admin priv is needed.")
+		else
+			local target = params[2]
+			local faction_name = params[3]
+			if facts[faction_name] == nil then
+				minetest.chat_send_player(name, "The faction doesn't exist")
+			elseif not minetest.player_exists(target) then
+				minetest.chat_send_player(name, "The player doesn't exist")
+			elseif factions.get_player_faction(target) ~= nil then
+				minetest.chat_send_player(name, S("The player is already in the faction \"@1\"",factions.get_player_faction(target)))
+			else
+				if factions.join_faction(faction_name, target) then
+					minetest.chat_send_player(name, "The player is now a member of the guild")
+					return true
+				else
+					minetest.chat_send_player(name, S("Error on adding @1 into @2, please verify parameters and try again", target, faction_name))
+					return true
+				end
+			end
+		end
 	else
 		minetest.chat_send_player(name, S("Unknown subcommand. Run '/help factions' for help"))
 	end
