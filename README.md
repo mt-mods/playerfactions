@@ -49,13 +49,16 @@ Additionally, `playerfactions` can optionally depend on the following mods:
 
 I strongly recommend reading through the `init.lua` file; the functions at the top give you a pretty good idea of how to use it, but just in case you're short on time I'll list the most important functions below.
 
+- `factions.version` is a variable to check the version of the playerfactions mod to assert compatibility:  
+* factions.version == nil for firsts version of playerfactions mod
+* factions.version == 2 is the first time this variable is added, with adding multi-faction mode
+- `player_is_in_faction(fname, player_name)`: true if the player is in the faction, nil in other cases
 - `get_facts()`: Get the table with all data. The structure is :
 ```{["name_of_faction1"]={
       ["owner"]=name_of_the_owner,
       ["members"]={["name_of_a_member1"]=true, ["name_of_a_member2"]=true}
   }}
 ```
-
 - `get_player_faction(player)`: Get a string with the faction a player belongs to, `nil` if they haven't joined a faction. In multi-faction mode, it will return the oldest faction which player is into. (It checks the facts variable from the top)
 - `get_player_factions(player)`: Get a table with the faction(s) a player belongs to, `nil` if they haven't joined a faction : {name_of_faction1, name_of_faction2}
 - `get_owner(faction)`: Get the owner of a faction
