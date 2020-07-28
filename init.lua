@@ -26,7 +26,7 @@ end
 -- Data manipulation
 function factions.get_player_faction(name)
 	local player = minetest.get_player_by_name(name)
-	
+
 	-- Look in faction objects if we can't do the shortcut
 	if player == nil then
 		for fname, fact in pairs(facts) do
@@ -35,7 +35,7 @@ function factions.get_player_faction(name)
 			end
 		end
 		return nil
-	
+
 	-- Player is online, we can take a shortcut using the player object
 	-- In the future, we can always do this; see https://github.com/minetest/minetest/issues/6193
 	else
@@ -160,18 +160,29 @@ local function handle_command(name, param)
 		end
 		return true
 	elseif action == "info" then
-		local faction_name = params[2]
-		if faction_name == nil then
-			faction_name = factions.get_player_faction(name)
-		end
-		if faction_name == nil then
-			minetest.chat_send_player(name, S("Missing faction name"))
-		else
-			minetest.chat_send_player(name, S("Owner: @1", factions.get_owner(faction_name)))
-			if factions.get_owner(faction_name) == name then
-				minetest.chat_send_player(name, S("Password: @1", factions.get_password(faction_name)))
+	local faction_name = params[2]
+	if faction_name == nil then
+		faction_name = factions.get_player_faction(name)
+		minetest.chat_send_player(name, S("No faction were given, returning information about your oldest faction (e.g. the oldest created faction you are in)"))
+	end
+	if faction_name == nil then
+		minetest.chat_send_player(name, S("Missing faction name"))
+	elseif facts[faction_name] == nil then
+		minetest.chat_send_player(name, S("This faction is not registered"))
+	else
+		local fmembers = ""
+		for play,_ in pairs(facts[faction_name].members) do
+			if fmembers == "" then
+				fmembers = play
+			else
+				fmembers = fmembers..", "..play
 			end
 		end
+		minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: #@3", faction_name, factions.get_owner(faction_name), fmembers))
+		if factions.get_owner(faction_name) == name then
+			minetest.chat_send_player(name, S("Password: @1", factions.get_password(faction_name)))
+		end
+	end
 	elseif action == "join" then
 		local faction_name = params[2]
 		local password = params[3]
@@ -264,7 +275,7 @@ minetest.register_chatcommand("factions", {
 	.."disband: "..S("Disband your faction").."\n"
 	.."passwd <password>: "..S("Change your faction's password").."\n"
 	.."chown <player>:"..S("Transfer ownership of your faction").."\n",
-	
+
 	description = "",
 	privs = {},
 	func = handle_command
