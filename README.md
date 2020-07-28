@@ -3,6 +3,13 @@
 A simple mod which allows player created factions. Not very useful on its own, it becomes very powerful when combined with other mods.
 
 ## Usage
+We can choose a mode : single or multi factions.
+  By default the mod is single faction, if we want to change, all it takes is to add a line `mode_unique_faction = false` into the mod.conf file
+
+Below, parameters with [] are useful only with the multi-factions mode.
+
+There is an admin privs to enable every functions for every faction : playerfactions_admin
+
 
 These commands can be used by anyone:
 
@@ -10,14 +17,18 @@ These commands can be used by anyone:
 - `/factions list`: List available factions
 - `/factions info <faction>`: See information on a faction
 - `/factions join <faction> <password>`: Join an existing faction
-- `/factions leave`: Leave your faction
+- `/factions leave [faction]`: Leave your faction
 
-These extra commands can only be used by faction owners:
+These extra commands can only be used by faction owners and someone with the playerfactions_admin priv:
 
-- `/factions kick <player>`: Kick someone from your faction
-- `/factions disband`: Disband your faction
-- `/factions passwd`: Change your faction's password
-- `/factions chown`: Transfer ownership of your faction
+- `/factions kick [faction] <player>`: Kick someone from your faction
+- `/factions disband [faction]`: Disband your faction
+- `/factions passwd [faction] <password>`: Change your faction's password
+- `/factions chown [faction] <player>`: Transfer ownership of your faction
+
+This commands can only be used by someone with the playerfactions_admin priv:
+- `/factions invite <player> <faction>`: Add player to a faction
+
 
 ## Translations
 
@@ -38,8 +49,17 @@ Additionally, `playerfactions` can optionally depend on the following mods:
 
 I strongly recommend reading through the `init.lua` file; the functions at the top give you a pretty good idea of how to use it, but just in case you're short on time I'll list the most important functions below.
 
-- `get_player_faction(player)`: Get the faction a player belongs to, `nil` if they haven't joined a faction
+- `get_facts()`: Get the table with all data. The structure is :
+```{["name_of_faction1"]={
+      ["owner"]=name_of_the_owner,
+      ["members"]={["name_of_a_member1"]=true, ["name_of_a_member2"]=true}
+  }}
+```
+
+- `get_player_faction(player)`: Get a string with the faction a player belongs to, `nil` if they haven't joined a faction. In multi-faction mode, it will return the oldest faction which player is into. (It checks the facts variable from the top)
+- `get_player_factions(player)`: Get a table with the faction(s) a player belongs to, `nil` if they haven't joined a faction : {name_of_faction1, name_of_faction2}
 - `get_owner(faction)`: Get the owner of a faction
+- `chown(fname, owner)`: Change the owner of a faction
 - `register_faction(faction, player, password)`: Create a new faction
 - `disband_faction(faction)`: Disband a faction
 - `get_password(faction)`: Gets a faction's password
@@ -47,7 +67,7 @@ I strongly recommend reading through the `init.lua` file; the functions at the t
 - `join_faction(faction, player)`: Sets the given player as belonging to this faction
 - `leave_faction(player)`: Clears a player's faction
 
-Note that none of these functions have any sanity checks (e.g. making sure factions exist), so I strongly recommend you read `init.lua` to determine how they are used. Otherwise, you could end up getting some pretty strange errors.
+Note that all of these functions have sanity checks : if faction or player does not exists, it return false. If operation succeed, it return true or the needed value.
 
 ## Acknowledgements
 
