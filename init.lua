@@ -5,6 +5,9 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- Data
 factions = {}
+-- This variable "version" can be used by other mods to check the compatibility of the mods
+factions.version = 2
+
 local facts = {}
 local storage = minetest.get_mod_storage()
 if storage:get_string("facts") ~= "" then
@@ -36,6 +39,17 @@ local function save_factions()
 end
 
 -- Data manipulation
+function factions.get_facts()
+	return facts
+end
+
+function factions.player_is_in_faction(fname, player_name)
+	if not minetest.player_exists(player_name) or facts[fname] == nil then
+		return false
+		end
+	return facts[fname].members[player_name]
+end
+
 function factions.get_player_faction(name)
 	if not minetest.player_exists(name) then
 		return false
