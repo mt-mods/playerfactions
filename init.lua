@@ -1,3 +1,4 @@
+minetest.register_privilege("playerfactions_admin", {description = "Authorize to use every /factions commands",give_to_singleplayer = false})
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -136,7 +137,7 @@ local function handle_command(name, param)
 		local password = params[2]
 		if faction_name == nil then
 			minetest.chat_send_player(name, S("You are not in a faction"))
-		elseif name ~= factions.get_owner(faction_name) then
+		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name).playerfactions_admin then
 			minetest.chat_send_player(name, S("Permission denied"))
 		elseif password == nil then
 			minetest.chat_send_player(name, S("WARNING! This cannot be reversed! Run again with the password if you're absolutely certain"))
@@ -179,7 +180,7 @@ local function handle_command(name, param)
 			end
 		end
 		minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: #@3", faction_name, factions.get_owner(faction_name), fmembers))
-		if factions.get_owner(faction_name) == name then
+		if factions.get_owner(faction_name) == name or minetest.get_player_privs(name).playerfactions_admin then
 			minetest.chat_send_player(name, S("Password: @1", factions.get_password(faction_name)))
 		end
 	end
@@ -215,7 +216,7 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("You are not in a faction"))
 		elseif target == nil then
 			minetest.chat_send_player(name, S("Missing player name"))
-		elseif factions.get_owner(faction_name) ~= name or factions.get_player_faction(target) ~= faction_name then
+		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin or factions.get_player_faction(target) ~= faction_name then
 			minetest.chat_send_player(name, S("Permission denied"))
 		elseif target == name then
 			minetest.chat_send_player(name, S("You cannot kick yourself"))
@@ -231,7 +232,7 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("You are not in a faction"))
 		elseif password == nil then
 			minetest.chat_send_player(name, S("Missing password"))
-		elseif factions.get_owner(faction_name) ~= name then
+		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
 			minetest.chat_send_player(name, S("Permission denied"))
 		else
 			factions.set_password(faction_name, password)
@@ -248,7 +249,7 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("Missing player name"))
 		elseif factions.get_player_faction(target) ~= faction_name then
 			minetest.chat_send_player(name, S("@1 isn't in your faction", target))
-		elseif factions.get_owner(faction_name) ~= name then
+		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
 			minetest.chat_send_player(name, S("Permission denied"))
 		elseif password == nil then
 			minetest.chat_send_player(name, S("WARNING! This cannot be reversed! Run again with the password if you're absolutely certain"))
