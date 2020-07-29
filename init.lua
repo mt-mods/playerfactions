@@ -240,11 +240,15 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("This faction is not registered"))
 		else
 			local fmembers = ""
-			for play,_ in pairs(facts[faction_name].members) do
-				if fmembers == "" then
-					fmembers = play
-				else
-					fmembers = fmembers..", "..play
+			if table.getn(facts[faction_name].members) > 50 then
+				fmembers = "The faction has more than 50 members, the members list can't be shown"
+			elseif
+				for play,_ in pairs(facts[faction_name].members) do
+					if fmembers == "" then
+						fmembers = play
+					else
+						fmembers = fmembers..", "..play
+					end
 				end
 			end
 			minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: @3", faction_name, factions.get_owner(faction_name), fmembers))
