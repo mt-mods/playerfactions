@@ -50,8 +50,8 @@ Additionally, `playerfactions` can optionally depend on the following mods:
 I strongly recommend reading through the `init.lua` file; the functions at the top give you a pretty good idea of how to use it, but just in case you're short on time I'll list the most important functions below.
 
 - `factions.version` is a variable made to check the version of the playerfactions mod to assert compatibility:  
-** factions.version == nil for firsts version of playerfactions mod
-** factions.version == 2 is the first time this variable is added, with adding multi-faction mode
+* factions.version == nil for firsts version of playerfactions mod
+* factions.version == 2 is the first time this variable is added, with adding multi-faction mode
 - `player_is_in_faction(fname, player_name)`: `true` if the player is in the faction, `nil` in other cases (facion or player doesn't exists or player is not a member of the faction)
 - `get_facts()`: Get the table with all data. The structure is :
 ```
