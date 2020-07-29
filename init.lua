@@ -5,7 +5,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- Data
 factions = {}
--- This variable "version" can be used by other mods to check the compatibility of the mods
+-- This variable "version" can be used by other mods to check the compatibility of this mod
 factions.version = 2
 
 local facts = {}
@@ -190,9 +190,9 @@ local function handle_command(name, param)
 		local own_factions = factions.get_owned_factions(name)
 		local number_factions = #own_factions
 		if number_factions == 0 then
-			password = "No importance, player will not be abble because player is not the owner of no faction"
+			password = "No importance, player won't be able because player is the owner of no faction"
 		elseif #params == 1 then
-			faction_name = "No importance, player will not be abble because no password is given"
+			faction_name = "No importance, player won't be able because no password is given"
 		elseif #params == 2 and number_factions == 1 then
 			password = params[2]
 			faction_name = own_factions[1]
@@ -236,9 +236,6 @@ local function handle_command(name, param)
 		if faction_name == nil then
 			faction_name = factions.get_player_faction(name)
 			minetest.chat_send_player(name, S("No faction were given, returning information about your oldest faction (e.g. the oldest created faction you are in)"))
-		end
-		if faction_name == nil then
-			minetest.chat_send_player(name, S("Missing faction name"))
 		elseif facts[faction_name] == nil then
 			minetest.chat_send_player(name, S("This faction is not registered"))
 		else
@@ -250,7 +247,7 @@ local function handle_command(name, param)
 					fmembers = fmembers..", "..play
 				end
 			end
-			minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: #@3", faction_name, factions.get_owner(faction_name), fmembers))
+			minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: @3", faction_name, factions.get_owner(faction_name), fmembers))
 			if factions.get_owner(faction_name) == name or minetest.get_player_privs(name).playerfactions_admin then
 				minetest.chat_send_player(name, S("Password: @1", factions.get_password(faction_name)))
 			end
@@ -328,7 +325,7 @@ local function handle_command(name, param)
 		elseif target == nil then
 			minetest.chat_send_player(name, S("Missing player name"))
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
-			minetest.chat_send_player(name, S("Permission denied"))
+			minetest.chat_send_player(name, S("Permission denied: you are not the owner of this faction"))
 		elseif not facts[faction_name].members[target] then
 			minetest.chat_send_player(name, S("This player is not in the faction"))
 		elseif target == name then
@@ -363,7 +360,7 @@ local function handle_command(name, param)
 			faction_name = params[2]
 			password = params[3]
 		elseif facts[params[2]] ~= nil then
-			faction_name = params[2]
+			faction_name = "No importance, there is no password"
 		end
 		if faction_name == nil then
 			if number_factions == 0 then
@@ -374,7 +371,7 @@ local function handle_command(name, param)
 		elseif password == nil then
 			minetest.chat_send_player(name, S("Missing password"))
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
-			minetest.chat_send_player(name, S("Permission denied"))
+			minetest.chat_send_player(name, S("Permission denied: you are not the owner of this faction"))
 		else
 			if factions.set_password(faction_name, password) then
 				minetest.chat_send_player(name, S("Password has been updated"))
@@ -392,7 +389,7 @@ local function handle_command(name, param)
 		local password = nil
 		if #params < 3 then
 			faction_name = "No importance, there is no target or no password"
-			if minetest.player_exists(params[2]) then
+			if params[2] ~= nil and minetest.player_exists(params[2]) then
 				target = "No importance, there is no password"
 			end
 		elseif number_factions == 0 then
@@ -446,7 +443,7 @@ local function handle_command(name, param)
 				minetest.chat_send_player(name, S("The player is already in the faction \"@1\"",factions.get_player_faction(target)))
 			else
 				if factions.join_faction(faction_name, target) then
-					minetest.chat_send_player(name, "The player is now a member of the guild")
+					minetest.chat_send_player(name, "The player is now a member of the faction")
 					return true
 				else
 					minetest.chat_send_player(name, S("Error on adding @1 into @2, please verify parameters and try again", target, faction_name))
