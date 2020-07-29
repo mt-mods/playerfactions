@@ -242,7 +242,7 @@ local function handle_command(name, param)
 			local fmembers = ""
 			if table.getn(facts[faction_name].members) > 50 then
 				fmembers = "The faction has more than 50 members, the members list can't be shown"
-			elseif
+			else
 				for play,_ in pairs(facts[faction_name].members) do
 					if fmembers == "" then
 						fmembers = play
