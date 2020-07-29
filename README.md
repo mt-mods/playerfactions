@@ -62,6 +62,7 @@ I strongly recommend reading through the `init.lua` file; the functions at the t
 ```
 - `get_player_faction(player)`: Get a string with the faction a player belongs to, `nil` if they haven't joined a faction. In multi-faction mode, it will return the oldest created faction which player is into. (it's not necessarily the one they joined first. It checks the facts variable from the top)
 - `get_player_factions(player)`: Get a table with the faction(s) a player belongs to, `nil` if they haven't joined a faction. The structure is: {name_of_faction1, name_of_faction2}
+- `get_owned_factions(player)`: Get a table with the faction(s) owned by a player, `nil` if they have the ownership of no faction. The structure is: {name_of_faction1, name_of_faction2}
 - `get_owner(faction)`: Get the owner of a faction
 - `chown(fname, owner)`: Change the owner of a faction
 - `register_faction(faction, player, password)`: Create a new faction
