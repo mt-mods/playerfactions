@@ -4,9 +4,9 @@ A simple mod which allows player created factions. Not very useful on its own, i
 
 ## Usage
 We can choose a mode : single or multi factions.
-  By default the mod is single faction, if we want to change, all it takes is to add a line `mode_unique_faction = false` into the mod.conf file
+By default players can only be in one faction at a time. If you want to allow players to join multiple factions at once, add `mode_unique_faction = false` to modpath/settings.txt
 
-Below, parameters with [ ] are useful only with the multi-factions mode.
+Parameters marked with square brackets ([]) are optional; most of these are only used if mode_unique_faction is false.
 
 There is an admin privs to enable every functions for every faction : playerfactions_admin
 
@@ -15,18 +15,18 @@ These commands can be used by anyone:
 
 - `/factions create <faction> <password>`: Create a new faction
 - `/factions list`: List available factions
-- `/factions info <faction>`: See information on a faction
+- `/factions info <faction>`: See information on a faction. For faction with lot of member we can choose the length of the member's list that's going to be shown by `adding max_members_list = int` to modpath/settings.txt, default is 50.
 - `/factions join <faction> <password>`: Join an existing faction
 - `/factions leave [faction]`: Leave your faction
 
-These extra commands can only be used by faction owners and someone with the playerfactions_admin priv:
+These commands can only be used by faction owners and players with the playerfactions_admin privilege:
 
-- `/factions kick [faction] <player>`: Kick someone from your faction
-- `/factions disband [faction]`: Disband your faction
-- `/factions passwd [faction] <password>`: Change your faction's password
-- `/factions chown [faction] <player>`: Transfer ownership of your faction
+- `/factions kick <player> [faction]`: Kick someone from your faction
+- `/factions disband <password> [faction]`: Disband your faction
+- `/factions passwd <password> [faction]`: Change your faction's password
+- `/factions chown <player> <password> [faction]`: Transfer ownership of your faction
 
-This commands can only be used by someone with the playerfactions_admin priv:
+This command can only be used by players with the playerfactions_admin privilege:
 - `/factions invite <player> <faction>`: Add player to a faction
 
 
@@ -52,8 +52,8 @@ I strongly recommend reading through the `init.lua` file; the functions at the t
 - `factions.version` is a variable made to check the version of the playerfactions mod to assert compatibility:  
 * factions.version == nil for firsts version of playerfactions mod
 * factions.version == 2 is the first time this variable is added, with adding multi-faction mode
-- `player_is_in_faction(fname, player_name)`: `true` if the player is in the faction, `nil` in other cases (facion or player doesn't exists or player is not a member of the faction)
-- `get_facts()`: Get the table with all data. The structure is :
+- `player_is_in_faction(fname, player_name)`: `true` if the player is in the faction, `nil` in other cases (faction or player doesn't exists or player is not a member of the faction)
+- `get_facts()`: Get a copied table with all data. The structure is :
 ```
 {["name_of_faction1"]={
       ["owner"]=name_of_the_owner,
@@ -70,7 +70,7 @@ I strongly recommend reading through the `init.lua` file; the functions at the t
 - `get_password(faction)`: Gets a faction's password
 - `set_password(faction, password)`: Sets a faction's password
 - `join_faction(faction, player)`: Sets the given player as belonging to this faction
-- `leave_faction(faction, player)`: Remove the given player from the faction
+- `leave_faction(faction, player)`: Remove the given player from the specified faction
 
 Note that all of these functions have sanity checks : if faction or player does not exists, it return false. If operation succeed, it return true or the needed value.
 

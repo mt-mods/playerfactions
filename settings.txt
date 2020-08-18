@@ -1,0 +1,2 @@
+mode_unique_faction = false
+max_members_list = 50
