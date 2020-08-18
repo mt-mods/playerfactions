@@ -22,12 +22,7 @@ end
 
 settings = Settings(MP.."/settings.txt")
 factions.mode_unique_faction = settings:get_bool("mode_unique_faction", true)
-factions.max_members_list = settings:get("max_members_list")
-if type(factions.max_members_list) == "string" then
-	factions.max_members_list = tonumber(factions.max_members_list)
-elseif type(factions.max_members_list) == "nil" then
-	factions.max_members_list = 50
-end
+factions.max_members_list = tonumber(settings:get("max_members_list")) or 50
 
 
 
