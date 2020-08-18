@@ -72,7 +72,7 @@ function factions.get_player_factions(name)
 	return player_factions
 end
 
-function factions.get_owned_factions(name)
+function factions.get_administered_factions(name)
 	local own_factions = {}
 	for fname, fact in pairs(facts) do
 		if minetest.get_player_privs(name).playerfactions_admin or fact.owner == name then
@@ -187,7 +187,7 @@ local function handle_command(name, param)
 	elseif action == "disband" then
 		local password = nil
 		local faction_name = nil
-		local own_factions = factions.get_owned_factions(name)
+		local own_factions = factions.get_administered_factions(name)
 		local number_factions = #own_factions
 		if number_factions == 0 then
 			minetest.chat_send_player(name, S("You are the owner of no faction"))
@@ -304,7 +304,7 @@ local function handle_command(name, param)
 	elseif action == "kick" then
 		local target = nil
 		local faction_name = nil
-		local own_factions = factions.get_owned_factions(name)
+		local own_factions = factions.get_administered_factions(name)
 		local number_factions = table.getn(own_factions)
 		if number_factions == 0 then
 			minetest.chat_send_player(name, S("You are the owner of no faction, you can't use this command"))
@@ -338,7 +338,7 @@ local function handle_command(name, param)
 	elseif action == "passwd" then
 		local password = nil
 		local faction_name = nil
-		local own_factions = factions.get_owned_factions(name)
+		local own_factions = factions.get_administered_factions(name)
 		local number_factions = table.getn(own_factions)
 		if #params == 1 then
 			minetest.chat_send_player(name, S("Missing password"))
@@ -369,7 +369,7 @@ local function handle_command(name, param)
 			end
 		end
 	elseif action == "chown" then
-		local own_factions = factions.get_owned_factions(name)
+		local own_factions = factions.get_administered_factions(name)
 		local number_factions = table.getn(own_factions)
 		local faction_name = nil
 		local target = nil
