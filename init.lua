@@ -160,10 +160,7 @@ local function handle_command(name, param)
 		minetest.chat_send_player(name, S("Unknown subcommand. Run '/help factions' for help"))
 	end
 	local action = params[1]
-	if action == "ses" then
-		minetest.chat_send_player(name,type(factions.max_members_list))
-		minetest.chat_send_player(name,type(factions.mode_unique_faction))
-	elseif action == "create" then
+	if action == "create" then
 		local faction_name = params[2]
 		local password = params[3]
 		if factions.mode_unique_faction and factions.get_player_faction(name) ~= nil then
