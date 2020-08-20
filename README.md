@@ -32,7 +32,7 @@ This command can only be used by players with the playerfactions_admin privilege
 
 ## Translations
 
-As mentioned below, this mod has support for `intllib`! If you know English and another language, please submit a translation! It would be greatly appreciated, and your name will be added to the acknowledgements at the bottom of this page. Thanks!
+If you know English and another language, please submit a translation! It would be greatly appreciated, and your name will be added to the acknowledgements at the bottom of this page. Thanks!
 
 ## Mod integration
 
@@ -40,10 +40,6 @@ The following mods have optional support for `playerfactions`:
 
 - `areas`: Protect faction territory using areas. [link](https://github.com/minetest-mods/areas)
 - `protector`: Allow faction to be added as a member to protection blocks. [link](https://notabug.org/TenPlus1/protector)
-
-Additionally, `playerfactions` can optionally depend on the following mods:
-
-- `intllib`: Provide localizations for different languages
 
 ### Using `playerfactions` in your own mod
 
