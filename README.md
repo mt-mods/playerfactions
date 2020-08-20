@@ -4,7 +4,7 @@ A simple mod which allows player created factions. Not very useful on its own, i
 
 ## Usage
 We can choose a mode : single or multi factions.
-By default players can only be in one faction at a time. If you want to allow players to join multiple factions at once, add `mode_unique_faction = false` to modpath/settings.txt
+By default players can only be in one faction at a time. If you want to allow players to join multiple factions at once, add `player_factions.mode_unique_faction = false` to minetest.conf
 
 Parameters marked with square brackets ([]) are optional; most of these are only used if mode_unique_faction is false.
 
@@ -15,7 +15,7 @@ These commands can be used by anyone:
 
 - `/factions create <faction> <password>`: Create a new faction
 - `/factions list`: List available factions
-- `/factions info <faction>`: See information on a faction. For faction with lot of member we can choose the length of the member's list that's going to be shown by `adding max_members_list = int` to modpath/settings.txt, default is 50.
+- `/factions info <faction>`: See information on a faction. For faction with lot of member we can choose the length of the member's list that's going to be shown by adding `player_factions.max_members_list = int` to minetest.conf, default is 50.
 - `/factions join <faction> <password>`: Join an existing faction
 - `/factions leave [faction]`: Leave your faction
 

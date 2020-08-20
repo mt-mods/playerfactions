@@ -20,9 +20,8 @@ for fname, fact in pairs(facts) do
 	end
 end
 
-settings = Settings(MP.."/settings.txt")
-factions.mode_unique_faction = settings:get_bool("mode_unique_faction", true)
-factions.max_members_list = tonumber(settings:get("max_members_list")) or 50
+factions.mode_unique_faction = minetest.settings:get_bool("player_factions.mode_unique_faction", true)
+factions.max_members_list = tonumber(minetest.settings:get("player_factions.max_members_list")) or 50
 
 
 
@@ -46,6 +45,7 @@ function factions.get_player_faction(name)
 	if not minetest.player_exists(name) then
 		return false
 	end
+	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
 	for fname, fact in pairs(facts) do
 		if fact.members[name] then
 			return fname
@@ -223,8 +223,13 @@ local function handle_command(name, param)
 	elseif action == "info" then
 		local faction_name = params[2]
 		if faction_name == nil then
-			faction_name = factions.get_player_faction(name)
-			minetest.chat_send_player(name, S("No faction were given, returning information about your oldest faction (e.g. the oldest created faction you are in)"))
+			local player_factions = factions.get_player_factions(name)
+			if #player_factions == 1 then
+				faction_name = player_factions[1]
+			else
+				minetest.chat_send_player(name, S("You are in many factions, you have to choose one of them : @1", table.concat(player_factions, ", ")))
+				return false
+			end
 		elseif facts[faction_name] == nil then
 			minetest.chat_send_player(name, S("This faction is not registered"))
 		else
