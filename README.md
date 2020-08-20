@@ -76,4 +76,6 @@ Note that all of these functions have sanity checks : if faction or player does 
 
 ## Acknowledgements
 
+Multi-faction mode and various other improvements added by [Kalio_42](https://git.leagueh.xyz/Kalio_42).
+
 This mod is loosely based off of the (unmaintained) [factions mod made by Jonjeg](https://github.com/Jonjeg/factions).
