@@ -71,9 +71,12 @@ function factions.get_player_factions(name)
 	if not minetest.player_exists(name) then
 		return false
 	end
-	local player_factions = {}
+	local player_factions = nil
 	for fname, fact in pairs(facts) do
 		if fact.members[name] then
+			if not player_factions then
+				player_factions = {}
+			end
 			table.insert(player_factions, fname)
 		end
 	end
@@ -81,9 +84,12 @@ function factions.get_player_factions(name)
 end
 
 function factions.get_owned_factions(name)
-	local own_factions = {}
+	local own_factions = nil
 	for fname, fact in pairs(facts) do
 		if fact.owner == name then
+			if not own_factions then
+				own_factions = {}
+			end
 			table.insert(own_factions, fname)
 		end
 	end
@@ -91,9 +97,12 @@ function factions.get_owned_factions(name)
 end
 
 function factions.get_administered_factions(name)
-	local adm_factions = {}
+	local adm_factions = nil
 	for fname, fact in pairs(facts) do
 		if minetest.get_player_privs(name).playerfactions_admin or fact.owner == name then
+			if not adm_factions then
+				adm_factions = {}
+			end
 			table.insert(adm_factions, fname)
 		end
 	end
@@ -289,14 +298,20 @@ local function handle_command(name, param)
 					str_member = str_member..", "..v
 				end
 			end
-			for _,v in ipairs(factions.get_owned_factions(player_name)) do
-				if str_owner == "" then
-					str_owner = str_owner..v
-				else
-					str_owner = str_owner..", "..v
+			minetest.chat_send_player(name, S("@1 is in the following factions: @2", player_name, str_member, str_owner))
+			local owned_factions = factions.get_owned_factions(player_name)
+			if not owned_factions then
+				minetest.chat_send_player(name, S("She/He is the owner of no faction"))
+			else
+				for _,v in ipairs(owned_factions) do
+					if str_owner == "" then
+						str_owner = str_owner..v
+					else
+						str_owner = str_owner..", "..v
+					end
 				end
+				minetest.chat_send_player(name, S("She/He is the owner of the following factions: @1", str_owner))
 			end
-			minetest.chat_send_player(name, S("@1 is in the following factions: @2\nShe/He is the owner of the following factions: @3", player_name, str_member, str_owner))
 			if minetest.get_player_privs(name).playerfactions_admin then
 				minetest.chat_send_player(name, S("@1 has the playerfactions_admin privilege so she/he can admin every factions", player_name))
 			end
