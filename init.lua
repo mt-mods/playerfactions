@@ -80,14 +80,24 @@ function factions.get_player_factions(name)
 	return player_factions
 end
 
-function factions.get_administered_factions(name)
+function factions.get_owned_factions(name)
 	local own_factions = {}
 	for fname, fact in pairs(facts) do
-		if minetest.get_player_privs(name).playerfactions_admin or fact.owner == name then
+		if fact.owner == name then
 			table.insert(own_factions, fname)
 		end
 	end
 	return own_factions
+end
+
+function factions.get_administered_factions(name)
+	local adm_factions = {}
+	for fname, fact in pairs(facts) do
+		if minetest.get_player_privs(name).playerfactions_admin or fact.owner == name then
+			table.insert(adm_factions, fname)
+		end
+	end
+	return adm_factions
 end
 
 function factions.get_owner(fname)
@@ -261,6 +271,34 @@ local function handle_command(name, param)
 			minetest.chat_send_player(name, S("Name: @1\nOwner: @2\nMembers: @3", faction_name, factions.get_owner(faction_name), fmembers))
 			if factions.get_owner(faction_name) == name or minetest.get_player_privs(name).playerfactions_admin then
 				minetest.chat_send_player(name, S("Password: @1", factions.get_password(faction_name)))
+			end
+		end
+	elseif action == "player_info" then
+		local player_name = params[2]
+		local player_factions = factions.get_player_factions(player_name)
+		if not player_factions then
+			minetest.chat_send_player(name, S("This player doesn't exists or is in no faction"))
+			return false
+		else
+			local str_owner = ""
+			local str_member = ""
+			for _,v in ipairs(player_factions) do
+				if str_member == "" then
+					str_member = str_member..v
+				else
+					str_member = str_member..", "..v
+				end
+			end
+			for _,v in ipairs(factions.get_owned_factions(player_name)) do
+				if str_owner == "" then
+					str_owner = str_owner..v
+				else
+					str_owner = str_owner..", "..v
+				end
+			end
+			minetest.chat_send_player(name, S("@1 is in the following factions: @2\nShe/He is the owner of the following factions: @3", player_name, str_member, str_owner))
+			if minetest.get_player_privs(name).playerfactions_admin then
+				minetest.chat_send_player(name, S("@1 has the playerfactions_admin privilege so she/he can admin every factions", player_name))
 			end
 		end
 	elseif action == "join" then
@@ -457,6 +495,7 @@ minetest.register_chatcommand("factions", {
 	params = "create <faction> <password>: "..S("Create a new faction").."\n"
 	.."list: "..S("List available factions").."\n"
 	.."info <faction>: "..S("See information on a faction").."\n"
+	.."player_info <player>: "..S("See information on a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave [faction]: "..S("Leave your faction").."\n"
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
