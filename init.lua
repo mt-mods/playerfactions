@@ -29,9 +29,22 @@ local function save_factions()
 	storage:set_string("facts", minetest.serialize(facts))
 end
 
+local function table_copy(data)
+	local copy = {}
+	if type(data) == "table" then
+		for k,v in pairs(data) do
+			copy[k]=table_copy(v)
+		end
+		return copy
+	else
+		return data
+	end
+end
+
+
 -- Data manipulation
 function factions.get_facts()
-	return {table.unpack(facts)}
+	return table_copy(facts)
 end
 
 function factions.player_is_in_faction(fname, player_name)
