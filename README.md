@@ -16,6 +16,7 @@ These commands can be used by anyone:
 - `/factions create <faction> <password>`: Create a new faction
 - `/factions list`: List available factions
 - `/factions info <faction>`: See information on a faction. For faction with lot of member we can choose the length of the member's list that's going to be shown by adding `player_factions.max_members_list = int` to minetest.conf, default is 50.
+- `/factions player_info <player>` See information on a player : joined, owned and administered factions.
 - `/factions join <faction> <password>`: Join an existing faction
 - `/factions leave [faction]`: Leave your faction
 
