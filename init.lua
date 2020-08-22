@@ -312,7 +312,7 @@ local function handle_command(name, param)
 				end
 				minetest.chat_send_player(name, S("She/He is the owner of the following factions: @1", str_owner))
 			end
-			if minetest.get_player_privs(name).playerfactions_admin then
+			if minetest.get_player_privs(player_name).playerfactions_admin then
 				minetest.chat_send_player(name, S("@1 has the playerfactions_admin privilege so she/he can admin every factions", player_name))
 			end
 		end
