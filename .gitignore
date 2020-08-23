@@ -1,4 +1,4 @@
-*
+* except locale
 !*.lua
 !*.md
 !mod.conf
