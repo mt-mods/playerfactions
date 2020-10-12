@@ -287,6 +287,10 @@ local function handle_command(name, param)
 		end
 	elseif action == "player_info" then
 		local player_name = params[2]
+		if not player_name then
+			minetest.chat_send_player(name, S("The player name is nil or empty."))
+			return false
+		end
 		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
 			minetest.chat_send_player(name, S("This player doesn't exists or is in no faction"))
@@ -324,6 +328,8 @@ local function handle_command(name, param)
 		local password = params[3]
 		if factions.get_player_faction(name) ~= nil and factions.mode_unique_faction then
 			minetest.chat_send_player(name, S("You are already in a faction."))
+		elseif not faction_name then
+			minetest.chat_send_player(name, S("Missing faction name."))
 		elseif facts[faction_name] == nil then
 			minetest.chat_send_player(name, S("The faction @1 doesn't exist.", faction_name))
 		elseif factions.get_password(faction_name) ~= password then
@@ -487,7 +493,11 @@ local function handle_command(name, param)
 		else
 			local target = params[2]
 			local faction_name = params[3]
-			if facts[faction_name] == nil then
+			if not target then
+				minetest.chat_send_player(name, S("Missing target."))
+			elseif not faction_name then
+				minetest.chat_send_player(name, S("Missing faction name."))
+			elseif facts[faction_name] == nil then
 				minetest.chat_send_player(name, S("The faction @1 doesn't exist.", faction_name))
 			elseif not minetest.player_exists(target) then
 				minetest.chat_send_player(name, S("The player doesn't exist."))
