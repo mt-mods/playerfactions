@@ -258,7 +258,8 @@ local function handle_command(name, param)
 			else
 				return false, S("You are in many factions, you have to choose one of them: @1.", table.concat(player_factions, ", "))
 			end
-		elseif facts[faction_name] == nil then
+		end
+		if facts[faction_name] == nil then
 			return false, S("This faction doesn't exists.")
 		else
 			local fmembers = ""
