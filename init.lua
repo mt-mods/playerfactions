@@ -1,7 +1,10 @@
 -- Translation support
 local S = minetest.get_translator("playerfactions")
 
-minetest.register_privilege("playerfactions_admin", {description = S("Allow the use of all playerfactions commands"), give_to_singleplayer = false})
+minetest.register_privilege("playerfactions_admin", {
+	description = S("Allow the use of all playerfactions commands"),
+	give_to_singleplayer = false
+})
 
 -- Data
 factions = {}
@@ -14,7 +17,7 @@ if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
 -- Fix factions
-for fname, fact in pairs(facts) do
+for _, fact in pairs(facts) do
 	if fact.members == nil then
 		fact.members = {}
 	end
@@ -58,7 +61,8 @@ function factions.get_player_faction(name)
 	if not minetest.player_exists(name) then
 		return false
 	end
-	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
+	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of " ..
+		"factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
 	for fname, fact in pairs(facts) do
 		if fact.members[name] then
 			return fname
@@ -226,11 +230,15 @@ local function handle_command(name, param)
 		if password == nil then
 			return false, S("Missing password.")
 		elseif faction_name == nil then
-			return false, S("You are the owner of many factions, you have to choose one of them: @1.", table.concat(own_factions, ", "))
+			return false, S(
+				"You are the owner of many factions, you have to choose one of them: @1.",
+				table.concat(own_factions, ", ")
+			)
 		elseif not facts[faction_name] then
 			return false, S("This faction doesn't exists.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name).playerfactions_admin then
-			return false, S("Permission denied: You are not the owner of this faction, and don't have the playerfactions_admin privilege.")
+			return false, S("Permission denied: You are not the owner of this faction, " ..
+				"and don't have the playerfactions_admin privilege.")
 		elseif password ~= factions.get_password(faction_name) then
 			return false, S("Permission denied: Wrong password.")
 		else
@@ -239,7 +247,7 @@ local function handle_command(name, param)
 		end
 	elseif action == "list" then
 		local faction_list = {}
-		for k, f in pairs(facts) do
+		for k in pairs(facts) do
 			table.insert(faction_list, k)
 		end
 		if #faction_list ~= 0 then
@@ -256,7 +264,10 @@ local function handle_command(name, param)
 			elseif #player_factions == 1 then
 				faction_name = player_factions[1]
 			else
-				return false, S("You are in many factions, you have to choose one of them: @1.", table.concat(player_factions, ", "))
+				return false, S(
+					"You are in many factions, you have to choose one of them: @1.",
+					table.concat(player_factions, ", ")
+				)
 			end
 		end
 		if facts[faction_name] == nil then
@@ -313,7 +324,10 @@ local function handle_command(name, param)
 				summary = summary .. "\n" .. S("This player is the owner of the following factions: @1.", str_owner)
 			end
 			if minetest.get_player_privs(player_name).playerfactions_admin then
-				summary = summary .. "\n" .. S("@1 has the playerfactions_admin privilege so they can admin every faction.", player_name)
+				summary = summary .. "\n" .. S(
+					"@1 has the playerfactions_admin privilege so they can admin every faction.",
+					player_name
+				)
 			end
 			return true, summary
 		end
@@ -345,7 +359,10 @@ local function handle_command(name, param)
 			if number_factions == 1 then
 				faction_name = player_factions[1]
 			else
-				return false, S("You are in many factions, you have to choose one of them: @1.", table.concat(player_factions, ", "))
+				return false, S(
+					"You are in many factions, you have to choose one of them: @1.",
+					table.concat(player_factions, ", ")
+				)
 			end
 		elseif #params >= 1 and facts[params[2]] ~= nil then
 			faction_name = params[2]
@@ -376,15 +393,20 @@ local function handle_command(name, param)
 			target = params[2]
 		end
 		if faction_name == nil then
-			return false, S("You are the owner of many factions, you have to choose one of them: @1.", table.concat(own_factions, ", "))
+			return false, S(
+				"You are the owner of many factions, you have to choose one of them: @1.",
+				table.concat(own_factions, ", ")
+			)
 		elseif target == nil then
 			return false, S("Missing player name.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
-			return false, S("Permission denied: You are not the owner of this faction, and don't have the playerfactions_admin privilege.")
+			return false, S("Permission denied: You are not the owner of this faction, " ..
+				"and don't have the playerfactions_admin privilege.")
 		elseif not facts[faction_name].members[target] then
 			return false, S("This player is not in the specified faction.")
 		elseif target == factions.get_owner(faction_name) then
-			return false, S("You cannot kick the owner of a faction, use '/factions chown <player> [faction]' to change the ownership.")
+			return false, S("You cannot kick the owner of a faction, " ..
+				"use '/factions chown <player> [faction]' to change the ownership.")
 		else
 			if factions.leave_faction(faction_name, target) then
 				return true, S("Kicked @1 from faction.", target)
@@ -409,11 +431,15 @@ local function handle_command(name, param)
 			password = params[2]
 		end
 		if faction_name == nil then
-			return false, S("You are the owner of many factions, you have to choose one of them: @1.", table.concat(own_factions, ", "))
+			return false, S(
+				"You are the owner of many factions, you have to choose one of them: @1.",
+				table.concat(own_factions, ", ")
+			)
 		elseif password == nil then
 			return false, S("Missing password.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name).playerfactions_admin then
-			return false, S("Permission denied: You are not the owner of this faction, and don't have the playerfactions_admin privilege.")
+			return false, S("Permission denied: You are not the owner of this faction, " ..
+				"and don't have the playerfactions_admin privilege.")
 		else
 			if factions.set_password(faction_name, password) then
 				return true, S("Password has been updated.")
@@ -445,13 +471,17 @@ local function handle_command(name, param)
 			password = params[3]
 		end
 		if faction_name == nil then
-			return false, S("You are the owner of many factions, you have to choose one of them: @1.", table.concat(own_factions, ", "))
+			return false, S(
+				"You are the owner of many factions, you have to choose one of them: @1.",
+				table.concat(own_factions, ", ")
+			)
 		elseif target == nil then
 			return false, S("Missing player name.")
 		elseif password == nil then
 			return false, S("Missing password.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name).playerfactions_admin then
-			return false, S("Permission denied: You are not the owner of this faction, and don't have the playerfactions_admin privilege.")
+			return false, S("Permission denied: You are not the owner of this faction, " ..
+				"and don't have the playerfactions_admin privilege.")
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 isn't in your faction.", target)
 		elseif password ~= factions.get_password(faction_name) then
