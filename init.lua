@@ -305,7 +305,7 @@ local function handle_command(name, param)
 					str_member = str_member..", "..v
 				end
 			end
-			minetest.chat_send_player(name, S("@1 is in the following factions: @2.", player_name, str_member, str_owner))
+			minetest.chat_send_player(name, S("@1 is in the following factions: @2.", player_name, str_member))
 			local owned_factions = factions.get_owned_factions(player_name)
 			if not owned_factions then
 				minetest.chat_send_player(name, S("This player is the owner of no faction."))
