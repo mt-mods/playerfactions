@@ -215,7 +215,7 @@ local function handle_command(name, param)
 		local password = nil
 		local faction_name = nil
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = #own_factions
+		local number_factions = own_factions and #own_factions or 0
 		if number_factions == 0 then
 			return false, S("You are the owner of no faction.")
 		elseif #params == 1 then
@@ -351,7 +351,7 @@ local function handle_command(name, param)
 		end
 	elseif action == "leave" then
 		local player_factions = factions.get_player_factions(name)
-		local number_factions = table.getn(player_factions)
+		local number_factions = player_factions and table.getn(player_factions) or 0
 		local faction_name = nil
 		if number_factions == 0 then
 			return false, S("You are not in a faction.")
@@ -382,7 +382,7 @@ local function handle_command(name, param)
 		local target = nil
 		local faction_name = nil
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = table.getn(own_factions)
+		local number_factions = own_factions and table.getn(own_factions) or 0
 		if number_factions == 0 then
 			return false, S("You are the owner of no faction, you can't use this command.")
 		elseif #params == 2 and number_factions == 1 then
@@ -418,7 +418,7 @@ local function handle_command(name, param)
 		local password = nil
 		local faction_name = nil
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = table.getn(own_factions)
+		local number_factions = own_factions and table.getn(own_factions) or 0
 		if #params == 1 then
 			return false, S("Missing password.")
 		elseif number_factions == 0 then
@@ -449,7 +449,7 @@ local function handle_command(name, param)
 		end
 	elseif action == "chown" then
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = table.getn(own_factions)
+		local number_factions = own_factions and table.getn(own_factions) or 0
 		local faction_name = nil
 		local target = nil
 		local password = nil
