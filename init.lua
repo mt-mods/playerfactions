@@ -351,7 +351,7 @@ local function handle_command(name, param)
 		end
 	elseif action == "leave" then
 		local player_factions = factions.get_player_factions(name)
-		local number_factions = number_factions and table.getn(player_factions) or 0
+		local number_factions = player_factions and table.getn(player_factions) or 0
 		local faction_name = nil
 		if number_factions == 0 then
 			return false, S("You are not in a faction.")
