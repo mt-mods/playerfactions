@@ -215,7 +215,7 @@ local function handle_command(name, param)
 		local password = nil
 		local faction_name = nil
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = own_factions and #own_factions
+		local number_factions = own_factions and #own_factions or 0
 		if number_factions == 0 then
 			return false, S("You are the owner of no faction.")
 		elseif #params == 1 then
