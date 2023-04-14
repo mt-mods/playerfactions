@@ -1,2 +1,3 @@
 player_factions.mode_unique_faction (Enable faction mode) bool true
 player_factions.max_members_list (The max number of members shown with info command) int 50
+player_factions.priv_admin (Allows the use of all playerfactions commands) string playerfactions_admin
