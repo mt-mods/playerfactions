@@ -566,3 +566,5 @@ end
 if save_needed then
 	save_factions()
 end
+
+print("[playerfactions] loaded")
