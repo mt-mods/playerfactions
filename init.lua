@@ -162,6 +162,8 @@ function factions.valid_password(fname, password)
 end
 
 function factions.get_password(fname)
+	minetest.log("warning", "Deprecated use of factions.get_password(). "
+		.. "Please update to using factions.valid_password() instead.")
 	if facts[fname] == nil then
 		return false
 	end
