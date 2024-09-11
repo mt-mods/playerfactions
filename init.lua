@@ -20,12 +20,6 @@ local storage = minetest.get_mod_storage()
 if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
--- Fix factions
-for _, fact in pairs(facts) do
-	if fact.members == nil then
-		fact.members = {}
-	end
-end
 
 factions.mode_unique_faction = minetest.settings:get_bool("player_factions.mode_unique_faction", true)
 factions.max_members_list = tonumber(minetest.settings:get("player_factions.max_members_list")) or 50
@@ -140,7 +134,7 @@ function factions.register_faction(fname, founder, pw)
 	facts[fname] = {
 		name = fname,
 		owner = founder,
-		password = pw,
+		password256 = factions.hash_password(pw),
 		members = {[founder] = true}
 	}
 	save_factions()
@@ -156,6 +150,17 @@ function factions.disband_faction(fname)
 	return true
 end
 
+function factions.hash_password(password)
+	return minetest.sha256(password)
+end
+
+function factions.valid_password(fname, password)
+	if not facts[fname] then
+		return false
+	end
+	return factions.hash_password(password) == facts[fname].password256
+end
+
 function factions.get_password(fname)
 	if facts[fname] == nil then
 		return false
@@ -167,7 +172,7 @@ function factions.set_password(fname, password)
 	if facts[fname] == nil then
 		return false
 	end
-	facts[fname].password = password
+	facts[fname].password256 = factions.hash_password(password)
 	save_factions()
 	return true
 end
@@ -243,7 +248,7 @@ local function handle_command(name, param)
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of this faction, " ..
 				"and don't have the playerfactions_admin privilege.")
-		elseif password ~= factions.get_password(faction_name) then
+		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			factions.disband_faction(faction_name)
@@ -344,7 +349,7 @@ local function handle_command(name, param)
 			return false, S("Missing faction name.")
 		elseif facts[faction_name] == nil then
 			return false, S("The faction @1 doesn't exist.", faction_name)
-		elseif factions.get_password(faction_name) ~= password then
+		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			if factions.join_faction(faction_name, name) then
@@ -488,7 +493,7 @@ local function handle_command(name, param)
 				"and don't have the playerfactions_admin privilege.")
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 isn't in your faction.", target)
-		elseif password ~= factions.get_password(faction_name) then
+		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			if factions.chown(faction_name, target) then
@@ -543,3 +548,19 @@ minetest.register_chatcommand("factions", {
 	privs = {},
 	func = handle_command
 })
+
+-- Fix factions
+local save_needed = false
+for _, fact in pairs(facts) do
+	if not fact.members then
+		fact.members = {}
+	end
+	if fact.password then
+		fact.password256 = factions.hash_password(fact.password)
+		fact.password = nil
+		save_needed = true
+	end
+end
+if save_needed then
+	save_factions()
+end
