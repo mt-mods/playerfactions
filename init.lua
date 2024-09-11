@@ -249,7 +249,7 @@ local function handle_command(name, param)
 			return false, S("This faction doesn't exists.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of this faction, " ..
-				"and don't have the playerfactions_admin privilege.")
+				"and don't have the @1 privilege.", factions.priv)
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
@@ -336,8 +336,8 @@ local function handle_command(name, param)
 			end
 			if minetest.get_player_privs(player_name)[factions.priv] then
 				summary = summary .. "\n" .. S(
-					"@1 has the playerfactions_admin privilege so they can admin every faction.",
-					player_name
+					"@1 has the @2 privilege so they can admin every faction.",
+					player_name, factions.priv
 				)
 			end
 			return true, summary
@@ -412,7 +412,7 @@ local function handle_command(name, param)
 			return false, S("Missing player name.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of this faction, " ..
-				"and don't have the playerfactions_admin privilege.")
+				"and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
 			return false, S("This player is not in the specified faction.")
 		elseif target == factions.get_owner(faction_name) then
@@ -450,7 +450,7 @@ local function handle_command(name, param)
 			return false, S("Missing password.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of this faction, " ..
-				"and don't have the playerfactions_admin privilege.")
+				"and don't have the @1 privilege.", factions.priv)
 		else
 			if factions.set_password(faction_name, password) then
 				return true, S("Password has been updated.")
@@ -492,7 +492,7 @@ local function handle_command(name, param)
 			return false, S("Missing password.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of this faction, " ..
-				"and don't have the playerfactions_admin privilege.")
+				"and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 isn't in your faction.", target)
 		elseif not factions.valid_password(faction_name, password) then
@@ -506,7 +506,7 @@ local function handle_command(name, param)
 		end
 	elseif action == "invite" then
 		if not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You can't use this command, playerfactions_admin priv is needed.")
+			return false, S("Permission denied: You can't use this command, @1 priv is needed.", factions.priv)
 		else
 			local target = params[2]
 			local faction_name = params[3]

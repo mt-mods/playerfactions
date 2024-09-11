@@ -3,12 +3,12 @@
 
 ### init.lua ###
 
-@1 has the playerfactions_admin privilege so they can admin every faction.=
+@1 has the @2 privilege so they can admin every faction.=
 
 @1 is in the following factions: @2.=
 @1 is now a member of the faction @2.=
 @1 isn't in your faction.=
-Add player to a faction, you need playerfactions_admin privs=
+Add player to a faction, you need @1 privs=
 Allow the use of all playerfactions commands=
 
 Change your faction's password or the password of the given faction=
@@ -40,9 +40,9 @@ Password has been updated.=
 Password: @1=
 Permission denied: Wrong password.=
 
-Permission denied: You are not the owner of this faction, and don't have the playerfactions_admin privilege.=
+Permission denied: You are not the owner of this faction, and don't have the @1 privilege.=
 
-Permission denied: You can't use this command, playerfactions_admin priv is needed.=
+Permission denied: You can't use this command, @1 priv is needed.=
 
 Registered @1.=
 See information on a faction=
