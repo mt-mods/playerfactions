@@ -77,4 +77,4 @@ You don't own any factions.=Vous n’êtes propriétaire d’aucune faction.
 You cannot kick the owner of a faction, use '/factions chown <player> [faction]' to change the ownership.=Vous ne pouvez pas virer le propriétaire de sa faction, utilisez '/factions chown <player> [faction]' pour changer le propriétaire.
 
 You cannot leave your own faction, change owner or disband it.=Vous ne pouvez pas quitter votre propre faction, changez le propriétaire ou dissolvez la.
-
+No factions found.=

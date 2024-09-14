@@ -268,7 +268,7 @@ local function handle_command(name, param)
 		if faction_name == nil then
 			local player_factions = factions.get_player_factions(name)
 			if not player_factions then
-				return true, S("no faction found")
+				return true, S("No factions found.")
 			elseif #player_factions == 1 then
 				faction_name = player_factions[1]
 			else

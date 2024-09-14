@@ -77,4 +77,4 @@ You don't own any factions.=
 You cannot kick the owner of a faction, use '/factions chown <player> [faction]' to change the ownership.=
 
 You cannot leave your own faction, change owner or disband it.=
-
+No factions found.=
