@@ -59,7 +59,7 @@ This faction doesn't exists.=
 The player name is nil or empty.=
 This player doesn't exists or is in no faction=
 This player is not in the specified faction.=
-This player is the owner of no faction.=
+This player doesn't own any factions.=
 This player is the owner of the following factions: @1.=
 Transfer ownership of your faction=
 Unknown subcommand. Run '/help factions' for help.=
@@ -71,8 +71,8 @@ You are not in a faction.=
 
 You are the owner of multiple factions, you have to choose one of them: @1.=
 
-You are the owner of no faction, you can't use this command.=
-You are the owner of no faction.=
+You don't own any factions, you can't use this command.=
+You don't own any factions.=
 
 You cannot kick the owner of a faction, use '/factions chown <player> [faction]' to change the ownership.=
 

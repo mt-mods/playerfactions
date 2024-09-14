@@ -225,7 +225,7 @@ local function handle_command(name, param)
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and #own_factions or 0
 		if number_factions == 0 then
-			return false, S("You are the owner of no faction.")
+			return false, S("You don't own any factions.")
 		elseif #params == 1 then
 			return false, S("Missing password.")
 		elseif #params == 2 and number_factions == 1 then
@@ -317,7 +317,7 @@ local function handle_command(name, param)
 			local summary = S("@1 is in the following factions: @2.", player_name, str_member)
 			local owned_factions = factions.get_owned_factions(player_name)
 			if not owned_factions then
-				summary = summary.. "\n" .. S("This player is the owner of no faction.")
+				summary = summary.. "\n" .. S("This player doesn't own any factions.")
 			else
 				for _,v in ipairs(owned_factions) do
 					if str_owner == "" then
@@ -389,7 +389,7 @@ local function handle_command(name, param)
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
 		if number_factions == 0 then
-			return false, S("You are the owner of no faction, you can't use this command.")
+			return false, S("You don't own any factions, you can't use this command.")
 		elseif #params == 2 and number_factions == 1 then
 			target = params[2]
 			faction_name = own_factions[1]
@@ -427,7 +427,7 @@ local function handle_command(name, param)
 		if #params == 1 then
 			return false, S("Missing password.")
 		elseif number_factions == 0 then
-			return false, S("You are the owner of no faction, you can't use this command.")
+			return false, S("You don't own any factions, you can't use this command.")
 		elseif #params == 2 and number_factions == 1 then
 			password = params[2]
 			faction_name = own_factions[1]
@@ -459,7 +459,7 @@ local function handle_command(name, param)
 		local target = nil
 		local password = nil
 		if number_factions == 0 then
-			return false, S("You are the owner of no faction, you can't use this command.")
+			return false, S("You don't own any factions, you can't use this command.")
 		elseif #params < 3 then
 			if params[2] ~= nil and minetest.player_exists(params[2]) then
 				return false, S("Missing password.")
