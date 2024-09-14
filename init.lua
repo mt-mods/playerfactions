@@ -297,9 +297,6 @@ local function handle_command(name, param)
 				end
 			end
 			local summary = S("Name: @1\nOwner: @2\nMembers: @3", faction_name, factions.get_owner(faction_name), fmembers)
-			if factions.get_owner(faction_name) == name or minetest.get_player_privs(name)[factions.priv] then
-				summary = summary .. "\n" .. S("Password: @1", factions.get_password(faction_name))
-			end
 			return true, summary
 		end
 	elseif action == "player_info" then
