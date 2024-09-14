@@ -512,9 +512,10 @@ local function handle_command(name, param)
 			elseif facts[faction_name] == nil then
 				return false, S("Faction @1 doesn't exist.", faction_name)
 			elseif not minetest.player_exists(target) then
-				return false, S("The player doesn't exist.")
+				return false, S("Player @1 doesn't exist.", target)
 			elseif factions.mode_unique_faction and factions.get_player_faction(target) ~= nil then
-				return false, S("The player is already in the faction \"@1\".",factions.get_player_faction(target))
+				return false, S("Player @1 is already in faction @2.",
+					target, factions.get_player_faction(target))
 			else
 				if factions.join_faction(faction_name, target) then
 					return true, S("@1 is now a member of the faction @2.", target, faction_name)

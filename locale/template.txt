@@ -50,8 +50,8 @@ Faction @1 doesn't exist.=
 
 The faction has more than @1 members, the members list can't be shown.=
 
-The player doesn't exist.=
-The player is already in the faction "@1".=
+Player @1 doesn't exist.=
+Player @1 is already in the faction @2.=
 There are no factions yet.=
 Player @1 doesn't exist or isn't in any faction.=
 @1 is not in the specified faction.=
