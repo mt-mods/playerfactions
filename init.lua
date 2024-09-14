@@ -458,14 +458,14 @@ local function handle_command(name, param)
 		local faction_name = nil
 		local target = nil
 		local password = nil
-		if #params < 3 then
+		if number_factions == 0 then
+			return false, S("You are the owner of no faction, you can't use this command.")
+		elseif #params < 3 then
 			if params[2] ~= nil and minetest.player_exists(params[2]) then
 				return false, S("Missing password.")
 			else
 				return false, S("Missing player name.")
 			end
-		elseif number_factions == 0 then
-			return false, S("You are the owner of no faction, you can't use this command.")
 		elseif number_factions == 1 and #params == 3 then
 			faction_name = own_factions[1]
 			target = params[2]
