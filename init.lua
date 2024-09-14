@@ -243,8 +243,8 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		elseif not facts[faction_name] then
-			return false, S("This faction doesn't exists.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
+			return false, S("This faction doesn't exist.")
 			return false, S("Permission denied: You are not the owner of this faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not factions.valid_password(faction_name, password) then
@@ -279,7 +279,7 @@ local function handle_command(name, param)
 			end
 		end
 		if facts[faction_name] == nil then
-			return false, S("This faction doesn't exists.")
+			return false, S("This faction doesn't exist.")
 		else
 			local fmembers = ""
 			if table.getn(facts[faction_name].members) > factions.max_members_list then
@@ -303,7 +303,7 @@ local function handle_command(name, param)
 		end
 		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
-			return false, S("This player doesn't exists or is in no faction")
+			return false, S("This player doesn't exist or is in no faction")
 		else
 			local str_owner = ""
 			local str_member = ""
@@ -373,7 +373,7 @@ local function handle_command(name, param)
 			faction_name = params[2]
 		end
 		if faction_name == nil then
-			return false, S("The given faction doesn't exists.")
+			return false, S("The given faction doesn't exist.")
 		elseif factions.get_owner(faction_name) == name then
 			return false, S("You cannot leave your own faction, change owner or disband it.")
 		else
