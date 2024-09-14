@@ -39,7 +39,7 @@ Ownership has been transferred to @1.=La propriété a été transférée à @2.
 Password has been updated.=Le mot de passe a été mis à jour.
 Permission denied: Wrong password.=Permission refusée : mauvais mot de passe.
 
-Permission denied: You are not the owner of this faction, and don't have the @1 privilege.=Permission refusée : vous n’êtes pas le propriétaire de cette faction, et n’avez pas le privilège @1.
+Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Permission refusée : vous n’êtes pas le propriétaire de cette faction, et n’avez pas le privilège @1.
 
 Permission denied: You can't use this command, @1 priv is needed.=Permission refusée : vous ne pouvez pas utiliser cette commande, le privilège @1 est nécessaire.
 
@@ -55,12 +55,12 @@ The given faction doesn't exist.=La faction en question n’existe pas.
 The player doesn't exist.=Le joueur n’existe pas.
 The player is already in the faction "@1".=Le joueur est déjà dans la faction "@1".
 There are no factions yet.=Il n’y a pas encore de factions.
-This faction doesn't exist.=Cette faction n’existe pas.
+That faction doesn't exist.=Cette faction n’existe pas.
 The player name is nil or empty.=Le nom du joueur est nul ou vide.
-This player doesn't exist or is in no faction=Ce joueur n’existe pas ou n’est dans aucune faction.
-This player is not in the specified faction.=Le joueur n’est pas dans la faction spécifiée.
-This player doesn't own any factions.=Ce joueur n’est propriétaire d’aucune faction.
-This player is the owner of the following factions: @1.=Ce joueur n’est le propriétaire d’aucune des factions suivantes : @1.
+Player @1 doesn't exist or isn't in any faction.=Le joueur @1 n’existe pas ou n’est dans aucune faction.
+@1 is not in the specified faction.=@1 n’est pas dans la faction spécifiée.
+@1 doesn't own any factions.=@1 n’est propriétaire d’aucune faction.
+@1 is the owner of the following factions: @2.=@1 est le propriétaire des factions suivantes : @2.
 Transfer ownership of your faction=Transfert la propriété de votre faction
 Unknown subcommand. Run '/help factions' for help.=Sous-commande inconnue. Faites '/help factions' pour l’aide.
 You are already in a faction.=Vous êtes déjà dans une faction.

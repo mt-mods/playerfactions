@@ -244,8 +244,8 @@ local function handle_command(name, param)
 			)
 		elseif not facts[faction_name] then
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("This faction doesn't exist.")
-			return false, S("Permission denied: You are not the owner of this faction, " ..
+			return false, S("That faction doesn't exist.")
+			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
@@ -279,7 +279,7 @@ local function handle_command(name, param)
 			end
 		end
 		if facts[faction_name] == nil then
-			return false, S("This faction doesn't exist.")
+			return false, S("That faction doesn't exist.")
 		else
 			local fmembers = ""
 			if table.getn(facts[faction_name].members) > factions.max_members_list then
@@ -303,7 +303,7 @@ local function handle_command(name, param)
 		end
 		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
-			return false, S("This player doesn't exist or is in no faction")
+			return false, S("Player @1 doesn't exist or isn't in any faction.", player_name)
 		else
 			local str_owner = ""
 			local str_member = ""
@@ -317,7 +317,7 @@ local function handle_command(name, param)
 			local summary = S("@1 is in the following factions: @2.", player_name, str_member)
 			local owned_factions = factions.get_owned_factions(player_name)
 			if not owned_factions then
-				summary = summary.. "\n" .. S("This player doesn't own any factions.")
+				summary = summary.. "\n" .. S("@1 doesn't own any factions.", player_name)
 			else
 				for _,v in ipairs(owned_factions) do
 					if str_owner == "" then
@@ -326,7 +326,8 @@ local function handle_command(name, param)
 						str_owner = str_owner..", "..v
 					end
 				end
-				summary = summary .. "\n" .. S("This player is the owner of the following factions: @1.", str_owner)
+				summary = summary .. "\n" .. S("@1 is the owner of the following factions: @2.",
+					player_name, str_owner)
 			end
 			if minetest.get_player_privs(player_name)[factions.priv] then
 				summary = summary .. "\n" .. S(
@@ -405,10 +406,10 @@ local function handle_command(name, param)
 		elseif target == nil then
 			return false, S("Missing player name.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You are not the owner of this faction, " ..
+			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
-			return false, S("This player is not in the specified faction.")
+			return false, S("@1 is not in the specified faction.", target)
 		elseif target == factions.get_owner(faction_name) then
 			return false, S("You cannot kick the owner of a faction, " ..
 				"use '/factions chown <player> [faction]' to change the ownership.")
@@ -443,7 +444,7 @@ local function handle_command(name, param)
 		elseif password == nil then
 			return false, S("Missing password.")
 		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You are not the owner of this faction, " ..
+			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		else
 			if factions.set_password(faction_name, password) then
@@ -485,7 +486,7 @@ local function handle_command(name, param)
 		elseif password == nil then
 			return false, S("Missing password.")
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You are not the owner of this faction, " ..
+			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 isn't in your faction.", target)

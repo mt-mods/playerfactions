@@ -39,7 +39,7 @@ Ownership has been transferred to @1.=
 Password has been updated.=
 Permission denied: Wrong password.=
 
-Permission denied: You are not the owner of this faction, and don't have the @1 privilege.=
+Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=
 
 Permission denied: You can't use this command, @1 priv is needed.=
 
@@ -55,12 +55,12 @@ The given faction doesn't exist.=
 The player doesn't exist.=
 The player is already in the faction "@1".=
 There are no factions yet.=
-This faction doesn't exist.=
+That faction doesn't exist.=
 The player name is nil or empty.=
-This player doesn't exist or is in no faction=
-This player is not in the specified faction.=
-This player doesn't own any factions.=
-This player is the owner of the following factions: @1.=
+Player @1 doesn't exist or isn't in any faction.=
+@1 is not in the specified faction.=
+@1 doesn't own any factions.=
+@1 is the owner of the following factions: @2.=
 Transfer ownership of your faction=
 Unknown subcommand. Run '/help factions' for help.=
 You are already in a faction.=
