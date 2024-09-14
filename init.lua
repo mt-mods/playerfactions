@@ -244,7 +244,7 @@ local function handle_command(name, param)
 			)
 		elseif not facts[faction_name] then
 		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("That faction doesn't exist.")
+			return false, S("Faction @1 doesn't exist.", faction_name)
 			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not factions.valid_password(faction_name, password) then
@@ -279,7 +279,7 @@ local function handle_command(name, param)
 			end
 		end
 		if facts[faction_name] == nil then
-			return false, S("That faction doesn't exist.")
+			return false, S("Faction @1 doesn't exist.", faction_name)
 		else
 			local fmembers = ""
 			if table.getn(facts[faction_name].members) > factions.max_members_list then
@@ -345,7 +345,7 @@ local function handle_command(name, param)
 		elseif not faction_name then
 			return false, S("Missing faction name.")
 		elseif facts[faction_name] == nil then
-			return false, S("The faction @1 doesn't exist.", faction_name)
+			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
@@ -374,7 +374,7 @@ local function handle_command(name, param)
 			faction_name = params[2]
 		end
 		if faction_name == nil then
-			return false, S("The given faction doesn't exist.")
+			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif factions.get_owner(faction_name) == name then
 			return false, S("You cannot leave your own faction, change owner or disband it.")
 		else
@@ -510,7 +510,7 @@ local function handle_command(name, param)
 			elseif not faction_name then
 				return false, S("Missing faction name.")
 			elseif facts[faction_name] == nil then
-				return false, S("The faction @1 doesn't exist.", faction_name)
+				return false, S("Faction @1 doesn't exist.", faction_name)
 			elseif not minetest.player_exists(target) then
 				return false, S("The player doesn't exist.")
 			elseif factions.mode_unique_faction and factions.get_player_faction(target) ~= nil then

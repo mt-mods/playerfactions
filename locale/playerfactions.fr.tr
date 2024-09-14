@@ -46,15 +46,13 @@ Registered @1.=@1 enregistrée.
 See information on a faction=Voir les informations d’une faction
 See information on a player=Voir les informations d’un joueur
 That faction already exists.=Cette faction existe déjà.
-The faction @1 doesn't exist.=La faction @1 n’existe pas.
+Faction @1 doesn't exist.=La faction @1 n’existe pas.
 
 The faction has more than @1 members, the members list can't be shown.=Cette faction a plus que @1 membres, la liste des membres ne peut pas être affichée.
 
-The given faction doesn't exist.=La faction en question n’existe pas.
 The player doesn't exist.=Le joueur n’existe pas.
 The player is already in the faction "@1".=Le joueur est déjà dans la faction "@1".
 There are no factions yet.=Il n’y a pas encore de factions.
-That faction doesn't exist.=Cette faction n’existe pas.
 Player @1 doesn't exist or isn't in any faction.=Le joueur @1 n’existe pas ou n’est dans aucune faction.
 @1 is not in the specified faction.=@1 n’est pas dans la faction spécifiée.
 @1 doesn't own any factions.=@1 n’est propriétaire d’aucune faction.
