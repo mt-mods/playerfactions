@@ -214,7 +214,7 @@ local function handle_command(name, param)
 		elseif password == nil then
 			return false, S("Missing password.")
 		elseif facts[faction_name] ~= nil then
-			return false, S("That faction already exists.")
+			return false, S("Faction @1 already exists.", faction_name)
 		else
 			factions.register_faction(faction_name, name, password)
 			return true, S("Registered @1.", faction_name)

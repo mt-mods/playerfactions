@@ -45,7 +45,7 @@ Permission denied: You can't use this command, @1 priv is needed.=
 Registered @1.=
 See information on a faction=
 See information on a player=
-That faction already exists.=
+Faction @1 already exists.=
 Faction @1 doesn't exist.=
 
 The faction has more than @1 members, the members list can't be shown.=
