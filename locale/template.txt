@@ -56,7 +56,6 @@ The player doesn't exist.=
 The player is already in the faction "@1".=
 There are no factions yet.=
 That faction doesn't exist.=
-The player name is nil or empty.=
 Player @1 doesn't exist or isn't in any faction.=
 @1 is not in the specified faction.=
 @1 doesn't own any factions.=

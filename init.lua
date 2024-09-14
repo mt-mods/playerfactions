@@ -299,7 +299,7 @@ local function handle_command(name, param)
 	elseif action == "player_info" then
 		local player_name = params[2]
 		if not player_name then
-			return false, S("The player name is nil or empty.")
+			return false, S("Missing player name.")
 		end
 		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
