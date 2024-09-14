@@ -37,7 +37,6 @@ Missing target.=Nom du joueur cible manquant.
 Name: @1@nOwner: @2@nMembers: @3=Nom : @1@nPropriétaire : @2@nMembres : @3
 Ownership has been transferred to @1.=La propriété a été transférée à @2.
 Password has been updated.=Le mot de passe a été mis à jour.
-Password: @1=Mot de passe : @1
 Permission denied: Wrong password.=Permission refusée : mauvais mot de passe.
 
 Permission denied: You are not the owner of this faction, and don't have the @1 privilege.=Permission refusée : vous n’êtes pas le propriétaire de cette faction, et n’avez pas le privilège @1.
