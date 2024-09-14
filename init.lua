@@ -506,7 +506,7 @@ local function handle_command(name, param)
 			local target = params[2]
 			local faction_name = params[3]
 			if not target then
-				return false, S("Missing target.")
+				return false, S("Missing player name.")
 			elseif not faction_name then
 				return false, S("Missing faction name.")
 			elseif facts[faction_name] == nil then

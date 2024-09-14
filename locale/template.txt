@@ -33,7 +33,6 @@ List available factions=
 Missing faction name.=
 Missing password.=
 Missing player name.=
-Missing target.=
 Name: @1@nOwner: @2@nMembers: @3=
 Ownership has been transferred to @1.=
 Password has been updated.=
