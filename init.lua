@@ -239,7 +239,7 @@ local function handle_command(name, param)
 			return false, S("Missing password.")
 		elseif faction_name == nil then
 			return false, S(
-				"You are the owner of many factions, you have to choose one of them: @1.",
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
 		elseif not facts[faction_name] then
@@ -273,7 +273,7 @@ local function handle_command(name, param)
 				faction_name = player_factions[1]
 			else
 				return false, S(
-					"You are in many factions, you have to choose one of them: @1.",
+					"You are in multiple factions, you have to choose one of them: @1.",
 					table.concat(player_factions, ", ")
 				)
 			end
@@ -365,7 +365,7 @@ local function handle_command(name, param)
 				faction_name = player_factions[1]
 			else
 				return false, S(
-					"You are in many factions, you have to choose one of them: @1.",
+					"You are in multiple factions, you have to choose one of them: @1.",
 					table.concat(player_factions, ", ")
 				)
 			end
@@ -399,7 +399,7 @@ local function handle_command(name, param)
 		end
 		if faction_name == nil then
 			return false, S(
-				"You are the owner of many factions, you have to choose one of them: @1.",
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
 		elseif target == nil then
@@ -437,7 +437,7 @@ local function handle_command(name, param)
 		end
 		if faction_name == nil then
 			return false, S(
-				"You are the owner of many factions, you have to choose one of them: @1.",
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
 		elseif password == nil then
@@ -477,7 +477,7 @@ local function handle_command(name, param)
 		end
 		if faction_name == nil then
 			return false, S(
-				"You are the owner of many factions, you have to choose one of them: @1.",
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
 		elseif target == nil then

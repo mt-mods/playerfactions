@@ -66,11 +66,11 @@ Transfer ownership of your faction=Transfert la propriété de votre faction
 Unknown subcommand. Run '/help factions' for help.=Sous-commande inconnue. Faites '/help factions' pour l’aide.
 You are already in a faction.=Vous êtes déjà dans une faction.
 
-You are in many factions, you have to choose one of them: @1.=Vous êtes dans plusieurs factions, vous devez choisir l’une d’entre elles : @1.
+You are in multiple factions, you have to choose one of them: @1.=Vous êtes dans plusieurs factions, vous devez choisir l’une d’entre elles : @1.
 
 You are not in a faction.=Vous n’êtes dans aucune faction.
 
-You are the owner of many factions, you have to choose one of them: @1.=Vous êtes propriétaire de plusieurs factions, vous devez choisir l’une d’entre elles : @1.
+You are the owner of multiple factions, you have to choose one of them: @1.=Vous êtes propriétaire de plusieurs factions, vous devez choisir l’une d’entre elles : @1.
 
 You are the owner of no faction, you can't use this command.=Vous n’êtes propriétaire d’aucune faction, vous ne pouvez pas utiliser cette commande.
 You are the owner of no faction.=Vous n’êtes propriétaire d’aucune faction.
