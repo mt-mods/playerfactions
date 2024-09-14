@@ -203,9 +203,6 @@ local function handle_command(name, param)
 	for p in string.gmatch(param, "[^%s]+") do
 		table.insert(params, p)
 	end
-	if params == nil then
-		return false, S("Unknown subcommand. Run '/help factions' for help.")
-	end
 	local action = params[1]
 	if action == "create" then
 		local faction_name = params[2]
