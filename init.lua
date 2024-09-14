@@ -537,7 +537,7 @@ minetest.register_chatcommand("factions", {
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
 	.."disband <password> [faction]: "..S("Disband your faction or the given faction").."\n"
 	.."passwd <password> [faction]: "..S("Change your faction's password or the password of the given faction").."\n"
-	.."chown <player> [faction]: "..S("Transfer ownership of your faction").."\n"
+	.."chown <player> <password> [faction]: "..S("Transfer ownership of your faction").."\n"
 	.."invite <player> <faction>: "..S("Add player to a faction, you need playerfactions_admin privs").."\n",
 
 	description = "",
