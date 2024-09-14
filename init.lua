@@ -546,19 +546,21 @@ minetest.register_chatcommand("factions", {
 })
 
 -- Fix factions
-local save_needed = false
-for _, fact in pairs(facts) do
-	if not fact.members then
-		fact.members = {}
+do
+	local save_needed = false
+	for _, fact in pairs(facts) do
+		if not fact.members then
+			fact.members = {}
+		end
+		if fact.password then
+			fact.password256 = factions.hash_password(fact.password)
+			fact.password = nil
+			save_needed = true
+		end
 	end
-	if fact.password then
-		fact.password256 = factions.hash_password(fact.password)
-		fact.password = nil
-		save_needed = true
+	if save_needed then
+		save_factions()
 	end
-end
-if save_needed then
-	save_factions()
 end
 
 print("[playerfactions] loaded")
