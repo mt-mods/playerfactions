@@ -49,7 +49,7 @@ function factions.get_facts()
 end
 
 function factions.player_is_in_faction(fname, player_name)
-	if not minetest.player_exists(player_name) or facts[fname] == nil then
+	if not minetest.player_exists(player_name) or not facts[fname] then
 		return false
 	end
 	return facts[fname].members[player_name]
@@ -104,14 +104,14 @@ function factions.get_administered_factions(name)
 end
 
 function factions.get_owner(fname)
-	if facts[fname] == nil then
+	if not facts[fname] then
 		return false
 	end
 	return facts[fname].owner
 end
 
 function factions.chown(fname, owner)
-	if facts[fname] == nil then
+	if not facts[fname] then
 		return false
 	end
 	facts[fname].owner = owner
@@ -120,7 +120,7 @@ function factions.chown(fname, owner)
 end
 
 function factions.register_faction(fname, founder, pw)
-	if facts[fname] ~= nil then
+	if facts[fname] then
 		return false
 	end
 	facts[fname] = {
@@ -134,7 +134,7 @@ function factions.register_faction(fname, founder, pw)
 end
 
 function factions.disband_faction(fname)
-	if facts[fname] == nil then
+	if not facts[fname] then
 		return false
 	end
 	facts[fname] = nil
@@ -156,14 +156,14 @@ end
 function factions.get_password(fname)
 	minetest.log("warning", "Deprecated use of factions.get_password(). "
 		.. "Please update to using factions.valid_password() instead.")
-	if facts[fname] == nil then
+	if not facts[fname] then
 		return false
 	end
 	return facts[fname].password
 end
 
 function factions.set_password(fname, password)
-	if facts[fname] == nil then
+	if not facts[fname] then
 		return false
 	end
 	facts[fname].password256 = factions.hash_password(password)
@@ -200,13 +200,13 @@ local function handle_command(name, param)
 	if action == "create" then
 		local faction_name = params[2]
 		local password = params[3]
-		if factions.mode_unique_faction and factions.get_player_faction(name) ~= nil then
-			return false, S("You are already in a faction.")
-		elseif faction_name == nil then
+		if not faction_name then
 			return false, S("Missing faction name.")
-		elseif password == nil then
+		elseif not password then
 			return false, S("Missing password.")
-		elseif facts[faction_name] ~= nil then
+		elseif factions.mode_unique_faction and factions.get_player_factions(name) then
+			return false, S("You are already in a faction.")
+		elseif facts[faction_name] then
 			return false, S("Faction @1 already exists.", faction_name)
 		else
 			factions.register_faction(faction_name, name, password)
@@ -214,19 +214,18 @@ local function handle_command(name, param)
 		end
 	elseif action == "disband" then
 		local password = params[2]
-		local faction_name = nil
+		if not password then
+			return false, S("Missing password.")
+		end
+		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
-		local number_factions = own_factions and #own_factions or 0
+		local number_factions = own_factions and table.getn(own_factions) or 0
 		if not is_admin and number_factions == 0 then
 			return false, S("You don't own any factions.")
-		elseif #params == 1 or not password then
-			return false, S("Missing password.")
-		elseif #params == 2 and number_factions == 1 then
+		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		elseif #params >= 3 then
-			faction_name = params[3]
 		end
-		if faction_name == nil then
+		if not faction_name then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
@@ -255,11 +254,11 @@ local function handle_command(name, param)
 		end
 	elseif action == "info" then
 		local faction_name = params[2]
-		if faction_name == nil then
+		if not faction_name then
 			local player_factions = factions.get_player_factions(name)
 			if not player_factions then
 				return true, S("No factions found.")
-			elseif #player_factions == 1 then
+			elseif table.getn(player_factions) == 1 then
 				faction_name = player_factions[1]
 			else
 				return false, S(
@@ -268,7 +267,7 @@ local function handle_command(name, param)
 				)
 			end
 		end
-		if facts[faction_name] == nil then
+		if not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		else
 			local fmembers = {}
@@ -332,6 +331,8 @@ local function handle_command(name, param)
 			return false, S("Missing faction name.")
 		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
+		elseif facts[faction_name].members[name] then
+			return false, S("You are already in faction @1.")
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
@@ -361,6 +362,8 @@ local function handle_command(name, param)
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif factions.get_owner(faction_name) == name then
 			return false, S("You cannot leave your own faction, change owner or disband it.")
+		elseif not facts[faction_name].members[name] then
+			return false, S("You aren't part of faction @1.", faction_name)
 		else
 			if factions.leave_faction(faction_name, name) then
 				return true, S("Left @1.", faction_name)
@@ -370,6 +373,9 @@ local function handle_command(name, param)
 		end
 	elseif action == "kick" then
 		local target = params[2]
+		if not target then
+			return false, S("Missing player name.")
+		end
 		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
@@ -383,9 +389,7 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		end
-		if not target then
-			return false, S("Missing player name.")
-		elseif not is_admin and factions.get_owner(faction_name) ~= name then
+		if not is_admin and factions.get_owner(faction_name) ~= name then
 			return false, S("Permission denied: You are not the owner of that faction, "
 				.. "and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
@@ -403,6 +407,9 @@ local function handle_command(name, param)
 		end
 	elseif action == "passwd" then
 		local password = params[2]
+		if not password then
+			return false, S("Missing password.")
+		end
 		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
@@ -415,9 +422,6 @@ local function handle_command(name, param)
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
-		end
-		if not password then
-			return false, S("Missing password.")
 		end
 		if not is_admin and factions.get_owner(faction_name) ~= name then
 			return false, S("Permission denied: You are not the owner of that faction, "

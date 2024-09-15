@@ -74,3 +74,6 @@ You cannot kick the owner of a faction, use '/factions chown <player> <password>
 
 You cannot leave your own faction, change owner or disband it.=Vous ne pouvez pas quitter votre propre faction, changez le propriétaire ou dissolvez la.
 No factions found.=
+You aren't part of faction @1.=
+You are already in faction @1.=
+
