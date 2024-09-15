@@ -1,6 +1,9 @@
 -- Translation support
 local S = minetest.get_translator("playerfactions")
 
+-- For integration testing
+local do_mtt = minetest.get_modpath("mtt") and mtt.enabled
+
 -- Data
 factions = {}
 -- This variable "version" can be used by other mods to check the compatibility of this mod
@@ -539,6 +542,10 @@ do
 	if save_needed then
 		save_factions()
 	end
+end
+
+if do_mtt then
+	dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/mtt.lua")
 end
 
 print("[playerfactions] loaded")
