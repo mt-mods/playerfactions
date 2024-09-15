@@ -554,7 +554,9 @@ do
 	local save_needed = false
 	for _, fact in pairs(facts) do
 		if not fact.members then
-			fact.members = {}
+			fact.members = {
+				[fact.owner] = true
+			}
 		end
 		if fact.password then
 			fact.password256 = factions.hash_password(fact.password)
