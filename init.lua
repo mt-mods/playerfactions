@@ -195,7 +195,7 @@ local function handle_command(name, param)
 	for p in string.gmatch(param, "[^%s]+") do
 		table.insert(params, p)
 	end
-	local is_admin = minetest.get_player_privs(name)[factions.priv]
+	local not_admin = not minetest.get_player_privs(name)[factions.priv]
 	local action = params[1]
 	if action == "create" then
 		local faction_name = params[2]
@@ -220,7 +220,7 @@ local function handle_command(name, param)
 		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
-		if not is_admin and number_factions == 0 then
+		if not_admin and number_factions == 0 then
 			return false, S("You don't own any factions.")
 		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
@@ -232,10 +232,10 @@ local function handle_command(name, param)
 			)
 		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
-		elseif not is_admin and name ~= factions.get_owner(faction_name) then
+		elseif not_admin and name ~= factions.get_owner(faction_name) then
 			return false, S("Permission denied: You are not the owner of that faction,"
 				.. " and don't have the @1 privilege.", factions.priv)
-		elseif not is_admin and factions.valid_password(faction_name, password) then
+		elseif not_admin and factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			factions.disband_faction(faction_name)
@@ -389,7 +389,7 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		end
-		if not is_admin and factions.get_owner(faction_name) ~= name then
+		if not_admin and factions.get_owner(faction_name) ~= name then
 			return false, S("Permission denied: You are not the owner of that faction, "
 				.. "and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
@@ -423,7 +423,7 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		end
-		if not is_admin and factions.get_owner(faction_name) ~= name then
+		if not_admin and factions.get_owner(faction_name) ~= name then
 			return false, S("Permission denied: You are not the owner of that faction, "
 				.. "and don't have the @1 privilege.", factions.priv)
 		else
@@ -454,12 +454,12 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		end
-		if not is_admin and name ~= factions.get_owner(faction_name) then
+		if not_admin and name ~= factions.get_owner(faction_name) then
 			return false, S("Permission denied: You are not the owner of that faction, "
 				.. "and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 isn't in faction @2.", target)
-		elseif not is_admin and not factions.valid_password(faction_name, password) then
+		elseif not_admin and not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			if factions.chown(faction_name, target) then
@@ -469,7 +469,7 @@ local function handle_command(name, param)
 			end
 		end
 	elseif action == "invite" then
-		if not is_admin then
+		if not_admin then
 			return false, S(
 				"Permission denied: You can't use this command, @1 priv is needed.",
 				factions.priv
