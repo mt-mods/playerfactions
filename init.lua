@@ -149,7 +149,7 @@ function factions.hash_password(password)
 end
 
 function factions.valid_password(fname, password)
-	if not facts[fname] then
+	if not facts[fname] or not password then
 		return false
 	end
 	return factions.hash_password(password) == facts[fname].password256
@@ -328,11 +328,11 @@ local function handle_command(name, param)
 	elseif action == "join" then
 		local faction_name = params[2]
 		local password = params[3]
-		if factions.get_player_faction(name) ~= nil and factions.mode_unique_faction then
+		if factions.mode_unique_faction and factions.get_player_factions(name) then
 			return false, S("You are already in a faction.")
 		elseif not faction_name then
 			return false, S("Missing faction name.")
-		elseif facts[faction_name] == nil then
+		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
