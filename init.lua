@@ -93,16 +93,14 @@ function factions.get_owned_factions(name)
 end
 
 function factions.get_administered_factions(name)
-	local adm_factions = nil
+	local is_admin = minetest.get_player_privs(name)[factions.priv]
+	local adm_factions = {}
 	for fname, fact in pairs(facts) do
-		if minetest.get_player_privs(name)[factions.priv] or fact.owner == name then
-			if not adm_factions then
-				adm_factions = {}
-			end
+		if is_admin or fact.owner == name then
 			table.insert(adm_factions, fname)
 		end
 	end
-	return adm_factions
+	return 0 < table.getn(adm_factions) and adm_factions or false
 end
 
 function factions.get_owner(fname)
@@ -371,34 +369,31 @@ local function handle_command(name, param)
 			end
 		end
 	elseif action == "kick" then
-		local target = nil
-		local faction_name = nil
+		local target = params[2]
+		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
 		if number_factions == 0 then
 			return false, S("You don't own any factions, you can't use this command.")
-		elseif #params == 2 and number_factions == 1 then
-			target = params[2]
+		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		elseif #params >= 3 then
-			faction_name = params[3]
-			target = params[2]
-		end
-		if faction_name == nil then
+		else
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
-		elseif target == nil then
+		end
+		if not target then
 			return false, S("Missing player name.")
-		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You are not the owner of that faction, " ..
-				"and don't have the @1 privilege.", factions.priv)
+		elseif not is_admin and factions.get_owner(faction_name) ~= name then
+			return false, S("Permission denied: You are not the owner of that faction, "
+				.. "and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
 			return false, S("@1 is not in the specified faction.", target)
 		elseif target == factions.get_owner(faction_name) then
-			return false, S("You cannot kick the owner of a faction, " ..
-				"use '/factions chown <player> [faction]' to change the ownership.")
+			return false, S("You cannot kick the owner of a faction, "
+				.. "use '/factions chown <player> <password> [<faction>]' "
+				.. "to change the ownership.")
 		else
 			if factions.leave_faction(faction_name, target) then
 				return true, S("Kicked @1 from faction.", target)
@@ -521,10 +516,10 @@ minetest.register_chatcommand("factions", {
 	.."info [<faction>]: "..S("See information about a faction").."\n"
 	.."player_info [<player>]: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
-	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
 	.."passwd <password> [faction]: "..S("Change your faction's password or the password of the given faction").."\n"
 	.."chown <player> <password> [faction]: "..S("Transfer ownership of your faction").."\n"
 	.."leave [<faction>]: "..S("Leave your faction").."\n"
+	.."kick <player> [<faction>]: "..S("Kick someone from your faction or from the given faction").."\n"
 	.."disband <password> [<faction>]: "..S("Disband your faction or the given faction").."\n"
 	.."invite <player> <faction>: "..S("Add player to a faction, you need @1 priv", factions.priv).."\n",
 

@@ -70,7 +70,7 @@ You are the owner of multiple factions, you have to choose one of them: @1.=Vous
 You don't own any factions, you can't use this command.=Vous n’êtes propriétaire d’aucune faction, vous ne pouvez pas utiliser cette commande.
 You don't own any factions.=Vous n’êtes propriétaire d’aucune faction.
 
-You cannot kick the owner of a faction, use '/factions chown <player> [faction]' to change the ownership.=Vous ne pouvez pas virer le propriétaire de sa faction, utilisez '/factions chown <player> [faction]' pour changer le propriétaire.
+You cannot kick the owner of a faction, use '/factions chown <player> <password> [<faction>]' to change the ownership.=Vous ne pouvez pas virer le propriétaire de sa faction, utilisez '/factions chown <joueur> <mot de passe> [<faction>]' pour changer le propriétaire.
 
 You cannot leave your own faction, change owner or disband it.=Vous ne pouvez pas quitter votre propre faction, changez le propriétaire ou dissolvez la.
 No factions found.=
