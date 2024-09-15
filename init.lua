@@ -56,11 +56,11 @@ function factions.player_is_in_faction(fname, player_name)
 end
 
 function factions.get_player_faction(name)
+	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of " ..
+		"factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
 	if not minetest.player_exists(name) then
 		return false
 	end
-	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of " ..
-		"factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
 	for fname, fact in pairs(facts) do
 		if fact.members[name] then
 			return fname
@@ -73,29 +73,23 @@ function factions.get_player_factions(name)
 	if not minetest.player_exists(name) then
 		return false
 	end
-	local player_factions = nil
+	local player_factions = {}
 	for fname, fact in pairs(facts) do
 		if fact.members[name] then
-			if not player_factions then
-				player_factions = {}
-			end
 			table.insert(player_factions, fname)
 		end
 	end
-	return player_factions
+	return 0 < table.getn(player_factions) and player_factions or false
 end
 
 function factions.get_owned_factions(name)
-	local own_factions = nil
+	local own_factions = {}
 	for fname, fact in pairs(facts) do
 		if fact.owner == name then
-			if not own_factions then
-				own_factions = {}
-			end
 			table.insert(own_factions, fname)
 		end
 	end
-	return own_factions
+	return 0 < table.getn(own_factions) and own_factions or false
 end
 
 function factions.get_administered_factions(name)
@@ -294,37 +288,34 @@ local function handle_command(name, param)
 			return true, summary
 		end
 	elseif action == "player_info" then
-		local player_name = params[2]
+		local player_name = params[2] or name
 		if not player_name then
 			return false, S("Missing player name.")
 		end
 		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
-			return false, S("Player @1 doesn't exist or isn't in any faction.", player_name)
+			return false, S(
+				"Player @1 doesn't exist or isn't in any faction.", player_name)
 		else
-			local str_owner = ""
-			local str_member = ""
-			for _,v in ipairs(player_factions) do
-				if str_member == "" then
-					str_member = str_member..v
-				else
-					str_member = str_member..", "..v
-				end
+			local member = {}
+			for _, v in ipairs(player_factions) do
+				table.insert(member, v)
 			end
-			local summary = S("@1 is in the following factions: @2.", player_name, str_member)
+			local summary = S("@1 is in the following factions: @2.",
+				player_name, table.concat(member, ", "))
 			local owned_factions = factions.get_owned_factions(player_name)
 			if not owned_factions then
-				summary = summary.. "\n" .. S("@1 doesn't own any factions.", player_name)
+				summary = summary .. "\n" .. S(
+					"@1 doesn't own any factions.", player_name)
 			else
-				for _,v in ipairs(owned_factions) do
-					if str_owner == "" then
-						str_owner = str_owner..v
-					else
-						str_owner = str_owner..", "..v
-					end
+				local owner = {}
+				for _, v in ipairs(owned_factions) do
+					table.insert(owner, v)
 				end
-				summary = summary .. "\n" .. S("@1 is the owner of the following factions: @2.",
-					player_name, str_owner)
+				summary = summary .. "\n" .. S(
+					"@1 is the owner of the following factions: @2.",
+					player_name, table.concat(owner, ", ")
+				)
 			end
 			if minetest.get_player_privs(player_name)[factions.priv] then
 				summary = summary .. "\n" .. S(
@@ -530,7 +521,7 @@ minetest.register_chatcommand("factions", {
 	params = "create <faction> <password>: "..S("Create a new faction").."\n"
 	.."list: "..S("List available factions").."\n"
 	.."info [<faction>]: "..S("See information about a faction").."\n"
-	.."player_info <player>: "..S("See information about a player").."\n"
+	.."player_info [<player>]: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave [faction]: "..S("Leave your faction").."\n"
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
