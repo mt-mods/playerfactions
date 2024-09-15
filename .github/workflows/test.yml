@@ -12,4 +12,4 @@ jobs:
       with:
         modname: playerfactions
         git_dependencies: |
-          https://github.com/minetest-mods/areas.git
+          https://github.com/OgelGames/fakelib.git
