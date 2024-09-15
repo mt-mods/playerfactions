@@ -221,34 +221,30 @@ local function handle_command(name, param)
 			return true, S("Registered @1.", faction_name)
 		end
 	elseif action == "disband" then
-		local password = nil
+		local password = params[2]
 		local faction_name = nil
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and #own_factions or 0
-		if number_factions == 0 then
+		if not is_admin and number_factions == 0 then
 			return false, S("You don't own any factions.")
-		elseif #params == 1 then
+		elseif #params == 1 or not password then
 			return false, S("Missing password.")
 		elseif #params == 2 and number_factions == 1 then
-			password = params[2]
 			faction_name = own_factions[1]
 		elseif #params >= 3 then
 			faction_name = params[3]
-			password = params[2]
 		end
-		if password == nil then
-			return false, S("Missing password.")
-		elseif faction_name == nil then
+		if faction_name == nil then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
 		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
-		elseif name ~= factions.get_owner(faction_name) and not is_admin then
+		elseif not is_admin and name ~= factions.get_owner(faction_name) then
 			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
-		elseif not factions.valid_password(faction_name, password) then
+		elseif not is_admin and factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
 			factions.disband_faction(faction_name)
