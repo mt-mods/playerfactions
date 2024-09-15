@@ -229,7 +229,8 @@ local function handle_command(name, param)
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
-		elseif not facts[faction_name] then
+		end
+		if not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif not_admin and name ~= factions.get_owner(faction_name) then
 			return false, S("Permission denied: You are not the owner of that faction,"
