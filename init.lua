@@ -224,8 +224,7 @@ local function handle_command(name, param)
 			return false, S("You don't own any factions.")
 		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		end
-		if not faction_name then
+		elseif not faction_name then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
@@ -246,11 +245,11 @@ local function handle_command(name, param)
 		for k in pairs(facts) do
 			table.insert(faction_list, k)
 		end
-		if #faction_list == 0 then
+		if table.getn(faction_list) == 0 then
 			return true, S("There are no factions yet.")
 		else
 			return true, S("Factions (@1): @2.",
-				#faction_list, table.concat(faction_list, ", "))
+				table.getn(faction_list), table.concat(faction_list, ", "))
 		end
 	elseif action == "info" then
 		local faction_name = params[2]
@@ -383,7 +382,7 @@ local function handle_command(name, param)
 			return false, S("You don't own any factions, you can't use this command.")
 		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		else
+		elseif not faction_name then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
@@ -417,7 +416,7 @@ local function handle_command(name, param)
 			return false, S("You don't own any factions, you can't use this command.")
 		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		else
+		elseif not faction_name then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
@@ -448,7 +447,7 @@ local function handle_command(name, param)
 			return false, S("You don't own any factions, you can't use this command.")
 		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		else
+		elseif not faction_name then
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
@@ -458,7 +457,7 @@ local function handle_command(name, param)
 			return false, S("Permission denied: You are not the owner of that faction, "
 				.. "and don't have the @1 privilege.", factions.priv)
 		elseif not facts[faction_name].members[target] then
-			return false, S("@1 isn't in faction @2.", target)
+			return false, S("@1 isn't in faction @2.", target, faction_name)
 		elseif not_admin and not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
