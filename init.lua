@@ -242,8 +242,8 @@ local function handle_command(name, param)
 		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif not is_admin and name ~= factions.get_owner(faction_name) then
-			return false, S("Permission denied: You are not the owner of that faction, " ..
-				"and don't have the @1 privilege.", factions.priv)
+			return false, S("Permission denied: You are not the owner of that faction,"
+				.. " and don't have the @1 privilege.", factions.priv)
 		elseif not is_admin and factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
@@ -279,19 +279,18 @@ local function handle_command(name, param)
 		if facts[faction_name] == nil then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		else
-			local fmembers = ""
+			local fmembers = {}
 			if table.getn(facts[faction_name].members) > factions.max_members_list then
-				fmembers = S("The faction has more than @1 members, the members list can't be shown.", factions.max_members_list)
+				table.insert(fmembers, S("The faction has more than @1 members,"
+					.. " the members list can't be shown.", factions.max_members_list))
 			else
-				for play,_ in pairs(facts[faction_name].members) do
-					if fmembers == "" then
-						fmembers = play
-					else
-						fmembers = fmembers..", "..play
-					end
+				for play in pairs(facts[faction_name].members) do
+					table.insert(fmembers, play)
 				end
 			end
-			local summary = S("Name: @1\nOwner: @2\nMembers: @3", faction_name, factions.get_owner(faction_name), fmembers)
+			local summary = S("Name: @1\nOwner: @2\nMembers: @3",
+				faction_name, factions.get_owner(faction_name),
+				table.concat(fmembers, ", "))
 			return true, summary
 		end
 	elseif action == "player_info" then
@@ -530,14 +529,14 @@ end
 minetest.register_chatcommand("factions", {
 	params = "create <faction> <password>: "..S("Create a new faction").."\n"
 	.."list: "..S("List available factions").."\n"
-	.."info <faction>: "..S("See information about a faction").."\n"
+	.."info [<faction>]: "..S("See information about a faction").."\n"
 	.."player_info <player>: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave [faction]: "..S("Leave your faction").."\n"
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
-	.."disband <password> [faction]: "..S("Disband your faction or the given faction").."\n"
 	.."passwd <password> [faction]: "..S("Change your faction's password or the password of the given faction").."\n"
 	.."chown <player> <password> [faction]: "..S("Transfer ownership of your faction").."\n"
+	.."disband <password> [<faction>]: "..S("Disband your faction or the given faction").."\n"
 	.."invite <player> <faction>: "..S("Add player to a faction, you need @1 priv", factions.priv).."\n",
 
 	description = "",
