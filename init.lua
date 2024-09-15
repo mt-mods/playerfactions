@@ -172,7 +172,7 @@ function factions.set_password(fname, password)
 end
 
 function factions.join_faction(fname, player)
-	if facts[fname] == nil or not minetest.player_exists(player) then
+	if not (facts[fname] and minetest.player_exists(player)) then
 		return false
 	end
 	facts[fname].members[player] = true
@@ -465,28 +465,35 @@ local function handle_command(name, param)
 			end
 		end
 	elseif action == "invite" then
-		if not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You can't use this command, @1 priv is needed.", factions.priv)
+		if not is_admin then
+			return false, S(
+				"Permission denied: You can't use this command, @1 priv is needed.",
+				factions.priv
+			)
+		end
+		local target = params[2]
+		local faction_name = params[3]
+		if not target then
+			return false, S("Missing player name.")
+		elseif not faction_name then
+			return false, S("Missing faction name.")
+		elseif not facts[faction_name] then
+			return false, S("Faction @1 doesn't exist.", faction_name)
+		elseif not minetest.player_exists(target) then
+			return false, S("Player @1 doesn't exist.", target)
+		end
+		local player_factions = factions.get_player_factions(target)
+		if player_factions and facts[faction_name].members[target] then
+			return false, S("Player @1 is already in faction @2.",
+				target, faction_name)
+		elseif player_factions and factions.mode_unique_faction then
+			return false, S("Player @1 is already in faction @2.",
+				target, player_factions[1])
 		else
-			local target = params[2]
-			local faction_name = params[3]
-			if not target then
-				return false, S("Missing player name.")
-			elseif not faction_name then
-				return false, S("Missing faction name.")
-			elseif facts[faction_name] == nil then
-				return false, S("Faction @1 doesn't exist.", faction_name)
-			elseif not minetest.player_exists(target) then
-				return false, S("Player @1 doesn't exist.", target)
-			elseif factions.mode_unique_faction and factions.get_player_faction(target) ~= nil then
-				return false, S("Player @1 is already in faction @2.",
-					target, factions.get_player_faction(target))
+			if factions.join_faction(faction_name, target) then
+				return true, S("@1 is now a member of faction @2.", target, faction_name)
 			else
-				if factions.join_faction(faction_name, target) then
-					return true, S("@1 is now a member of faction @2.", target, faction_name)
-				else
-					return false, S("Error adding @1 to @2.", target, faction_name)
-				end
+				return false, S("Error adding @1 to @2.", target, faction_name)
 			end
 		end
 	else
