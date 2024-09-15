@@ -1,9 +1,6 @@
 -- Translation support
 local S = minetest.get_translator("playerfactions")
 
--- For integration testing
-local do_mtt = minetest.get_modpath("mtt") and mtt.enabled
-
 -- Data
 factions = {}
 -- This variable "version" can be used by other mods to check the compatibility of this mod
@@ -194,7 +191,6 @@ end
 
 -- Chat commands
 local chat = {}
-if do_mtt then factions.chat = chat end
 
 function chat.create(name, params, not_admin)
 	local faction_name = params[2]
@@ -571,7 +567,10 @@ do
 	end
 end
 
-if do_mtt then
+-- Integration testing
+if minetest.get_modpath("mtt") and mtt.enabled then
+	factions.chat = chat
+	factions.handle_command = handle_command
 	dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/mtt.lua")
 end
 
