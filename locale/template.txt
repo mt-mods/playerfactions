@@ -7,7 +7,7 @@
 
 @1 is in the following factions: @2.=
 @1 is now a member of faction @2.=
-@1 isn't in your faction.=
+@1 isn't in faction @2.=
 Add player to a faction, you need @1 privs=
 Allow the use of all playerfactions commands=
 

@@ -7,7 +7,7 @@
 
 @1 is in the following factions: @2.=@1 est dans les factions suivantes : @2.
 @1 is now a member of faction @2.=@1 est maintenant membre de la faction @2.
-@1 isn't in your faction.=@1 n’est pas dans votre faction.
+@1 isn't in faction @2.=@1 n’est pas dans la faction @2.
 Add player to a faction, you need @1 privs=Ajoute un joueur à une faction, nécessite le privilège @1
 Allow the use of all playerfactions commands=Autorise l’utilisation de toutes les commandes de playerfactions
 
