@@ -255,10 +255,11 @@ local function handle_command(name, param)
 		for k in pairs(facts) do
 			table.insert(faction_list, k)
 		end
-		if #faction_list ~= 0 then
-			return true, S("Factions (@1): @2.", #faction_list, table.concat(faction_list, ", "))
-		else
+		if #faction_list == 0 then
 			return true, S("There are no factions yet.")
+		else
+			return true, S("Factions (@1): @2.",
+				#faction_list, table.concat(faction_list, ", "))
 		end
 	elseif action == "info" then
 		local faction_name = params[2]
