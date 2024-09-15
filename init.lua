@@ -332,7 +332,7 @@ local function handle_command(name, param)
 		elseif not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif facts[faction_name].members[name] then
-			return false, S("You are already in faction @1.")
+			return false, S("You are already in faction @1.", faction_name)
 		elseif not factions.valid_password(faction_name, password) then
 			return false, S("Permission denied: Wrong password.")
 		else
