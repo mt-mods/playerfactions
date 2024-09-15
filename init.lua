@@ -190,9 +190,9 @@ function factions.leave_faction(fname, player_name)
 end
 
 -- Chat commands
-local chat = {}
+local cc = {}
 
-function chat.create(name, params)
+function cc.create(name, params)
 	local faction_name = params[2]
 	local password = params[3]
 	if not faction_name then
@@ -209,7 +209,7 @@ function chat.create(name, params)
 	end
 end
 
-function chat.disband(name, params, not_admin)
+function cc.disband(name, params, not_admin)
 	local password = params[2]
 	if not password then
 		return false, S("Missing password.")
@@ -240,7 +240,7 @@ function chat.disband(name, params, not_admin)
 	end
 end
 
-function chat.list()
+function cc.list()
 	local faction_list = {}
 	for k in pairs(facts) do
 		table.insert(faction_list, k)
@@ -253,7 +253,7 @@ function chat.list()
 	end
 end
 
-function chat.info(name, params)
+function cc.info(name, params)
 	local faction_name = params[2]
 	if not faction_name then
 		local player_factions = factions.get_player_factions(name)
@@ -287,7 +287,7 @@ function chat.info(name, params)
 	end
 end
 
-function chat.player_info(name, params)
+function cc.player_info(name, params)
 	local player_name = params[2] or name
 	if not player_name then
 		return false, S("Missing player name.")
@@ -327,7 +327,7 @@ function chat.player_info(name, params)
 	end
 end
 
-function chat.join(name, params)
+function cc.join(name, params)
 	local faction_name = params[2]
 	local password = params[3]
 	if factions.mode_unique_faction and factions.get_player_factions(name) then
@@ -349,7 +349,7 @@ function chat.join(name, params)
 	end
 end
 
-function chat.leave(name, params)
+function cc.leave(name, params)
 	local player_factions = factions.get_player_factions(name)
 	local number_factions = player_factions and table.getn(player_factions) or 0
 	local faction_name = params[2]
@@ -380,7 +380,7 @@ function chat.leave(name, params)
 	end
 end
 
-function chat.kick(name, params, not_admin)
+function cc.kick(name, params, not_admin)
 	local target = params[2]
 	if not target then
 		return false, S("Missing player name.")
@@ -416,7 +416,7 @@ function chat.kick(name, params, not_admin)
 	end
 end
 
-function chat.passwd(name, params, not_admin)
+function cc.passwd(name, params, not_admin)
 	local password = params[2]
 	if not password then
 		return false, S("Missing password.")
@@ -446,7 +446,7 @@ function chat.passwd(name, params, not_admin)
 	end
 end
 
-function chat.chown(name, params, not_admin)
+function cc.chown(name, params, not_admin)
 	local target = params[2]
 	local password = params[3]
 	local faction_name = params[4]
@@ -483,7 +483,7 @@ function chat.chown(name, params, not_admin)
 	end
 end
 
-function chat.invite(_, params, not_admin)
+function cc.invite(_, params, not_admin)
 	if not_admin then
 		return false, S(
 			"Permission denied: You can't use this command, @1 priv is needed.",
@@ -523,12 +523,12 @@ local function handle_command(name, param)
 		table.insert(params, p)
 	end
 	local action = params[1]
-	if not action or not chat[action:lower()] then
+	if not action or not cc[action:lower()] then
 		return false, S("Unknown subcommand. Run '/help factions' for help.")
 	end
 
 	local not_admin = not minetest.get_player_privs(name)[factions.priv]
-	return chat[action:lower()](name, params, not_admin)
+	return cc[action:lower()](name, params, not_admin)
 end
 
 minetest.register_chatcommand("factions", {
@@ -571,7 +571,6 @@ end
 
 -- Integration testing
 if minetest.get_modpath("mtt") and mtt.enabled then
-	factions.chat = chat
 	factions.handle_command = handle_command
 	dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/mtt.lua")
 end
