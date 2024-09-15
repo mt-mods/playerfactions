@@ -402,31 +402,26 @@ local function handle_command(name, param)
 			end
 		end
 	elseif action == "passwd" then
-		local password = nil
-		local faction_name = nil
+		local password = params[2]
+		local faction_name = params[3]
 		local own_factions = factions.get_administered_factions(name)
 		local number_factions = own_factions and table.getn(own_factions) or 0
-		if #params == 1 then
-			return false, S("Missing password.")
-		elseif number_factions == 0 then
+		if number_factions == 0 then
 			return false, S("You don't own any factions, you can't use this command.")
-		elseif #params == 2 and number_factions == 1 then
-			password = params[2]
+		elseif not faction_name and number_factions == 1 then
 			faction_name = own_factions[1]
-		elseif #params >= 3 then
-			faction_name = params[3]
-			password = params[2]
-		end
-		if faction_name == nil then
+		else
 			return false, S(
 				"You are the owner of multiple factions, you have to choose one of them: @1.",
 				table.concat(own_factions, ", ")
 			)
-		elseif password == nil then
+		end
+		if not password then
 			return false, S("Missing password.")
-		elseif factions.get_owner(faction_name) ~= name and not minetest.get_player_privs(name)[factions.priv] then
-			return false, S("Permission denied: You are not the owner of that faction, " ..
-				"and don't have the @1 privilege.", factions.priv)
+		end
+		if not is_admin and factions.get_owner(faction_name) ~= name then
+			return false, S("Permission denied: You are not the owner of that faction, "
+				.. "and don't have the @1 privilege.", factions.priv)
 		else
 			if factions.set_password(faction_name, password) then
 				return true, S("Password has been updated.")
@@ -516,11 +511,11 @@ minetest.register_chatcommand("factions", {
 	.."info [<faction>]: "..S("See information about a faction").."\n"
 	.."player_info [<player>]: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
-	.."passwd <password> [faction]: "..S("Change your faction's password or the password of the given faction").."\n"
 	.."chown <player> <password> [faction]: "..S("Transfer ownership of your faction").."\n"
 	.."leave [<faction>]: "..S("Leave your faction").."\n"
 	.."kick <player> [<faction>]: "..S("Kick someone from your faction or from the given faction").."\n"
 	.."disband <password> [<faction>]: "..S("Disband your faction or the given faction").."\n"
+	.."passwd <password> [<faction>]: "..S("Change your faction's password or the password of the given faction").."\n"
 	.."invite <player> <faction>: "..S("Add player to a faction, you need @1 priv", factions.priv).."\n",
 
 	description = "",
