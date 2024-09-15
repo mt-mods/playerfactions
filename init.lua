@@ -183,7 +183,7 @@ function factions.join_faction(fname, player)
 end
 
 function factions.leave_faction(fname, player_name)
-	if facts[fname] == nil or not minetest.player_exists(player_name) then
+	if not (facts[fname] and minetest.player_exists(player_name)) then
 		return false
 	end
 	facts[fname].members[player_name] = nil
@@ -346,10 +346,10 @@ local function handle_command(name, param)
 	elseif action == "leave" then
 		local player_factions = factions.get_player_factions(name)
 		local number_factions = player_factions and table.getn(player_factions) or 0
-		local faction_name = nil
+		local faction_name = params[2]
 		if number_factions == 0 then
 			return false, S("You are not in a faction.")
-		elseif #params == 1 then
+		elseif not faction_name then
 			if number_factions == 1 then
 				faction_name = player_factions[1]
 			else
@@ -358,10 +358,8 @@ local function handle_command(name, param)
 					table.concat(player_factions, ", ")
 				)
 			end
-		elseif #params >= 1 and facts[params[2]] ~= nil then
-			faction_name = params[2]
 		end
-		if faction_name == nil then
+		if not facts[faction_name] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
 		elseif factions.get_owner(faction_name) == name then
 			return false, S("You cannot leave your own faction, change owner or disband it.")
@@ -523,10 +521,10 @@ minetest.register_chatcommand("factions", {
 	.."info [<faction>]: "..S("See information about a faction").."\n"
 	.."player_info [<player>]: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
-	.."leave [faction]: "..S("Leave your faction").."\n"
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
 	.."passwd <password> [faction]: "..S("Change your faction's password or the password of the given faction").."\n"
 	.."chown <player> <password> [faction]: "..S("Transfer ownership of your faction").."\n"
+	.."leave [<faction>]: "..S("Leave your faction").."\n"
 	.."disband <password> [<faction>]: "..S("Disband your faction or the given faction").."\n"
 	.."invite <player> <faction>: "..S("Add player to a faction, you need @1 priv", factions.priv).."\n",
 
