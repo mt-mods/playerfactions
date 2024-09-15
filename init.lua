@@ -243,8 +243,8 @@ local function handle_command(name, param)
 				table.concat(own_factions, ", ")
 			)
 		elseif not facts[faction_name] then
-		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Faction @1 doesn't exist.", faction_name)
+		elseif name ~= factions.get_owner(faction_name) and not minetest.get_player_privs(name)[factions.priv] then
 			return false, S("Permission denied: You are not the owner of that faction, " ..
 				"and don't have the @1 privilege.", factions.priv)
 		elseif not factions.valid_password(faction_name, password) then
