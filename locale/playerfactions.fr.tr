@@ -6,7 +6,7 @@
 @1 has the @2 privilege so they can admin every faction.=@1 a le privilège @2 et peut donc administrer toutes les factions.
 
 @1 is in the following factions: @2.=@1 est dans les factions suivantes : @2.
-@1 is now a member of the faction @2.=@1 est maintenant membre de la faction @2.
+@1 is now a member of faction @2.=@1 est maintenant membre de la faction @2.
 @1 isn't in your faction.=@1 n’est pas dans votre faction.
 Add player to a faction, you need @1 privs=Ajoute un joueur à une faction, nécessite le privilège @1
 Allow the use of all playerfactions commands=Autorise l’utilisation de toutes les commandes de playerfactions
@@ -17,9 +17,9 @@ Create a new faction=Crée une nouvelle faction
 Disband your faction or the given faction=Dissoudre votre faction ou la faction donnée
 Disbanded @1.=@1 est dissoute.
 Error kicking @1 from faction.=Erreur lors de la tentative de virer @1 de la faction.
-Error on adding @1 into @2.=Erreur lors de l’ajout de @1 dans @2.
-Error on joining.=Erreur lors de la tentative de rejoindre la faction.
-Error on leaving faction.=Erreur lors de la tentative de quitter la faction.
+Error adding @1 to @2.=Erreur lors de l’ajout de @1 dans @2.
+Error joining faction.=Erreur lors de la tentative de rejoindre la faction.
+Error leaving faction.=Erreur lors de la tentative de quitter la faction.
 Factions (@1): @2.=Factions (@1) : @2.
 Failed to change password.=Echec du changement de mot de passe.
 Failed to transfer ownership.=Echec du transfert de propriété.
@@ -43,8 +43,8 @@ Permission denied: You are not the owner of that faction, and don't have the @1 
 Permission denied: You can't use this command, @1 priv is needed.=Permission refusée : vous ne pouvez pas utiliser cette commande, le privilège @1 est nécessaire.
 
 Registered @1.=@1 enregistrée.
-See information on a faction=Voir les informations d’une faction
-See information on a player=Voir les informations d’un joueur
+See information about a faction=Voir les informations d’une faction
+See information about a player=Voir les informations d’un joueur
 Faction @1 already exists.=La faction @1 existe déjà.
 Faction @1 doesn't exist.=La faction @1 n’existe pas.
 

@@ -352,7 +352,7 @@ local function handle_command(name, param)
 			if factions.join_faction(faction_name, name) then
 				return true, S("Joined @1.", faction_name)
 			else
-				return false, S("Error on joining.")
+				return false, S("Error joining faction.")
 			end
 		end
 	elseif action == "leave" then
@@ -381,7 +381,7 @@ local function handle_command(name, param)
 			if factions.leave_faction(faction_name, name) then
 				return true, S("Left @1.", faction_name)
 			else
-				return false, S("Error on leaving faction.")
+				return false, S("Error leaving faction.")
 			end
 		end
 	elseif action == "kick" then
@@ -518,9 +518,9 @@ local function handle_command(name, param)
 					target, factions.get_player_faction(target))
 			else
 				if factions.join_faction(faction_name, target) then
-					return true, S("@1 is now a member of the faction @2.", target, faction_name)
+					return true, S("@1 is now a member of faction @2.", target, faction_name)
 				else
-					return false, S("Error on adding @1 into @2.", target, faction_name)
+					return false, S("Error adding @1 to @2.", target, faction_name)
 				end
 			end
 		end
@@ -532,8 +532,8 @@ end
 minetest.register_chatcommand("factions", {
 	params = "create <faction> <password>: "..S("Create a new faction").."\n"
 	.."list: "..S("List available factions").."\n"
-	.."info <faction>: "..S("See information on a faction").."\n"
-	.."player_info <player>: "..S("See information on a player").."\n"
+	.."info <faction>: "..S("See information about a faction").."\n"
+	.."player_info <player>: "..S("See information about a player").."\n"
 	.."join <faction> <password>: "..S("Join an existing faction").."\n"
 	.."leave [faction]: "..S("Leave your faction").."\n"
 	.."kick <player> [faction]: "..S("Kick someone from your faction or from the given faction").."\n"
