@@ -192,7 +192,7 @@ end
 -- Chat commands
 local chat = {}
 
-function chat.create(name, params, not_admin)
+function chat.create(name, params)
 	local faction_name = params[2]
 	local password = params[3]
 	if not faction_name then
@@ -240,7 +240,7 @@ function chat.disband(name, params, not_admin)
 	end
 end
 
-function chat.list(name, params, not_admin)
+function chat.list()
 	local faction_list = {}
 	for k in pairs(facts) do
 		table.insert(faction_list, k)
@@ -253,7 +253,7 @@ function chat.list(name, params, not_admin)
 	end
 end
 
-function chat.info(name, params, not_admin)
+function chat.info(name, params)
 	local faction_name = params[2]
 	if not faction_name then
 		local player_factions = factions.get_player_factions(name)
@@ -287,7 +287,7 @@ function chat.info(name, params, not_admin)
 	end
 end
 
-function chat.player_info(name, params, not_admin)
+function chat.player_info(name, params)
 	local player_name = params[2] or name
 	if not player_name then
 		return false, S("Missing player name.")
@@ -327,7 +327,7 @@ function chat.player_info(name, params, not_admin)
 	end
 end
 
-function chat.join(name, params, not_admin)
+function chat.join(name, params)
 	local faction_name = params[2]
 	local password = params[3]
 	if factions.mode_unique_faction and factions.get_player_factions(name) then
@@ -349,7 +349,7 @@ function chat.join(name, params, not_admin)
 	end
 end
 
-function chat.leave(name, params, not_admin)
+function chat.leave(name, params)
 	local player_factions = factions.get_player_factions(name)
 	local number_factions = player_factions and table.getn(player_factions) or 0
 	local faction_name = params[2]
@@ -483,7 +483,7 @@ function chat.chown(name, params, not_admin)
 	end
 end
 
-function chat.invite(name, params, not_admin)
+function chat.invite(_, params, not_admin)
 	if not_admin then
 		return false, S(
 			"Permission denied: You can't use this command, @1 priv is needed.",
