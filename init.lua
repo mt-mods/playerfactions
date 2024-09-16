@@ -1,7 +1,7 @@
 -- Translation support
 local S = minetest.get_translator("playerfactions")
 
--- Data
+-- Global factions table
 factions = {}
 -- This variable "version" can be used by other mods to check the compatibility of this mod
 factions.version = 2
@@ -15,6 +15,7 @@ minetest.register_on_mods_loaded(function()
 	end
 end)
 
+-- Data
 local facts = {}
 local storage = minetest.get_mod_storage()
 if storage:get_string("facts") ~= "" then
