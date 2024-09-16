@@ -164,13 +164,10 @@ function factions.valid_password(faction_name, password)
 	return factions.hash_password(password) == facts[faction_name].password256
 end
 
-function factions.get_password(fname)
+function factions.get_password()
 	minetest.log("warning", "Deprecated use of factions.get_password(). "
 		.. "Please update to using factions.valid_password() instead.")
-	if not facts[fname] then
-		return false
-	end
-	return facts[fname].password
+	return nil
 end
 
 	if not facts[fname] then
