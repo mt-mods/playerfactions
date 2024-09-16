@@ -55,96 +55,97 @@ function factions.get_facts()
 	return table_copy(facts)
 end
 
-function factions.player_is_in_faction(fname, player_name)
-	if not minetest.player_exists(player_name) or not facts[fname] then
+function factions.player_is_in_faction(faction_name, player_name)
+	if not minetest.player_exists(player_name) or not facts[faction_name] then
 		return false
 	end
-	return facts[fname].members[player_name]
+	return facts[faction_name].members[player_name]
 end
 
-function factions.get_player_faction(name)
+function factions.get_player_faction(player_name)
 	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of " ..
 		"factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
-	if not minetest.player_exists(name) then
+	if not minetest.player_exists(player_name) then
 		return false
 	end
-	for fname, fact in pairs(facts) do
-		if fact.members[name] then
-			return fname
+	for faction_name, fact in pairs(facts) do
+		if fact.members[player_name] then
+			return faction_name
 		end
 	end
 	return nil
 end
 
-function factions.get_player_factions(name)
-	if not minetest.player_exists(name) then
+function factions.get_player_factions(player_name)
+	if not minetest.player_exists(player_name) then
 		return false
 	end
 	local player_factions = {}
-	for fname, fact in pairs(facts) do
-		if fact.members[name] then
-			table.insert(player_factions, fname)
+	for faction_name, fact in pairs(facts) do
+		if fact.members[player_name] then
+			table.insert(player_factions, faction_name)
 		end
 	end
 	return 0 < table.getn(player_factions) and player_factions or false
 end
 
-function factions.get_owned_factions(name)
-	local own_factions = {}
-	for fname, fact in pairs(facts) do
-		if fact.owner == name then
-			table.insert(own_factions, fname)
+function factions.get_owned_factions(player_name)
+	local owned_factions = {}
+	for faction_name, fact in pairs(facts) do
+		if fact.owner == player_name then
+			table.insert(owned_factions, faction_name)
 		end
 	end
-	return 0 < table.getn(own_factions) and own_factions or false
+	return 0 < table.getn(owned_factions) and owned_factions or false
 end
 
-function factions.get_administered_factions(name)
-	local is_admin = minetest.get_player_privs(name)[factions.priv]
+function factions.get_administered_factions(player_name)
+	local is_admin = minetest.get_player_privs(player_name)[factions.priv]
 	local adm_factions = {}
-	for fname, fact in pairs(facts) do
-		if is_admin or fact.owner == name then
-			table.insert(adm_factions, fname)
+	for faction_name, fact in pairs(facts) do
+		if is_admin or fact.owner == player_name then
+			table.insert(adm_factions, faction_name)
 		end
 	end
 	return 0 < table.getn(adm_factions) and adm_factions or false
 end
 
-function factions.get_owner(fname)
-	if not facts[fname] then
+function factions.get_owner(faction_name)
+	if not facts[faction_name] then
 		return false
 	end
-	return facts[fname].owner
+	return facts[faction_name].owner
 end
 
-function factions.chown(fname, owner)
-	if not facts[fname] then
+function factions.chown(faction_name, player_name)
+	if not facts[faction_name] then
 		return false
 	end
-	facts[fname].owner = owner
+	facts[faction_name].owner = player_name
 	save_factions()
 	return true
 end
 
-function factions.register_faction(fname, founder, pw)
-	if facts[fname] then
+function factions.register_faction(faction_name, player_name, password)
+  if not ('string' == type(faction_name) and 'string' == type(player_name)
+			and 'string' == type(password)) then
 		return false
 	end
-	facts[fname] = {
-		name = fname,
-		owner = founder,
-		password256 = factions.hash_password(pw),
-		members = {[founder] = true}
+	facts[faction_name] = {
+		name = faction_name,
+		owner = player_name,
+		password256 = factions.hash_password(password),
+		members = { [player_name] = true }
 	}
 	save_factions()
 	return true
 end
 
-function factions.disband_faction(fname)
-	if not facts[fname] then
+function factions.disband_faction(faction_name)
+	if not facts[faction_name] then
 		return false
 	end
-	facts[fname] = nil
+	facts[faction_name] = nil
 	save_factions()
 	return true
 end
@@ -153,11 +154,11 @@ function factions.hash_password(password)
 	return minetest.sha256(password)
 end
 
-function factions.valid_password(fname, password)
-	if not facts[fname] or not password then
+function factions.valid_password(faction_name, password)
+	if not facts[faction_name] or not password then
 		return false
 	end
-	return factions.hash_password(password) == facts[fname].password256
+	return factions.hash_password(password) == facts[faction_name].password256
 end
 
 function factions.get_password(fname)
@@ -169,29 +170,29 @@ function factions.get_password(fname)
 	return facts[fname].password
 end
 
-function factions.set_password(fname, password)
 	if not facts[fname] then
+function factions.set_password(faction_name, password)
 		return false
 	end
-	facts[fname].password256 = factions.hash_password(password)
+	facts[faction_name].password256 = factions.hash_password(password)
 	save_factions()
 	return true
 end
 
-function factions.join_faction(fname, player)
 	if not (facts[fname] and minetest.player_exists(player)) then
+function factions.join_faction(faction_name, player_name)
 		return false
 	end
-	facts[fname].members[player] = true
+	facts[faction_name].members[player_name] = true
 	save_factions()
 	return true
 end
 
-function factions.leave_faction(fname, player_name)
 	if not (facts[fname] and minetest.player_exists(player_name)) then
+function factions.leave_faction(faction_name, player_name)
 		return false
 	end
-	facts[fname].members[player_name] = nil
+	facts[faction_name].members[player_name] = nil
 	save_factions()
 	return true
 end
@@ -199,44 +200,44 @@ end
 -- Chat commands
 local cc = {}
 
-function cc.create(name, params)
+function cc.create(player_name, params)
 	local faction_name = params[2]
 	local password = params[3]
 	if not faction_name then
 		return false, S("Missing faction name.")
 	elseif not password then
 		return false, S("Missing password.")
-	elseif factions.mode_unique_faction and factions.get_player_factions(name) then
+	elseif factions.mode_unique_faction and factions.get_player_factions(player_name) then
 		return false, S("You are already in a faction.")
 	elseif facts[faction_name] then
 		return false, S("Faction @1 already exists.", faction_name)
 	else
-		factions.register_faction(faction_name, name, password)
+		factions.register_faction(faction_name, player_name, password)
 		return true, S("Registered @1.", faction_name)
 	end
 end
 
-function cc.disband(name, params, not_admin)
+function cc.disband(player_name, params, not_admin)
 	local password = params[2]
 	if not password then
 		return false, S("Missing password.")
 	end
 	local faction_name = params[3]
-	local own_factions = factions.get_administered_factions(name)
-	local number_factions = own_factions and table.getn(own_factions) or 0
+	local owned_factions = factions.get_administered_factions(player_name)
+	local number_factions = owned_factions and table.getn(owned_factions) or 0
 	if not_admin and number_factions == 0 then
 		return false, S("You don't own any factions.")
 	elseif not faction_name and number_factions == 1 then
-		faction_name = own_factions[1]
+		faction_name = owned_factions[1]
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(own_factions, ", ")
+			table.concat(owned_factions, ", ")
 		)
 	end
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
-	elseif not_admin and name ~= factions.get_owner(faction_name) then
+	elseif not_admin and player_name ~= factions.get_owner(faction_name) then
 		return false, S("Permission denied: You are not the owner of that faction,"
 			.. " and don't have the @1 privilege.", factions.priv)
 	elseif not_admin and factions.valid_password(faction_name, password) then
@@ -260,10 +261,10 @@ function cc.list()
 	end
 end
 
-function cc.info(name, params)
+function cc.info(player_name, params)
 	local faction_name = params[2]
 	if not faction_name then
-		local player_factions = factions.get_player_factions(name)
+		local player_factions = factions.get_player_factions(player_name)
 		if not player_factions then
 			return true, S("No factions found.")
 		elseif table.getn(player_factions) == 1 then
@@ -294,8 +295,8 @@ function cc.info(name, params)
 	end
 end
 
-function cc.player_info(name, params)
-	local player_name = params[2] or name
+function cc.player_info(player_name, params)
+	player_name = params[2] or player_name
 	if not player_name then
 		return false, S("Missing player name.")
 	end
@@ -334,21 +335,21 @@ function cc.player_info(name, params)
 	end
 end
 
-function cc.join(name, params)
+function cc.join(player_name, params)
 	local faction_name = params[2]
 	local password = params[3]
-	if factions.mode_unique_faction and factions.get_player_factions(name) then
+	if factions.mode_unique_faction and factions.get_player_factions(player_name) then
 		return false, S("You are already in a faction.")
 	elseif not faction_name then
 		return false, S("Missing faction name.")
 	elseif not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
-	elseif facts[faction_name].members[name] then
+	elseif facts[faction_name].members[player_name] then
 		return false, S("You are already in faction @1.", faction_name)
 	elseif not factions.valid_password(faction_name, password) then
 		return false, S("Permission denied: Wrong password.")
 	else
-		if factions.join_faction(faction_name, name) then
+		if factions.join_faction(faction_name, player_name) then
 			return true, S("Joined @1.", faction_name)
 		else
 			return false, S("Error joining faction.")
@@ -356,8 +357,8 @@ function cc.join(name, params)
 	end
 end
 
-function cc.leave(name, params)
-	local player_factions = factions.get_player_factions(name)
+function cc.leave(player_name, params)
+	local player_factions = factions.get_player_factions(player_name)
 	local number_factions = player_factions and table.getn(player_factions) or 0
 	local faction_name = params[2]
 	if number_factions == 0 then
@@ -374,12 +375,12 @@ function cc.leave(name, params)
 	end
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
-	elseif factions.get_owner(faction_name) == name then
+	elseif factions.get_owner(faction_name) == player_name then
 		return false, S("You cannot leave your own faction, change owner or disband it.")
-	elseif not facts[faction_name].members[name] then
+	elseif not facts[faction_name].members[player_name] then
 		return false, S("You aren't part of faction @1.", faction_name)
 	else
-		if factions.leave_faction(faction_name, name) then
+		if factions.leave_faction(faction_name, player_name) then
 			return true, S("Left @1.", faction_name)
 		else
 			return false, S("Error leaving faction.")
@@ -387,61 +388,61 @@ function cc.leave(name, params)
 	end
 end
 
-function cc.kick(name, params, not_admin)
-	local target = params[2]
-	if not target then
+function cc.kick(player_name, params, not_admin)
+	local target_name = params[2]
+	if not target_name then
 		return false, S("Missing player name.")
 	end
 	local faction_name = params[3]
-	local own_factions = factions.get_administered_factions(name)
-	local number_factions = own_factions and table.getn(own_factions) or 0
+	local owned_factions = factions.get_administered_factions(player_name)
+	local number_factions = owned_factions and table.getn(owned_factions) or 0
 	if number_factions == 0 then
 		return false, S("You don't own any factions, you can't use this command.")
 	elseif not faction_name and number_factions == 1 then
-		faction_name = own_factions[1]
+		faction_name = owned_factions[1]
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(own_factions, ", ")
+			table.concat(owned_factions, ", ")
 		)
 	end
-	if not_admin and factions.get_owner(faction_name) ~= name then
+	if not_admin and factions.get_owner(faction_name) ~= player_name then
 		return false, S("Permission denied: You are not the owner of that faction, "
 			.. "and don't have the @1 privilege.", factions.priv)
-	elseif not facts[faction_name].members[target] then
-		return false, S("@1 is not in the specified faction.", target)
-	elseif target == factions.get_owner(faction_name) then
+	elseif not facts[faction_name].members[target_name] then
+		return false, S("@1 is not in the specified faction.", target_name)
+	elseif target_name == factions.get_owner(faction_name) then
 		return false, S("You cannot kick the owner of a faction, "
 			.. "use '/factions chown <player> <password> [<faction>]' "
 			.. "to change the ownership.")
 	else
-		if factions.leave_faction(faction_name, target) then
-			return true, S("Kicked @1 from faction.", target)
+		if factions.leave_faction(faction_name, target_name) then
+			return true, S("Kicked @1 from faction.", target_name)
 		else
-			return false, S("Error kicking @1 from faction.", target)
+			return false, S("Error kicking @1 from faction.", target_name)
 		end
 	end
 end
 
-function cc.passwd(name, params, not_admin)
+function cc.passwd(player_name, params, not_admin)
 	local password = params[2]
 	if not password then
 		return false, S("Missing password.")
 	end
 	local faction_name = params[3]
-	local own_factions = factions.get_administered_factions(name)
-	local number_factions = own_factions and table.getn(own_factions) or 0
+	local owned_factions = factions.get_administered_factions(player_name)
+	local number_factions = owned_factions and table.getn(owned_factions) or 0
 	if number_factions == 0 then
 		return false, S("You don't own any factions, you can't use this command.")
 	elseif not faction_name and number_factions == 1 then
-		faction_name = own_factions[1]
+		faction_name = owned_factions[1]
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(own_factions, ", ")
+			table.concat(owned_factions, ", ")
 		)
 	end
-	if not_admin and factions.get_owner(faction_name) ~= name then
+	if not_admin and factions.get_owner(faction_name) ~= player_name then
 		return false, S("Permission denied: You are not the owner of that faction, "
 			.. "and don't have the @1 privilege.", factions.priv)
 	else
@@ -453,37 +454,37 @@ function cc.passwd(name, params, not_admin)
 	end
 end
 
-function cc.chown(name, params, not_admin)
-	local target = params[2]
+function cc.chown(player_name, params, not_admin)
+	local target_name = params[2]
 	local password = params[3]
 	local faction_name = params[4]
-	if not target then
+	if not target_name then
 		return false, S("Missing player name.")
 	elseif not password then
 		return false, S("Missing password.")
 	end
-	local own_factions = factions.get_administered_factions(name)
-	local number_factions = own_factions and table.getn(own_factions) or 0
+	local owned_factions = factions.get_administered_factions(player_name)
+	local number_factions = owned_factions and table.getn(owned_factions) or 0
 	if number_factions == 0 then
 		return false, S("You don't own any factions, you can't use this command.")
 	elseif not faction_name and number_factions == 1 then
-		faction_name = own_factions[1]
+		faction_name = owned_factions[1]
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(own_factions, ", ")
+			table.concat(owned_factions, ", ")
 		)
 	end
-	if not_admin and name ~= factions.get_owner(faction_name) then
+	if not_admin and player_name ~= factions.get_owner(faction_name) then
 		return false, S("Permission denied: You are not the owner of that faction, "
 			.. "and don't have the @1 privilege.", factions.priv)
-	elseif not facts[faction_name].members[target] then
-		return false, S("@1 isn't in faction @2.", target, faction_name)
+	elseif not facts[faction_name].members[target_name] then
+		return false, S("@1 isn't in faction @2.", target_name, faction_name)
 	elseif not_admin and not factions.valid_password(faction_name, password) then
 		return false, S("Permission denied: Wrong password.")
 	else
-		if factions.chown(faction_name, target) then
-			return true, S("Ownership has been transferred to @1.", target)
+		if factions.chown(faction_name, target_name) then
+			return true, S("Ownership has been transferred to @1.", target_name)
 		else
 			return false, S("Failed to transfer ownership.")
 		end
@@ -497,34 +498,34 @@ function cc.invite(_, params, not_admin)
 			factions.priv
 		)
 	end
-	local target = params[2]
+	local target_name = params[2]
 	local faction_name = params[3]
-	if not target then
+	if not target_name then
 		return false, S("Missing player name.")
 	elseif not faction_name then
 		return false, S("Missing faction name.")
 	elseif not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
-	elseif not minetest.player_exists(target) then
-		return false, S("Player @1 doesn't exist.", target)
+	elseif not minetest.player_exists(target_name) then
+		return false, S("Player @1 doesn't exist.", target_name)
 	end
-	local player_factions = factions.get_player_factions(target)
-	if player_factions and facts[faction_name].members[target] then
+	local player_factions = factions.get_player_factions(target_name)
+	if player_factions and facts[faction_name].members[target_name] then
 		return false, S("Player @1 is already in faction @2.",
-			target, faction_name)
+			target_name, faction_name)
 	elseif player_factions and factions.mode_unique_faction then
 		return false, S("Player @1 is already in faction @2.",
-			target, player_factions[1])
+			target_name, player_factions[1])
 	else
-		if factions.join_faction(faction_name, target) then
-			return true, S("@1 is now a member of faction @2.", target, faction_name)
+		if factions.join_faction(faction_name, target_name) then
+			return true, S("@1 is now a member of faction @2.", target_name, faction_name)
 		else
-			return false, S("Error adding @1 to @2.", target, faction_name)
+			return false, S("Error adding @1 to @2.", target_name, faction_name)
 		end
 	end
 end
 
-local function handle_command(name, param)
+local function handle_command(player_name, param)
 	local params = {}
 	for p in string.gmatch(param, "[^%s]+") do
 		table.insert(params, p)
@@ -534,8 +535,8 @@ local function handle_command(name, param)
 		return false, S("Unknown subcommand. Run '/help factions' for help.")
 	end
 
-	local not_admin = not minetest.get_player_privs(name)[factions.priv]
-	return cc[action:lower()](name, params, not_admin)
+	local not_admin = not minetest.get_player_privs(player_name)[factions.priv]
+	return cc[action:lower()](player_name, params, not_admin)
 end
 
 minetest.register_chatcommand("factions", {
