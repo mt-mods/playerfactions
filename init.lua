@@ -170,8 +170,8 @@ function factions.get_password()
 	return nil
 end
 
-	if not facts[fname] then
 function factions.set_password(faction_name, password)
+	if not (facts[faction_name] and 'string' == type(password)) then
 		return false
 	end
 	facts[faction_name].password256 = factions.hash_password(password)
@@ -179,8 +179,9 @@ function factions.set_password(faction_name, password)
 	return true
 end
 
-	if not (facts[fname] and minetest.player_exists(player)) then
 function factions.join_faction(faction_name, player_name)
+	if not (facts[faction_name] and 'string' == type(player_name)
+			and minetest.player_exists(player_name)) then
 		return false
 	end
 	facts[faction_name].members[player_name] = true
@@ -188,8 +189,9 @@ function factions.join_faction(faction_name, player_name)
 	return true
 end
 
-	if not (facts[fname] and minetest.player_exists(player_name)) then
 function factions.leave_faction(faction_name, player_name)
+	if not (facts[faction_name] and 'string' == type(player_name)
+			and minetest.player_exists(player_name)) then
 		return false
 	end
 	facts[faction_name].members[player_name] = nil
