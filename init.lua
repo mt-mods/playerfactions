@@ -3,7 +3,8 @@ local S = minetest.get_translator("playerfactions")
 
 -- Global factions table
 factions = {}
--- This variable "version" can be used by other mods to check the compatibility of this mod
+-- This variable "version" can be used by other mods to check
+-- the compatibility of this mod
 factions.version = 2
 
 -- Settings
@@ -31,8 +32,6 @@ if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
 
-
-
 local function save_factions()
 	storage:set_string("facts", minetest.serialize(facts))
 end
@@ -40,7 +39,7 @@ end
 local function table_copy(data)
 	local copy = {}
 	if type(data) == "table" then
-		for k,v in pairs(data) do
+		for k, v in pairs(data) do
 			copy[k]=table_copy(v)
 		end
 		return copy
@@ -49,22 +48,22 @@ local function table_copy(data)
 	end
 end
 
-
--- Data manipulation
+-- Data manipulation (API)
 function factions.get_facts()
 	return table_copy(facts)
 end
 
 function factions.player_is_in_faction(faction_name, player_name)
-	if not minetest.player_exists(player_name) or not facts[faction_name] then
+	if not (facts[faction_name] and minetest.player_exists(player_name)) then
 		return false
 	end
 	return facts[faction_name].members[player_name]
 end
 
 function factions.get_player_faction(player_name)
-	minetest.log("warning", "Function factions.get_player_faction() is deprecated in favor of " ..
-		"factions.get_player_factions(). Please check updates of mods depending on playerfactions.")
+	minetest.log("warning", "Function factions.get_player_faction() "
+		.. "is deprecated in favor of factions.get_player_factions(). "
+		.. "Please check updates of mods depending on playerfactions.")
 	if not minetest.player_exists(player_name) then
 		return false
 	end
@@ -534,17 +533,22 @@ local function handle_command(player_name, param)
 end
 
 minetest.register_chatcommand("factions", {
-	params = "create <faction> <password>: "..S("Create a new faction").."\n"
-	.."list: "..S("List available factions").."\n"
-	.."info [<faction>]: "..S("See information about a faction").."\n"
-	.."player_info [<player>]: "..S("See information about a player").."\n"
-	.."join <faction> <password>: "..S("Join an existing faction").."\n"
-	.."leave [<faction>]: "..S("Leave your faction").."\n"
-	.."kick <player> [<faction>]: "..S("Kick someone from your faction or from the given faction").."\n"
-	.."disband <password> [<faction>]: "..S("Disband your faction or the given faction").."\n"
-	.."passwd <password> [<faction>]: "..S("Change your faction's password or the password of the given faction").."\n"
-	.."chown <player> <password> [<faction>]: "..S("Transfer ownership of your faction").."\n"
-	.."invite <player> <faction>: "..S("Add player to a faction, you need @1 priv", factions.priv).."\n",
+	params = "create <faction> <password>: " .. S("Create a new faction") .. "\n"
+	.. "list: " .. S("List available factions") .. "\n"
+	.. "info [<faction>]: " .. S("See information about a faction") .. "\n"
+	.. "player_info [<player>]: " .. S("See information about a player") .. "\n"
+	.. "join <faction> <password>: " .. S("Join an existing faction") .. "\n"
+	.. "leave [<faction>]: " .. S("Leave your faction") .. "\n"
+	.. "kick <player> [<faction>]: "
+	.. S("Kick someone from your faction or from the given faction") .. "\n"
+	.. "disband <password> [<faction>]: "
+	.. S("Disband your faction or the given faction") .. "\n"
+	.. "passwd <password> [<faction>]: "
+	.. S("Change your faction's password or the password of the given faction") .." \n"
+	.. "chown <player> <password> [<faction>]: "
+	.. S("Transfer ownership of your faction") .. "\n"
+	.. "invite <player> <faction>: "
+	.. S("Add player to a faction, you need @1 priv", factions.priv) .. "\n",
 
 	description = "",
 	privs = {},
