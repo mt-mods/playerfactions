@@ -131,6 +131,9 @@ function factions.register_faction(faction_name, player_name, password)
 			and 'string' == type(password)) then
 		return false
 	end
+	if facts[faction_name] then
+		return false
+	end
 	facts[faction_name] = {
 		name = faction_name,
 		owner = player_name,
