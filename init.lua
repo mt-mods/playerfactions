@@ -305,24 +305,16 @@ function cc.player_info(player_name, params)
 		return false, S(
 			"Player @1 doesn't exist or isn't in any faction.", player_name)
 	else
-		local member = {}
-		for _, v in ipairs(player_factions) do
-			table.insert(member, v)
-		end
 		local summary = S("@1 is in the following factions: @2.",
-			player_name, table.concat(member, ", "))
+			player_name, table.concat(player_factions, ", "))
 		local owned_factions = factions.get_owned_factions(player_name)
 		if not owned_factions then
 			summary = summary .. "\n" .. S(
 				"@1 doesn't own any factions.", player_name)
 		else
-			local owner = {}
-			for _, v in ipairs(owned_factions) do
-				table.insert(owner, v)
-			end
 			summary = summary .. "\n" .. S(
 				"@1 is the owner of the following factions: @2.",
-				player_name, table.concat(owner, ", ")
+				player_name, table.concat(owned_factions, ", ")
 			)
 		end
 		if minetest.get_player_privs(player_name)[factions.priv] then
