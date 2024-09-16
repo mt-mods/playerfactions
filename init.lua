@@ -577,6 +577,7 @@ end
 
 -- Integration testing
 if minetest.get_modpath("mtt") and mtt.enabled then
+	factions.S = S
 	factions.handle_command = handle_command
 	dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/mtt.lua")
 end
