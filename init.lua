@@ -241,7 +241,7 @@ function cc.disband(player_name, params, not_admin)
 	elseif not_admin and player_name ~= factions.get_owner(faction_name) then
 		return false, S("Permission denied: You are not the owner of that faction,"
 			.. " and don't have the @1 privilege.", factions.priv)
-	elseif not_admin and factions.valid_password(faction_name, password) then
+	elseif not_admin and not factions.valid_password(faction_name, password) then
 		return false, S("Permission denied: Wrong password.")
 	else
 		factions.disband_faction(faction_name)
