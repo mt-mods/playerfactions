@@ -8,7 +8,7 @@ factions.version = 2
 
 minetest.register_on_mods_loaded(function()
 	if not minetest.registered_privileges[factions.priv] then
-		minetest.register_privilege("playerfactions_admin", {
+		minetest.register_privilege(factions.priv, {
 			description = S("Allow the use of all playerfactions commands"),
 			give_to_singleplayer = false
 		})
