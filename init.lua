@@ -6,6 +6,15 @@ factions = {}
 -- This variable "version" can be used by other mods to check the compatibility of this mod
 factions.version = 2
 
+-- Settings
+factions.mode_unique_faction = minetest.settings:get_bool(
+	"player_factions.mode_unique_faction", true)
+factions.max_members_list = tonumber(minetest.settings:get(
+	"player_factions.max_members_list")) or 50
+factions.priv = minetest.settings:get(
+	"player_factions.priv_admin") or "playerfactions_admin"
+
+-- Privilege registration (if needed)
 minetest.register_on_mods_loaded(function()
 	if not minetest.registered_privileges[factions.priv] then
 		minetest.register_privilege(factions.priv, {
@@ -22,9 +31,6 @@ if storage:get_string("facts") ~= "" then
 	facts = minetest.deserialize(storage:get_string("facts"))
 end
 
-factions.mode_unique_faction = minetest.settings:get_bool("player_factions.mode_unique_faction", true)
-factions.max_members_list = tonumber(minetest.settings:get("player_factions.max_members_list")) or 50
-factions.priv = minetest.settings:get("player_factions.priv_admin") or "playerfactions_admin"
 
 
 local function save_factions()
