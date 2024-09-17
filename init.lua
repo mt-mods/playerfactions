@@ -280,18 +280,16 @@ function cc.info(player_name, params)
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
 	else
-		local fmembers = {}
+		local faction_members
 		if table.getn(facts[faction_name].members) > factions.max_members_list then
-			table.insert(fmembers, S("The faction has more than @1 members,"
-				.. " the members list can't be shown.", factions.max_members_list))
+			faction_members = { S("The faction has more than @1 members,"
+				.. " the members list can't be shown.", factions.max_members_list) }
 		else
-			for play in pairs(facts[faction_name].members) do
-				table.insert(fmembers, play)
-			end
+			faction_members = facts[faction_name].members
 		end
 		local summary = S("Name: @1\nOwner: @2\nMembers: @3",
 			faction_name, factions.get_owner(faction_name),
-			table.concat(fmembers, ", "))
+			table.concat(faction_members, ", "))
 		return true, summary
 	end
 end
