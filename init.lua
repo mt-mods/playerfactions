@@ -305,7 +305,7 @@ end
 
 function cc.player_info(player_name, params)
 	player_name = params[2] or player_name
-	if not player_name then
+	if not player_name or "" == player_name then
 		return false, S("Missing player name.")
 	end
 	local player_factions = factions.get_player_factions(player_name)
