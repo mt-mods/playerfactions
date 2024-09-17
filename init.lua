@@ -419,6 +419,7 @@ function cc.kick(player_name, params, not_admin)
 		if factions.leave_faction(faction_name, target_name) then
 			return true, S("Kicked @1 from faction.", target_name)
 		else
+			-- SwissalpS is quite positive that this portion is unreachable
 			return false, S("Error kicking @1 from faction.", target_name)
 		end
 	end
@@ -520,6 +521,7 @@ function cc.invite(_, params, not_admin)
 		if factions.join_faction(faction_name, target_name) then
 			return true, S("@1 is now a member of faction @2.", target_name, faction_name)
 		else
+			-- is this portion ever reachable at all?
 			return false, S("Error adding @1 to @2.", target_name, faction_name)
 		end
 	end
