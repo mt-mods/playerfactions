@@ -316,14 +316,14 @@ function cc.player_info(player_name, params)
 		local summary = S("@1 is in the following factions: @2.",
 			player_name, table.concat(player_factions, ", "))
 		local owned_factions = factions.get_owned_factions(player_name)
-		if not owned_factions then
-			summary = summary .. "\n" .. S(
-				"@1 doesn't own any factions.", player_name)
-		else
+		if owned_factions then
 			summary = summary .. "\n" .. S(
 				"@1 is the owner of the following factions: @2.",
 				player_name, table.concat(owned_factions, ", ")
 			)
+		else
+			summary = summary .. "\n" .. S(
+				"@1 doesn't own any factions.", player_name)
 		end
 		if minetest.get_player_privs(player_name)[factions.priv] then
 			summary = summary .. "\n" .. S(
