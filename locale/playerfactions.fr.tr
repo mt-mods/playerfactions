@@ -11,10 +11,10 @@
 Add player to a faction, you need @1 privs=Ajoute un joueur à une faction, nécessite le privilège @1
 Allow the use of all playerfactions commands=Autorise l’utilisation de toutes les commandes de playerfactions
 
-Change your faction's password or the password of the given faction=Change le mot de passe de votre faction ou la faction donnée
+Change your faction's password or the password of the given faction=Change le mot de passe de ta faction ou la faction donnée
 
 Create a new faction=Crée une nouvelle faction
-Disband your faction or the given faction=Dissoudre votre faction ou la faction donnée
+Disband your faction or the given faction=Dissoudre ta faction ou la faction donnée
 Disbanded @1.=@1 est dissoute.
 Error kicking @1 from faction.=Erreur lors de la tentative de virer @1 de la faction.
 Error adding @1 to @2.=Erreur lors de l’ajout de @1 dans @2.
@@ -24,11 +24,11 @@ Factions (@1): @2.=Factions (@1) : @2.
 Failed to change password.=Echec du changement de mot de passe.
 Failed to transfer ownership.=Echec du transfert de propriété.
 Join an existing faction=Rejoindre une faction existante.
-Joined @1.=Vous avez rejoint @1.
-Kick someone from your faction or from the given faction=Virer quelqu’un de votre faction ou de la faction donnée.
+Joined @1.=Tu as rejoint @1.
+Kick someone from your faction or from the given faction=Virer quelqu’un de ta faction ou de la faction donnée.
 Kicked @1 from faction.=@1 a été viré de la faction.
-Leave your faction=Quitter votre faction
-Left @1.=Vous avez quitté @1.
+Leave your faction=Quitter ta faction
+Left @1.=Tu as quitté @1.
 List available factions=Liste les factions disponibles
 Missing faction name.=Nom de faction manquant.
 Missing password.=Mot de passe manquant.
@@ -38,9 +38,9 @@ Ownership has been transferred to @1.=La propriété a été transférée à @2.
 Password has been updated.=Le mot de passe a été mis à jour.
 Permission denied: Wrong password.=Permission refusée : mauvais mot de passe.
 
-Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Permission refusée : vous n’êtes pas le propriétaire de cette faction, et n’avez pas le privilège @1.
+Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Permission refusée : tu n'es pas le propriétaire de cette faction, et tu n'as pas le privilège @1.
 
-Permission denied: You can't use this command, @1 priv is needed.=Permission refusée : vous ne pouvez pas utiliser cette commande, le privilège @1 est nécessaire.
+Permission denied: You can't use this command, @1 priv is needed.=Permission refusée : tu ne peux pas utiliser cette commande, le privilège @1 est nécessaire.
 
 Registered @1.=@1 enregistrée.
 See information about a faction=Voir les informations d’une faction
@@ -57,23 +57,23 @@ Player @1 doesn't exist or isn't in any faction.=Le joueur @1 n’existe pas ou 
 @1 is not in the specified faction.=@1 n’est pas dans la faction spécifiée.
 @1 doesn't own any factions.=@1 n’est propriétaire d’aucune faction.
 @1 is the owner of the following factions: @2.=@1 est le propriétaire des factions suivantes : @2.
-Transfer ownership of your faction=Transfert la propriété de votre faction
-Unknown subcommand. Run '/help factions' for help.=Sous-commande inconnue. Faites '/help factions' pour l’aide.
-You are already in a faction.=Vous êtes déjà dans une faction.
+Transfer ownership of your faction=Transfert la propriété de ta faction
+Unknown subcommand. Run '/help factions' for help.=Sous-commande inconnue. Fais '/help factions' pour l’aide.
+You are already in a faction.=Tu es déjà dans une faction.
 
-You are in multiple factions, you have to choose one of them: @1.=Vous êtes dans plusieurs factions, vous devez choisir l’une d’entre elles : @1.
+You are in multiple factions, you have to choose one of them: @1.=Tu es dans plusieurs factions, tu dois choisir l’une d’entre elles : @1.
 
-You are not in a faction.=Vous n’êtes dans aucune faction.
+You are not in a faction.=Tu n'es dans aucune faction.
 
-You are the owner of multiple factions, you have to choose one of them: @1.=Vous êtes propriétaire de plusieurs factions, vous devez choisir l’une d’entre elles : @1.
+You are the owner of multiple factions, you have to choose one of them: @1.=Tu es propriétaire de plusieurs factions, tu dois choisir l’une d’entre elles : @1.
 
-You don't own any factions, you can't use this command.=Vous n’êtes propriétaire d’aucune faction, vous ne pouvez pas utiliser cette commande.
-You don't own any factions.=Vous n’êtes propriétaire d’aucune faction.
+You don't own any factions, you can't use this command.=Tu n'es propriétaire d’aucune faction, tu ne peux pas utiliser cette commande.
+You don't own any factions.=Tu n'es propriétaire d’aucune faction.
 
-You cannot kick the owner of a faction, use '/factions chown <player> <password> [<faction>]' to change the ownership.=Vous ne pouvez pas virer le propriétaire de sa faction, utilisez '/factions chown <joueur> <mot de passe> [<faction>]' pour changer le propriétaire.
+You cannot kick the owner of a faction, use '/factions chown <player> <password> [<faction>]' to change the ownership.=Tu ne peux pas virer le propriétaire de sa faction, utilise '/factions chown <joueur> <mot de passe> [<faction>]' pour changer le propriétaire.
 
-You cannot leave your own faction, change owner or disband it.=Vous ne pouvez pas quitter votre propre faction, changez le propriétaire ou dissolvez la.
-No factions found.=
-You aren't part of faction @1.=
-You are already in faction @1.=
+You cannot leave your own faction, change owner or disband it.=Tu ne peux pas quitter ta propre faction, change le propriétaire ou dissout la.
+No factions found.=Aucune faction trouvée.
+You aren't part of faction @1.=Tu ne fais pas partie de la faction @1.
+You are already in faction @1.=Tu es déjà dans la faction @1.
 
