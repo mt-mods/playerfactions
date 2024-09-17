@@ -109,6 +109,17 @@ function factions.get_administered_factions(player_name)
 	return 0 < table.getn(adm_factions) and adm_factions or false
 end
 
+function factions.get_members(faction_name)
+	if not facts[faction_name] then
+		return false
+	end
+	local faction_members = {}
+	for player_name in pairs(facts[faction_name].members) do
+		table.insert(faction_members, player_name)
+	end
+	return 0 < table.getn(faction_members) and faction_members or false
+end
+
 function factions.get_owner(faction_name)
 	if not facts[faction_name] then
 		return false
@@ -280,12 +291,10 @@ function cc.info(player_name, params)
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
 	else
-		local faction_members
-		if table.getn(facts[faction_name].members) > factions.max_members_list then
+		local faction_members = factions.get_members(faction_name)
+		if table.getn(faction_members) > factions.max_members_list then
 			faction_members = { S("The faction has more than @1 members,"
 				.. " the members list can't be shown.", factions.max_members_list) }
-		else
-			faction_members = facts[faction_name].members
 		end
 		local summary = S("Name: @1\nOwner: @2\nMembers: @3",
 			faction_name, factions.get_owner(faction_name),
