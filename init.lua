@@ -511,7 +511,7 @@ function cc.invite(_, params, not_admin)
 		return false, S("Player @1 doesn't exist.", target_name)
 	end
 	local player_factions = factions.get_player_factions(target_name)
-	if player_factions and facts[faction_name].members[target_name] then
+	if facts[faction_name].members[target_name] then
 		return false, S("Player @1 is already in faction @2.",
 			target_name, faction_name)
 	elseif player_factions and factions.mode_unique_faction then
