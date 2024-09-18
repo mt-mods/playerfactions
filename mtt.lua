@@ -1,3 +1,6 @@
+-- requires [fakelib] to work properly
+-- https://github.com/OgelGames/fakelib.git
+
 local pd = function(...) print(dump(table.pack(...))) end
 local f, fcc, S = factions, factions.handle_command, factions.S
 f.mode_unique_faction = false
