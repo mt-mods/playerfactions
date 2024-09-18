@@ -1,7 +1,12 @@
 -- requires [fakelib] to work properly
 -- https://github.com/OgelGames/fakelib.git
 
-local pd = function(...) print(dump(table.pack(...))) end
+local pd
+if table.packer then
+	pd = function(...) print(dump(table.pack(...))) end
+else
+	pd = function(...) for _, v in ipairs({ ... }) do print(dump(v)) end end
+end
 local f, fcc, S = factions, factions.handle_command, factions.S
 f.mode_unique_faction = false
 f.max_members_list = 11
