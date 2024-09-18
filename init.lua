@@ -25,6 +25,18 @@ minetest.register_on_mods_loaded(function()
 	end
 end)
 
+-- Hooks
+local disband_hooks = {}
+-- When a faction is disbanded, these callbacks are called
+-- hook(faction_name)
+function factions.register_disband_hook(hook)
+	if 'function' ~= hook then
+		return false
+	end
+	table.insert(disband_hooks, hook)
+	return true
+end
+
 -- Data
 local facts = {}
 local storage = minetest.get_mod_storage()
@@ -160,6 +172,9 @@ function factions.disband_faction(faction_name)
 	end
 	facts[faction_name] = nil
 	save_factions()
+	for _, hook in ipairs(disband_hooks) do
+		hook(faction_name)
+	end
 	return true
 end
 
