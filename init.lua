@@ -137,7 +137,7 @@ function factions.chown(faction_name, player_name)
 end
 
 function factions.register_faction(faction_name, player_name, password)
-  if not ('string' == type(faction_name) and 'string' == type(player_name)
+	if not ('string' == type(faction_name) and 'string' == type(player_name)
 			and 'string' == type(password)) then
 		return false
 	end
@@ -244,8 +244,7 @@ function cc.disband(player_name, params, not_admin)
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", ")
-		)
+			table.concat(owned_factions, ", "))
 	end
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
@@ -284,8 +283,7 @@ function cc.info(player_name, params)
 		else
 			return false, S(
 				"You are in multiple factions, you have to choose one of them: @1.",
-				table.concat(player_factions, ", ")
-			)
+				table.concat(player_factions, ", "))
 		end
 	end
 	if not facts[faction_name] then
@@ -319,8 +317,7 @@ function cc.player_info(player_name, params)
 		if owned_factions then
 			summary = summary .. "\n" .. S(
 				"@1 is the owner of the following factions: @2.",
-				player_name, table.concat(owned_factions, ", ")
-			)
+				player_name, table.concat(owned_factions, ", "))
 		else
 			summary = summary .. "\n" .. S(
 				"@1 doesn't own any factions.", player_name)
@@ -328,8 +325,7 @@ function cc.player_info(player_name, params)
 		if minetest.get_player_privs(player_name)[factions.priv] then
 			summary = summary .. "\n" .. S(
 				"@1 has the @2 privilege so they can admin every faction.",
-				player_name, factions.priv
-			)
+				player_name, factions.priv)
 		end
 		return true, summary
 	end
@@ -369,8 +365,7 @@ function cc.leave(player_name, params)
 		else
 			return false, S(
 				"You are in multiple factions, you have to choose one of them: @1.",
-				table.concat(player_factions, ", ")
-			)
+				table.concat(player_factions, ", "))
 		end
 	end
 	if not facts[faction_name] then
@@ -403,8 +398,7 @@ function cc.kick(player_name, params, not_admin)
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", ")
-		)
+			table.concat(owned_factions, ", "))
 	end
 	if not_admin and factions.get_owner(faction_name) ~= player_name then
 		return false, S("Permission denied: You are not the owner of that faction, "
@@ -440,8 +434,7 @@ function cc.passwd(player_name, params, not_admin)
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", ")
-		)
+			table.concat(owned_factions, ", "))
 	end
 	if not_admin and factions.get_owner(faction_name) ~= player_name then
 		return false, S("Permission denied: You are not the owner of that faction, "
@@ -473,8 +466,7 @@ function cc.chown(player_name, params, not_admin)
 	elseif not faction_name then
 		return false, S(
 			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", ")
-		)
+			table.concat(owned_factions, ", "))
 	end
 	if not_admin and player_name ~= factions.get_owner(faction_name) then
 		return false, S("Permission denied: You are not the owner of that faction, "
@@ -496,8 +488,7 @@ function cc.invite(_, params, not_admin)
 	if not_admin then
 		return false, S(
 			"Permission denied: You can't use this command, @1 priv is needed.",
-			factions.priv
-		)
+			factions.priv)
 	end
 	local target_name = params[2]
 	local faction_name = params[3]
