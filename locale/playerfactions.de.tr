@@ -1,0 +1,78 @@
+# textdomain: playerfactions
+
+
+### init.lua ###
+
+@1 has the @2 privilege so they can admin every faction.=@1 hat das @2-Privileg, sodass er jede Fraktion verwalten kann.
+
+@1 is in the following factions: @2.=@1 ist in den folgenden Fraktionen: @2.
+@1 is now a member of faction @2.=@1 ist jetzt Mitglied der Fraktion @2.
+@1 isn't in faction @2.=@1 ist nicht in der Fraktion @2.
+Add player to a faction, you need @1 privs=Füge einen Spieler zu einer Fraktion hinzu, du benötigst @1-Privilegien
+Allow the use of all playerfactions commands=Erlaubt die Verwendung aller Fraktionsbefehle
+
+Change your faction's password or the password of the given faction=Ändere das Passwort deiner Fraktion oder das Passwort der angegebenen Fraktion
+
+Create a new faction=Erstelle eine neue Fraktion
+Disband your faction or the given faction=Löse deine Fraktion oder die angegebene Fraktion auf
+Disbanded @1.=@1 aufgelöst.
+Error kicking @1 from faction.=Fehler beim Rauswerfen von @1 aus der Fraktion.
+Error adding @1 to @2.=Fehler beim Hinzufügen von @1 zu @2
+Error joining faction.=Fehler beim Beitritt zur Fraktion.
+Error leaving faction.=Fehler beim Verlassen der Fraktion.
+Factions (@1): @2.=Fraktionen (@1): @2.
+Failed to change password.=Passwort konnte nicht geändert werden.
+Failed to transfer ownership.=Eigentum konnte nicht übertragen werden.
+Join an existing faction=Trete einer bestehenden Fraktion bei
+Joined @1.=Bist @1 beigetreten.
+Kick someone from your faction or from the given faction=Jemanden aus deiner Fraktion oder der angegebenen Fraktion werfen
+Kicked @1 from faction.=@1 aus Fraktion geworfen.
+Leave your faction=Deine Fraktion verlassen
+Left @1.=Hast @1 verlassen.
+List available factions=Verfügbare Fraktionen auflisten
+Missing faction name.=Fraktionsname fehlt.
+Missing password.=Passwort fehlt.
+Missing player name.=Spielername fehlt.
+Name: @1@nOwner: @2@nMembers: @3=Name: @1@nBesitzer: @2@nMitglieder: @3
+Ownership has been transferred to @1.=Eigentum wurde auf @1 übertragen.
+Password has been updated.=Passwort wurde aktualisiert.
+Permission denied: Wrong password.=Berechtigung verweigert: Falsches Passwort.
+
+Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Berechtigung verweigert: Du bist nicht der Besitzer dieser Fraktion und hast nicht das @1-Privileg.
+
+Permission denied: You can't use this command, @1 priv is needed.=Berechtigung verweigert: Du kannst diesen Befehl nicht verwenden, @1-Privileg ist erforderlich.
+
+Registered @1.=@1 Registriert.
+See information about a faction=Informationen zu einer Fraktion anzeigen
+See information about a player=Informationen zu einem Spieler anzeigen
+Faction @1 already exists.=Fraktion @1 existiert bereits.
+Faction @1 doesn't exist.=Fraktion @1 existiert nicht.
+
+The faction has more than @1 members, the members list can't be shown.=Die Fraktion hat mehr als @1 Mitglieder, die Mitgliederliste kann nicht angezeigt werden.
+
+Player @1 doesn't exist.=Spieler @1 existiert nicht.
+Player @1 is already in the faction @2.=Spieler @1 ist bereits in der Fraktion @2.
+There are no factions yet.=Es gibt noch keine Fraktionen.
+Player @1 doesn't exist or isn't in any faction.=Spieler @1 existiert nicht oder ist in keiner Fraktion.
+@1 is not in the specified faction.=@1 ist nicht in der angegebenen Fraktion.
+@1 doesn't own any factions.=@1 besitzt keine Fraktionen.
+@1 is the owner of the following factions: @2.=@1 ist der Besitzer der folgenden Fraktionen: @2.
+Transfer ownership of your faction=Eigentum deiner Fraktion übertragen
+Unknown subcommand. Run '/help factions' for help.=Unbekannter Unterbefehl. Führe „/help factions“ aus, um Hilfe zu erhalten.
+You are already in a faction.=Du bist bereits in einer Fraktion.
+
+You are in multiple factions, you have to choose one of them: @1.=Du bist in mehreren Fraktionen, du musst eine davon auswählen: @1.
+
+You are not in a faction.=Du bist in keiner Fraktion.
+
+You are the owner of multiple factions, you have to choose one of them: @1.=Du bist der Besitzer mehrerer Fraktionen, du musst eine davon auswählen: @1.
+
+You don't own any factions, you can't use this command.=Du besitzst keine Fraktionen, du kannst diesen Befehl nicht verwenden.
+You don't own any factions.=Du besitzst keine Fraktionen.
+
+You cannot kick the owner of a faction, use '/factions chown <player> <password> [<faction>]' to change the ownership.=Du kannst den Besitzer einer Fraktion nicht rauswerfen, verwende „/factions chown <Spieler> <Passwort> [<Fraktion>]“, um den Besitzer zu ändern.
+
+You cannot leave your own faction, change owner or disband it.=Du kannst deine eigene Fraktion nicht verlassen, wechsle den Besitzer oder löse die Fraktion auf.
+No factions found.=Keine Fraktionen gefunden.
+You aren't part of faction @1.=Du bist nicht Teil der Fraktion @1.
+You are already in faction @1.=Du bist bereits in der Fraktion @1.

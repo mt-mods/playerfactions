@@ -4,5 +4,7 @@ globals = {
 
 read_globals = {
 	"minetest",
-	"table"
+	"dump", "dump2",
+	"table",
+	"mtt",
 }

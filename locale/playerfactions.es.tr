@@ -1,0 +1,78 @@
+# textdomain: playerfactions
+
+
+### init.lua ###
+
+@1 has the @2 privilege so they can admin every faction.=@1 tiene el privilegio @2, por lo que puede administrar todas las facciones.
+
+@1 is in the following factions: @2.=@1 está en las siguientes facciones: @2.
+@1 is now a member of faction @2.=@1 ahora es miembro de la facción @2.
+@1 isn't in faction @2.=@1 no está en la facción @2.
+Add player to a faction, you need @1 privs=Agrega un jugador a una facción, necesitas los privilegios @1
+Allow the use of all playerfactions commands=Permite el uso de todos los comandos de facciones
+
+Change your faction's password or the password of the given faction=Cambiar la contraseña de tu facción o la contraseña de la facción indicada
+
+Create a new faction=Crear una nueva facción
+Disband your faction or the given faction=Disolver tu facción o la facción indicada
+Disbanded @1.=Disuelto @1.
+Error kicking @1 from faction.=Error al expulsar a @1 de la facción.
+Error adding @1 to @2.=Error al agregar @1 a @2.
+Error joining faction.=Error al unirse a la facción.
+Error leaving faction.=Error al salir de la facción.
+Factions (@1): @2.=Facciones (@1): @2.
+Failed to change password.=Error al cambiar la contraseña.
+Failed to transfer ownership.=Error al transferir la propiedad.
+Join an existing faction=Unirse a una facción existente
+Joined @1.=Te uniste @1.
+Kick someone from your faction or from the given faction=Expulsar a alguien de tu facción o de la facción indicada
+Kicked @1 from faction.=Expulsaste a @1 de la facción.
+Leave your faction=Abandonar tu facción
+Left @1.=Abandonaste @1.
+List available factions=Lista de facciones disponibles
+Missing faction name.=Falta el nombre de la facción.
+Missing password.=Falta la contraseña.
+Missing player name.=Falta el nombre del jugador.
+Name: @1@nOwner: @2@nMembers: @3=Nombre: @1@nPropietario: @2@nMiembros: @3
+Ownership has been transferred to @1.=La propiedad ha sido transferida a @1.
+Password has been updated.=La contraseña ha sido actualizada.
+Permission denied: Wrong password.=Permiso denegado: Contraseña incorrecta.
+
+Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Permiso denegado: No eres el propietario de esa facción y no tienes el privilegio @1.
+
+Permission denied: You can't use this command, @1 priv is needed.=Permiso denegado: No puedes usar este comando, necesitas el privilegio @1.
+
+Registered @1.=@1 registrado.
+See information about a faction=Ver información sobre una facción
+See information about a player=Ver información sobre un jugador
+Faction @1 already exists.=La facción @1 ya existe.
+Faction @1 doesn't exist.=La facción @1 no existe.
+
+The faction has more than @1 members, the members list can't be shown.=La facción tiene más de @1 miembros, la lista de miembros no se puede mostrar.
+
+Player @1 doesn't exist.=El jugador @1 no existe.
+Player @1 is already in the faction @2.=El jugador @1 ya está en la facción @2.
+There are no factions yet.=Todavía no hay facciones.
+Player @1 doesn't exist or isn't in any faction.=El jugador @1 no existe o no está en ninguna facción.
+@1 is not in the specified faction.=@1 no está en la facción especificada.
+@1 doesn't own any factions.=@1 no posee ninguna facción.
+@1 is the owner of the following factions: @2.=@1 es el propietario de las siguientes facciones: @2.
+Transfer ownership of your faction=Transferir la propiedad de tu facción
+Unknown subcommand. Run '/help factions' for help.=Subcomando desconocido. Ejecuta '/help factions' para obtener ayuda.
+You are already in a faction.=Ya estás en una facción.
+
+You are in multiple factions, you have to choose one of them: @1.=Estás en varias facciones, debes elegir una de ellas: @1.
+
+You are not in a faction.=No estás en una facción.
+
+You are the owner of multiple factions, you have to choose one of them: @1.=Eres el propietario de varias facciones, debes elegir una de ellas: @1.
+
+You don't own any factions, you can't use this command.=No posees ninguna facción, no puedes usar este comando.
+You don't own any factions.=No posees ninguna facción.
+
+You cannot kick the owner of a faction, use '/factions chown <player> <password> [<faction>]' to change the ownership.=No puedes expulsar al propietario de una facción, usa '/factions chown <jugador> <contraseña> [<facción>]' para cambiar la propiedad.
+
+You cannot leave your own faction, change owner or disband it.=No puedes abandonar tu propia facción, cambiar de propietario o disolverla.
+No factions found.=Ninguna facción encontrado.
+You aren't part of faction @1.=No eres parte de la facción @1.
+You are already in faction @1.=Ya estás en la facción @1.
