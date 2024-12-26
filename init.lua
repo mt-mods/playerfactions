@@ -178,14 +178,17 @@ function factions.disband_faction(faction_name)
 	return true
 end
 
+
 function factions.hash_password(password)
 	return minetest.sha256(password)
 end
+
 
 function factions.valid_password(faction_name, password)
 	if not facts[faction_name] or not password then
 		return false
 	end
+
 	return factions.hash_password(password) == facts[faction_name].password256
 end
 
@@ -199,6 +202,7 @@ function factions.set_password(faction_name, password)
 	if not (facts[faction_name] and 'string' == type(password)) then
 		return false
 	end
+
 	facts[faction_name].password256 = factions.hash_password(password)
 	save_factions()
 	return true
@@ -286,6 +290,7 @@ function cc.list()
 			table.getn(faction_list), table.concat(faction_list, ", "))
 	end
 end
+
 
 function cc.info(player_name, params)
 	local faction_name = params[2]
