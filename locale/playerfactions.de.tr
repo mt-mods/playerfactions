@@ -36,7 +36,6 @@ Missing player name.=Spielername fehlt.
 Name: @1@nOwner: @2@nMembers: @3=Name: @1@nBesitzer: @2@nMitglieder: @3
 Ownership has been transferred to @1.=Eigentum wurde auf @1 übertragen.
 Password has been updated.=Passwort wurde aktualisiert.
-Password: @1=Passwort: @1
 Permission denied: Wrong password.=Berechtigung verweigert: Falsches Passwort.
 
 Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=Berechtigung verweigert: Du bist nicht der Besitzer dieser Fraktion und hast nicht das @1-Privileg.

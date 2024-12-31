@@ -43,10 +43,15 @@ local function dbChecks(callback)
 	assert('table' == type(facts.Alberian.members))
 	-- make sure owners have been added as memebers
 	assert(true == facts.Alberian.members.Albert)
-	-- should never fail
-	assert('eEe' == facts.Endorian.password)
-	assert('a' == facts.Alberian.password)
-	assert('GgG♥💩☺' == facts.Gandalfian.password)
+	-- hash tests, should never fail unless engine made a mistake
+	assert('8b2713b352c6fa2d22272a91612fba2f87d0c01885762a1522a7b4aec5592a80'
+		== facts.Endorian.password256)
+	assert('ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'
+		== facts.Alberian.password256)
+	assert('3bfe911604e3fb079ad535a0c359a8457aea39d663bb4f21648842e3a4eaccf9'
+		== facts.Gandalfian.password256)
+	-- no more cleartext passwords (doesn't make sense in test-environement)
+	assert(nil == facts.Gandalfian.password)
 
 	callback()
 end
@@ -193,6 +198,12 @@ mtt.register('backend functions: disband_faction', function(callback)
 	callback()
 end)
 
+mtt.register('backend functions: hash_password', function(callback)
+	-- (tested in basic db checks)
+
+	callback()
+end)
+
 mtt.register('backend functions: valid_password', function(callback)
 	assert(false == factions.valid_password())
 	assert(false == factions.valid_password('Endorian'))
@@ -202,9 +213,9 @@ mtt.register('backend functions: valid_password', function(callback)
 	callback()
 end)
 
-mtt.register('backend functions: get_password', function(callback)
-	assert(false == factions.get_password())
-	assert('eEe' == factions.get_password('Endorian'))
+mtt.register('backend functions: get_password (depricated)', function(callback)
+	assert(nil == factions.get_password())
+	assert(nil == factions.get_password('Endorian'))
 
 	callback()
 end)
@@ -313,7 +324,6 @@ mtt.register('frontend functions: info', function(callback)
 				'Gandalfian, Endorian'), 'Gandalf', 'info'))
 	-- SwissalpS can't be bothered to check some of these results in depth,
 	-- so just dumping result for optical check.
-	-- owner sees password
 	pd('Endor executes: /factions info', fcc('Endor', 'info'))
 	assert(fcc('Endor', 'info'))
 	factions.max_members_list = 1
@@ -323,9 +333,6 @@ mtt.register('frontend functions: info', function(callback)
 	factions.max_members_list = 11
 	pd('Endor executes: /factions info Gandalfian', fcc('Endor', 'info Gandalfian'))
 	assert(fcc('Endor', 'info Gandalfian'))
-	-- admin sees password
-	pd('Albert executes: /factions info Gandalfian', fcc('Albert', 'info Gandalfian'))
-	assert(fcc('Albert', 'info Gandalfian'))
 
 	callback()
 end)
@@ -430,13 +437,16 @@ mtt.register('frontend functions: passwd', function(callback)
 			'Endor', 'passwd foobar Gandalfian'))
 	assert(fccc(true, S("Password has been updated."),
 			'Endor', 'passwd foobar'))
-	assert(factions.get_facts().Endorian.password == 'foobar')
+	assert(factions.get_facts().Endorian.password256 ==
+		'c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2')
 	assert(fccc(true, S("Password has been updated."),
 			'Gandalf', 'passwd foobar Gandalfian'))
-	assert(factions.get_facts().Gandalfian.password == 'foobar')
+	assert(factions.get_facts().Gandalfian.password256 ==
+		'c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2')
 	assert(fccc(true, S("Password has been updated."),
 			'Albert', 'passwd barf Gandalfian'))
-	assert(factions.get_facts().Gandalfian.password == 'barf')
+	assert(factions.get_facts().Gandalfian.password256 ==
+		'8a6e40cfcd99060eb1efdfeb689fe26606e221b4fd487bb224ab79a82648ccd9')
 
 	callback()
 end)

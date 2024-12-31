@@ -159,7 +159,7 @@ function factions.register_faction(faction_name, player_name, password)
 	facts[faction_name] = {
 		name = faction_name,
 		owner = player_name,
-		password = password,
+		password256 = factions.hash_password(password),
 		members = { [player_name] = true }
 	}
 	save_factions()
@@ -178,25 +178,32 @@ function factions.disband_faction(faction_name)
 	return true
 end
 
+
+function factions.hash_password(password)
+	return minetest.sha256(password)
+end
+
+
 function factions.valid_password(faction_name, password)
 	if not facts[faction_name] or not password then
 		return false
 	end
-	return password == facts[faction_name].password
+
+	return factions.hash_password(password) == facts[faction_name].password256
 end
 
-function factions.get_password(faction_name)
-	if not facts[faction_name] then
-		return false
-	end
-	return facts[faction_name].password
+function factions.get_password()
+	minetest.log("warning", "Deprecated use of factions.get_password(). "
+		.. "Please update to using factions.valid_password() instead.")
+	return nil
 end
 
 function factions.set_password(faction_name, password)
 	if not (facts[faction_name] and 'string' == type(password)) then
 		return false
 	end
-	facts[faction_name].password = password
+
+	facts[faction_name].password256 = factions.hash_password(password)
 	save_factions()
 	return true
 end
@@ -284,7 +291,8 @@ function cc.list()
 	end
 end
 
-function cc.info(player_name, params, not_admin)
+
+function cc.info(player_name, params)
 	local faction_name = params[2]
 	if not faction_name then
 		local player_factions = factions.get_player_factions(player_name)
@@ -309,10 +317,6 @@ function cc.info(player_name, params, not_admin)
 		local summary = S("Name: @1\nOwner: @2\nMembers: @3",
 			faction_name, factions.get_owner(faction_name),
 			table.concat(faction_members, ", "))
-		if not not_admin or factions.get_owner(faction_name) == player_name then
-			summary = summary .. "\n"
-				.. S("Password: @1", factions.get_password(faction_name))
-		end
 		return true, summary
 	end
 end
@@ -579,6 +583,10 @@ do
 			fact.members = {
 				[fact.owner] = true
 			}
+		end
+		if fact.password then
+			fact.password256 = factions.hash_password(fact.password)
+			fact.password = nil
 			save_needed = true
 		end
 	end

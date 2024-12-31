@@ -36,7 +36,6 @@ Missing player name.=
 Name: @1@nOwner: @2@nMembers: @3=
 Ownership has been transferred to @1.=
 Password has been updated.=
-Password: @1=
 Permission denied: Wrong password.=
 
 Permission denied: You are not the owner of that faction, and don't have the @1 privilege.=
