@@ -1,5 +1,5 @@
 -- Translation support
-local S = minetest.get_translator("playerfactions")
+local S = core.get_translator("playerfactions")
 
 -- Global factions table
 factions = {}
@@ -8,19 +8,16 @@ factions = {}
 factions.version = 2
 
 -- Settings
-factions.mode_unique_faction = minetest.settings:get_bool(
-	"player_factions.mode_unique_faction", true)
-factions.max_members_list = tonumber(minetest.settings:get(
-	"player_factions.max_members_list")) or 50
-factions.priv = minetest.settings:get(
-	"player_factions.priv_admin") or "playerfactions_admin"
+factions.mode_unique_faction = core.settings:get_bool("player_factions.mode_unique_faction", true)
+factions.max_members_list = tonumber(core.settings:get("player_factions.max_members_list")) or 50
+factions.priv = core.settings:get("player_factions.priv_admin") or "playerfactions_admin"
 
 -- Privilege registration (if needed)
-minetest.register_on_mods_loaded(function()
-	if not minetest.registered_privileges[factions.priv] then
-		minetest.register_privilege(factions.priv, {
+core.register_on_mods_loaded(function()
+	if not core.registered_privileges[factions.priv] then
+		core.register_privilege(factions.priv, {
 			description = S("Allow the use of all playerfactions commands"),
-			give_to_singleplayer = false
+			give_to_singleplayer = false,
 		})
 	end
 end)
@@ -30,7 +27,7 @@ local disband_hooks = {}
 -- When a faction is disbanded, these callbacks are called
 -- hook(faction_name)
 function factions.register_disband_hook(hook)
-	if 'function' ~= hook then
+	if "function" ~= hook then
 		return false
 	end
 	table.insert(disband_hooks, hook)
@@ -39,20 +36,20 @@ end
 
 -- Data
 local facts = {}
-local storage = minetest.get_mod_storage()
+local storage = core.get_mod_storage()
 if storage:get_string("facts") ~= "" then
-	facts = minetest.deserialize(storage:get_string("facts"))
+	facts = core.deserialize(storage:get_string("facts"))
 end
 
 local function save_factions()
-	storage:set_string("facts", minetest.serialize(facts))
+	storage:set_string("facts", core.serialize(facts))
 end
 
 local function table_copy(data)
 	local copy = {}
 	if type(data) == "table" then
 		for k, v in pairs(data) do
-			copy[k]=table_copy(v)
+			copy[k] = table_copy(v)
 		end
 		return copy
 	else
@@ -66,17 +63,20 @@ function factions.get_facts()
 end
 
 function factions.player_is_in_faction(faction_name, player_name)
-	if not (facts[faction_name] and minetest.player_exists(player_name)) then
+	if not (facts[faction_name] and core.player_exists(player_name)) then
 		return false
 	end
 	return facts[faction_name].members[player_name]
 end
 
 function factions.get_player_faction(player_name)
-	minetest.log("warning", "Function factions.get_player_faction() "
-		.. "is deprecated in favor of factions.get_player_factions(). "
-		.. "Please check updates of mods depending on playerfactions.")
-	if not minetest.player_exists(player_name) then
+	core.log(
+		"warning",
+		"Function factions.get_player_faction() "
+			.. "is deprecated in favor of factions.get_player_factions(). "
+			.. "Please check updates of mods depending on playerfactions."
+	)
+	if not core.player_exists(player_name) then
 		return false
 	end
 	for faction_name, fact in pairs(facts) do
@@ -88,7 +88,7 @@ function factions.get_player_faction(player_name)
 end
 
 function factions.get_player_factions(player_name)
-	if not minetest.player_exists(player_name) then
+	if not core.player_exists(player_name) then
 		return false
 	end
 	local player_factions = {}
@@ -111,7 +111,7 @@ function factions.get_owned_factions(player_name)
 end
 
 function factions.get_administered_factions(player_name)
-	local is_admin = minetest.get_player_privs(player_name)[factions.priv]
+	local is_admin = core.get_player_privs(player_name)[factions.priv]
 	local adm_factions = {}
 	for faction_name, fact in pairs(facts) do
 		if is_admin or fact.owner == player_name then
@@ -149,8 +149,7 @@ function factions.chown(faction_name, player_name)
 end
 
 function factions.register_faction(faction_name, player_name, password)
-	if not ('string' == type(faction_name) and 'string' == type(player_name)
-			and 'string' == type(password)) then
+	if not ("string" == type(faction_name) and "string" == type(player_name) and "string" == type(password)) then
 		return false
 	end
 	if facts[faction_name] then
@@ -160,7 +159,7 @@ function factions.register_faction(faction_name, player_name, password)
 		name = faction_name,
 		owner = player_name,
 		password256 = factions.hash_password(password),
-		members = { [player_name] = true }
+		members = { [player_name] = true },
 	}
 	save_factions()
 	return true
@@ -178,11 +177,9 @@ function factions.disband_faction(faction_name)
 	return true
 end
 
-
 function factions.hash_password(password)
-	return minetest.sha256(password)
+	return core.sha256(password)
 end
-
 
 function factions.valid_password(faction_name, password)
 	if not facts[faction_name] or not password then
@@ -193,13 +190,15 @@ function factions.valid_password(faction_name, password)
 end
 
 function factions.get_password()
-	minetest.log("warning", "Deprecated use of factions.get_password(). "
-		.. "Please update to using factions.valid_password() instead.")
+	core.log(
+		"warning",
+		"Deprecated use of factions.get_password(). " .. "Please update to using factions.valid_password() instead."
+	)
 	return nil
 end
 
 function factions.set_password(faction_name, password)
-	if not (facts[faction_name] and 'string' == type(password)) then
+	if not (facts[faction_name] and "string" == type(password)) then
 		return false
 	end
 
@@ -209,8 +208,7 @@ function factions.set_password(faction_name, password)
 end
 
 function factions.join_faction(faction_name, player_name)
-	if not (facts[faction_name] and 'string' == type(player_name)
-			and minetest.player_exists(player_name)) then
+	if not (facts[faction_name] and "string" == type(player_name) and core.player_exists(player_name)) then
 		return false
 	end
 	facts[faction_name].members[player_name] = true
@@ -219,8 +217,7 @@ function factions.join_faction(faction_name, player_name)
 end
 
 function factions.leave_faction(faction_name, player_name)
-	if not (facts[faction_name] and 'string' == type(player_name)
-			and minetest.player_exists(player_name)) then
+	if not (facts[faction_name] and "string" == type(player_name) and core.player_exists(player_name)) then
 		return false
 	end
 	facts[faction_name].members[player_name] = nil
@@ -261,15 +258,20 @@ function cc.disband(player_name, params, not_admin)
 	elseif not faction_name and number_factions == 1 then
 		faction_name = owned_factions[1]
 	elseif not faction_name then
-		return false, S(
-			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", "))
+		return false,
+			S(
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
+				table.concat(owned_factions, ", ")
+			)
 	end
 	if not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
 	elseif not_admin and player_name ~= factions.get_owner(faction_name) then
-		return false, S("Permission denied: You are not the owner of that faction,"
-			.. " and don't have the @1 privilege.", factions.priv)
+		return false,
+			S(
+				"Permission denied: You are not the owner of that faction," .. " and don't have the @1 privilege.",
+				factions.priv
+			)
 	elseif not_admin and not factions.valid_password(faction_name, password) then
 		return false, S("Permission denied: Wrong password.")
 	else
@@ -286,11 +288,9 @@ function cc.list()
 	if table.getn(faction_list) == 0 then
 		return true, S("There are no factions yet.")
 	else
-		return true, S("Factions (@1): @2.",
-			table.getn(faction_list), table.concat(faction_list, ", "))
+		return true, S("Factions (@1): @2.", table.getn(faction_list), table.concat(faction_list, ", "))
 	end
 end
-
 
 function cc.info(player_name, params)
 	local faction_name = params[2]
@@ -301,9 +301,11 @@ function cc.info(player_name, params)
 		elseif table.getn(player_factions) == 1 then
 			faction_name = player_factions[1]
 		else
-			return false, S(
-				"You are in multiple factions, you have to choose one of them: @1.",
-				table.concat(player_factions, ", "))
+			return false,
+				S(
+					"You are in multiple factions, you have to choose one of them: @1.",
+					table.concat(player_factions, ", ")
+				)
 		end
 	end
 	if not facts[faction_name] then
@@ -311,12 +313,19 @@ function cc.info(player_name, params)
 	else
 		local faction_members = factions.get_members(faction_name)
 		if table.getn(faction_members) > factions.max_members_list then
-			faction_members = { S("The faction has more than @1 members,"
-				.. " the members list can't be shown.", factions.max_members_list) }
+			faction_members = {
+				S(
+					"The faction has more than @1 members," .. " the members list can't be shown.",
+					factions.max_members_list
+				),
+			}
 		end
-		local summary = S("Name: @1\nOwner: @2\nMembers: @3",
-			faction_name, factions.get_owner(faction_name),
-			table.concat(faction_members, ", "))
+		local summary = S(
+			"Name: @1\nOwner: @2\nMembers: @3",
+			faction_name,
+			factions.get_owner(faction_name),
+			table.concat(faction_members, ", ")
+		)
 		return true, summary
 	end
 end
@@ -328,24 +337,21 @@ function cc.player_info(player_name, params)
 	end
 	local player_factions = factions.get_player_factions(player_name)
 	if not player_factions then
-		return false, S(
-			"Player @1 doesn't exist or isn't in any faction.", player_name)
+		return false, S("Player @1 doesn't exist or isn't in any faction.", player_name)
 	else
-		local summary = S("@1 is in the following factions: @2.",
-			player_name, table.concat(player_factions, ", "))
+		local summary = S("@1 is in the following factions: @2.", player_name, table.concat(player_factions, ", "))
 		local owned_factions = factions.get_owned_factions(player_name)
 		if owned_factions then
-			summary = summary .. "\n" .. S(
-				"@1 is the owner of the following factions: @2.",
-				player_name, table.concat(owned_factions, ", "))
+			summary = summary
+				.. "\n"
+				.. S("@1 is the owner of the following factions: @2.", player_name, table.concat(owned_factions, ", "))
 		else
-			summary = summary .. "\n" .. S(
-				"@1 doesn't own any factions.", player_name)
+			summary = summary .. "\n" .. S("@1 doesn't own any factions.", player_name)
 		end
-		if minetest.get_player_privs(player_name)[factions.priv] then
-			summary = summary .. "\n" .. S(
-				"@1 has the @2 privilege so they can admin every faction.",
-				player_name, factions.priv)
+		if core.get_player_privs(player_name)[factions.priv] then
+			summary = summary
+				.. "\n"
+				.. S("@1 has the @2 privilege so they can admin every faction.", player_name, factions.priv)
 		end
 		return true, summary
 	end
@@ -383,9 +389,11 @@ function cc.leave(player_name, params)
 		if number_factions == 1 then
 			faction_name = player_factions[1]
 		else
-			return false, S(
-				"You are in multiple factions, you have to choose one of them: @1.",
-				table.concat(player_factions, ", "))
+			return false,
+				S(
+					"You are in multiple factions, you have to choose one of them: @1.",
+					table.concat(player_factions, ", ")
+				)
 		end
 	end
 	if not facts[faction_name] then
@@ -416,19 +424,27 @@ function cc.kick(player_name, params, not_admin)
 	elseif not faction_name and number_factions == 1 then
 		faction_name = owned_factions[1]
 	elseif not faction_name then
-		return false, S(
-			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", "))
+		return false,
+			S(
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
+				table.concat(owned_factions, ", ")
+			)
 	end
 	if not_admin and factions.get_owner(faction_name) ~= player_name then
-		return false, S("Permission denied: You are not the owner of that faction, "
-			.. "and don't have the @1 privilege.", factions.priv)
+		return false,
+			S(
+				"Permission denied: You are not the owner of that faction, " .. "and don't have the @1 privilege.",
+				factions.priv
+			)
 	elseif not facts[faction_name].members[target_name] then
 		return false, S("@1 is not in the specified faction.", target_name)
 	elseif target_name == factions.get_owner(faction_name) then
-		return false, S("You cannot kick the owner of a faction, "
-			.. "use '/factions chown <player> <password> [<faction>]' "
-			.. "to change the ownership.")
+		return false,
+			S(
+				"You cannot kick the owner of a faction, "
+					.. "use '/factions chown <player> <password> [<faction>]' "
+					.. "to change the ownership."
+			)
 	else
 		if factions.leave_faction(faction_name, target_name) then
 			return true, S("Kicked @1 from faction.", target_name)
@@ -452,13 +468,18 @@ function cc.passwd(player_name, params, not_admin)
 	elseif not faction_name and number_factions == 1 then
 		faction_name = owned_factions[1]
 	elseif not faction_name then
-		return false, S(
-			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", "))
+		return false,
+			S(
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
+				table.concat(owned_factions, ", ")
+			)
 	end
 	if not_admin and factions.get_owner(faction_name) ~= player_name then
-		return false, S("Permission denied: You are not the owner of that faction, "
-			.. "and don't have the @1 privilege.", factions.priv)
+		return false,
+			S(
+				"Permission denied: You are not the owner of that faction, " .. "and don't have the @1 privilege.",
+				factions.priv
+			)
 	else
 		if factions.set_password(faction_name, password) then
 			return true, S("Password has been updated.")
@@ -484,13 +505,18 @@ function cc.chown(player_name, params, not_admin)
 	elseif not faction_name and number_factions == 1 then
 		faction_name = owned_factions[1]
 	elseif not faction_name then
-		return false, S(
-			"You are the owner of multiple factions, you have to choose one of them: @1.",
-			table.concat(owned_factions, ", "))
+		return false,
+			S(
+				"You are the owner of multiple factions, you have to choose one of them: @1.",
+				table.concat(owned_factions, ", ")
+			)
 	end
 	if not_admin and player_name ~= factions.get_owner(faction_name) then
-		return false, S("Permission denied: You are not the owner of that faction, "
-			.. "and don't have the @1 privilege.", factions.priv)
+		return false,
+			S(
+				"Permission denied: You are not the owner of that faction, " .. "and don't have the @1 privilege.",
+				factions.priv
+			)
 	elseif not facts[faction_name].members[target_name] then
 		return false, S("@1 isn't in faction @2.", target_name, faction_name)
 	elseif not_admin and not factions.valid_password(faction_name, password) then
@@ -506,9 +532,7 @@ end
 
 function cc.invite(_, params, not_admin)
 	if not_admin then
-		return false, S(
-			"Permission denied: You can't use this command, @1 priv is needed.",
-			factions.priv)
+		return false, S("Permission denied: You can't use this command, @1 priv is needed.", factions.priv)
 	end
 	local target_name = params[2]
 	local faction_name = params[3]
@@ -518,16 +542,14 @@ function cc.invite(_, params, not_admin)
 		return false, S("Missing faction name.")
 	elseif not facts[faction_name] then
 		return false, S("Faction @1 doesn't exist.", faction_name)
-	elseif not minetest.player_exists(target_name) then
+	elseif not core.player_exists(target_name) then
 		return false, S("Player @1 doesn't exist.", target_name)
 	end
 	local player_factions = factions.get_player_factions(target_name)
 	if facts[faction_name].members[target_name] then
-		return false, S("Player @1 is already in faction @2.",
-			target_name, faction_name)
+		return false, S("Player @1 is already in faction @2.", target_name, faction_name)
 	elseif player_factions and factions.mode_unique_faction then
-		return false, S("Player @1 is already in faction @2.",
-			target_name, player_factions[1])
+		return false, S("Player @1 is already in faction @2.", target_name, player_factions[1])
 	else
 		if factions.join_faction(faction_name, target_name) then
 			return true, S("@1 is now a member of faction @2.", target_name, faction_name)
@@ -548,31 +570,48 @@ local function handle_command(player_name, param)
 		return false, S("Unknown subcommand. Run '/help factions' for help.")
 	end
 
-	local not_admin = not minetest.get_player_privs(player_name)[factions.priv]
+	local not_admin = not core.get_player_privs(player_name)[factions.priv]
 	return cc[action:lower()](player_name, params, not_admin)
 end
 
-minetest.register_chatcommand("factions", {
-	params = "create <faction> <password>: " .. S("Create a new faction") .. "\n"
-	.. "list: " .. S("List available factions") .. "\n"
-	.. "info [<faction>]: " .. S("See information about a faction") .. "\n"
-	.. "player_info [<player>]: " .. S("See information about a player") .. "\n"
-	.. "join <faction> <password>: " .. S("Join an existing faction") .. "\n"
-	.. "leave [<faction>]: " .. S("Leave your faction") .. "\n"
-	.. "kick <player> [<faction>]: "
-	.. S("Kick someone from your faction or from the given faction") .. "\n"
-	.. "disband <password> [<faction>]: "
-	.. S("Disband your faction or the given faction") .. "\n"
-	.. "passwd <password> [<faction>]: "
-	.. S("Change your faction's password or the password of the given faction") .." \n"
-	.. "chown <player> <password> [<faction>]: "
-	.. S("Transfer ownership of your faction") .. "\n"
-	.. "invite <player> <faction>: "
-	.. S("Add player to a faction, you need @1 priv", factions.priv) .. "\n",
+core.register_chatcommand("factions", {
+	params = "create <faction> <password>: "
+		.. S("Create a new faction")
+		.. "\n"
+		.. "list: "
+		.. S("List available factions")
+		.. "\n"
+		.. "info [<faction>]: "
+		.. S("See information about a faction")
+		.. "\n"
+		.. "player_info [<player>]: "
+		.. S("See information about a player")
+		.. "\n"
+		.. "join <faction> <password>: "
+		.. S("Join an existing faction")
+		.. "\n"
+		.. "leave [<faction>]: "
+		.. S("Leave your faction")
+		.. "\n"
+		.. "kick <player> [<faction>]: "
+		.. S("Kick someone from your faction or from the given faction")
+		.. "\n"
+		.. "disband <password> [<faction>]: "
+		.. S("Disband your faction or the given faction")
+		.. "\n"
+		.. "passwd <password> [<faction>]: "
+		.. S("Change your faction's password or the password of the given faction")
+		.. " \n"
+		.. "chown <player> <password> [<faction>]: "
+		.. S("Transfer ownership of your faction")
+		.. "\n"
+		.. "invite <player> <faction>: "
+		.. S("Add player to a faction, you need @1 priv", factions.priv)
+		.. "\n",
 
 	description = "",
 	privs = {},
-	func = handle_command
+	func = handle_command,
 })
 
 -- Fix factions
@@ -581,7 +620,7 @@ do
 	for _, fact in pairs(facts) do
 		if not fact.members then
 			fact.members = {
-				[fact.owner] = true
+				[fact.owner] = true,
 			}
 		end
 		if fact.password then
@@ -596,10 +635,10 @@ do
 end
 
 -- Integration testing
-if minetest.get_modpath("mtt") and mtt.enabled then
+if core.get_modpath("mtt") and mtt.enabled then
 	factions.S = S
 	factions.handle_command = handle_command
-	dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/mtt.lua")
+	dofile(core.get_modpath(core.get_current_modname()) .. "/mtt.lua")
 end
 
 print("[playerfactions] loaded")
