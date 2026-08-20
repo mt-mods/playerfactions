@@ -3,8 +3,13 @@ globals = {
 }
 
 read_globals = {
-	"minetest",
+	-- Luanti
+	"minetest", "core",
 	"dump", "dump2",
-	"table",
+
+	-- Lua
+	table = {fields = {"copy"}},
+
+	-- Dependencies
 	"mtt",
 }

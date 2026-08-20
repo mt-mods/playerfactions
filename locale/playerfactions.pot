@@ -1,0 +1,267 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-19 10:51-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua:19
+msgid "Allow the use of all playerfactions commands"
+msgstr ""
+
+#: init.lua:235 init.lua:366 init.lua:542 mtt.lua:262 mtt.lua:401 mtt.lua:569
+msgid "Missing faction name."
+msgstr ""
+
+#: init.lua:237 init.lua:251 init.lua:461 init.lua:499 mtt.lua:263 mtt.lua:275
+#: mtt.lua:472 mtt.lua:508
+msgid "Missing password."
+msgstr ""
+
+#: init.lua:239 init.lua:364 mtt.lua:266 mtt.lua:399
+msgid "You are already in a faction."
+msgstr ""
+
+#: init.lua:241 mtt.lua:264
+msgid "Faction @1 already exists."
+msgstr ""
+
+#: init.lua:244 mtt.lua:269
+msgid "Registered @1."
+msgstr ""
+
+#: init.lua:257 mtt.lua:294
+msgid "You don't own any factions."
+msgstr ""
+
+#: init.lua:263 init.lua:429 init.lua:473 init.lua:510 mtt.lua:280 mtt.lua:287
+msgid ""
+"You are the owner of multiple factions, you have to choose one of them: @1."
+msgstr ""
+
+#: init.lua:268 init.lua:312 init.lua:368 init.lua:400 init.lua:544 mtt.lua:310
+#: mtt.lua:329 mtt.lua:402 mtt.lua:427 mtt.lua:571
+msgid "Faction @1 doesn't exist."
+msgstr ""
+
+#: init.lua:272 init.lua:436 init.lua:480 init.lua:517 mtt.lua:299 mtt.lua:445
+#: mtt.lua:481 mtt.lua:523
+msgid ""
+"Permission denied: You are not the owner of that faction, and don't have the "
+"@1 privilege."
+msgstr ""
+
+#: init.lua:276 init.lua:372 init.lua:523 mtt.lua:306 mtt.lua:404 mtt.lua:405
+#: mtt.lua:540
+msgid "Permission denied: Wrong password."
+msgstr ""
+
+#: init.lua:279 mtt.lua:307 mtt.lua:309
+msgid "Disbanded @1."
+msgstr ""
+
+#: init.lua:289 mtt.lua:321
+msgid "There are no factions yet."
+msgstr ""
+
+#: init.lua:291 mtt.lua:317 mtt.lua:318
+msgid "Factions (@1): @2."
+msgstr ""
+
+#: init.lua:300 mtt.lua:327
+msgid "No factions found."
+msgstr ""
+
+#: init.lua:306 init.lua:394 mtt.lua:334 mtt.lua:340 mtt.lua:416 mtt.lua:422
+msgid "You are in multiple factions, you have to choose one of them: @1."
+msgstr ""
+
+#: init.lua:318
+msgid "The faction has more than @1 members, the members list can't be shown."
+msgstr ""
+
+#: init.lua:324
+msgid ""
+"Name: @1\n"
+"Owner: @2\n"
+"Members: @3"
+msgstr ""
+
+#: init.lua:336 init.lua:417 init.lua:497 init.lua:540 mtt.lua:361 mtt.lua:436
+#: mtt.lua:507 mtt.lua:568
+msgid "Missing player name."
+msgstr ""
+
+#: init.lua:340 mtt.lua:362 mtt.lua:366
+msgid "Player @1 doesn't exist or isn't in any faction."
+msgstr ""
+
+#: init.lua:342 mtt.lua:374 mtt.lua:384
+msgid "@1 is in the following factions: @2."
+msgstr ""
+
+#: init.lua:347 mtt.lua:376 mtt.lua:386
+msgid "@1 is the owner of the following factions: @2."
+msgstr ""
+
+#: init.lua:349
+msgid "@1 doesn't own any factions."
+msgstr ""
+
+#: init.lua:354 mtt.lua:388
+msgid "@1 has the @2 privilege so they can admin every faction."
+msgstr ""
+
+#: init.lua:370 mtt.lua:403
+msgid "You are already in faction @1."
+msgstr ""
+
+#: init.lua:375 mtt.lua:406
+msgid "Joined @1."
+msgstr ""
+
+#: init.lua:377
+msgid "Error joining faction."
+msgstr ""
+
+#: init.lua:387 mtt.lua:412
+msgid "You are not in a faction."
+msgstr ""
+
+#: init.lua:402 mtt.lua:428
+msgid "You cannot leave your own faction, change owner or disband it."
+msgstr ""
+
+#: init.lua:404 mtt.lua:429
+msgid "You aren't part of faction @1."
+msgstr ""
+
+#: init.lua:407 mtt.lua:430
+msgid "Left @1."
+msgstr ""
+
+#: init.lua:409
+msgid "Error leaving faction."
+msgstr ""
+
+#: init.lua:423 init.lua:467 init.lua:504 mtt.lua:437 mtt.lua:473 mtt.lua:512
+msgid "You don't own any factions, you can't use this command."
+msgstr ""
+
+#: init.lua:440 mtt.lua:452
+msgid "@1 is not in the specified faction."
+msgstr ""
+
+#: init.lua:444 mtt.lua:458
+msgid ""
+"You cannot kick the owner of a faction, use '/factions chown <player> "
+"<password> [<faction>]' to change the ownership."
+msgstr ""
+
+#: init.lua:450 mtt.lua:466
+msgid "Kicked @1 from faction."
+msgstr ""
+
+#: init.lua:453
+msgid "Error kicking @1 from faction."
+msgstr ""
+
+#: init.lua:485 mtt.lua:488 mtt.lua:492 mtt.lua:497
+msgid "Password has been updated."
+msgstr ""
+
+#: init.lua:487
+msgid "Failed to change password."
+msgstr ""
+
+#: init.lua:521 mtt.lua:533 mtt.lua:538
+msgid "@1 isn't in faction @2."
+msgstr ""
+
+#: init.lua:526 mtt.lua:541 mtt.lua:544
+msgid "Ownership has been transferred to @1."
+msgstr ""
+
+#: init.lua:528
+msgid "Failed to transfer ownership."
+msgstr ""
+
+#: init.lua:535 mtt.lua:555 mtt.lua:563
+msgid "Permission denied: You can't use this command, @1 priv is needed."
+msgstr ""
+
+#: init.lua:546 mtt.lua:574
+msgid "Player @1 doesn't exist."
+msgstr ""
+
+#: init.lua:550 init.lua:552 mtt.lua:579 mtt.lua:588
+msgid "Player @1 is already in faction @2."
+msgstr ""
+
+#: init.lua:555 mtt.lua:595
+msgid "@1 is now a member of faction @2."
+msgstr ""
+
+#: init.lua:558
+msgid "Error adding @1 to @2."
+msgstr ""
+
+#: init.lua:570 mtt.lua:256
+msgid "Unknown subcommand. Run '/help factions' for help."
+msgstr ""
+
+#: init.lua:579
+msgid "Create a new faction"
+msgstr ""
+
+#: init.lua:582
+msgid "List available factions"
+msgstr ""
+
+#: init.lua:585
+msgid "See information about a faction"
+msgstr ""
+
+#: init.lua:588
+msgid "See information about a player"
+msgstr ""
+
+#: init.lua:591
+msgid "Join an existing faction"
+msgstr ""
+
+#: init.lua:594
+msgid "Leave your faction"
+msgstr ""
+
+#: init.lua:597
+msgid "Kick someone from your faction or from the given faction"
+msgstr ""
+
+#: init.lua:600
+msgid "Disband your faction or the given faction"
+msgstr ""
+
+#: init.lua:603
+msgid "Change your faction's password or the password of the given faction"
+msgstr ""
+
+#: init.lua:606
+msgid "Transfer ownership of your faction"
+msgstr ""
+
+#: init.lua:609
+msgid "Add player to a faction, you need @1 priv"
+msgstr ""
